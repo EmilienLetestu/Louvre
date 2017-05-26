@@ -1,0 +1,23 @@
+accueil_billetterie:
+    path:     /accueil-billetterie
+    defaults: { _controller: ELBookingBundle:Home:index }
+
+reservation_billetterie:
+    path:     /reservation-billetterie/{action}/{id}
+    defaults:
+        _controller: ELBookingBundle:Booking:booking
+        action:      null
+        id:          null
+
+modifier_ticket:
+    path:    /modifier-ticket
+    defaults: { _controller: ELBookingBundle:Modify:modify }
+
+supprimer_ticket:
+    path:     /supprimer-ticket
+    defaults: { _controller: ELBookingBundle:Delete:delete }
+
+payer_commande:
+     path:     /payer-commande
+     defaults: { _controller: ELBookingBundle:Charge:charge }
+

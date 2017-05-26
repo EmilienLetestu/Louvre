@@ -1,0 +1,53 @@
+{% extends "ELBookingBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Commande des tickets  {% endblock %}
+
+{% block body %}
+
+<h1>Modifier le tickets</h1>
+<div class="col-sm-5 ">
+    {{ form_start(ticket_form)}}
+
+    {{ form_label(ticket_form.name,'Prénom: '~ticket.name) }}
+    {{ form_widget(ticket_form.name) }}
+
+    {{ form_label(ticket_form.surname,'Nom: '~ticket.surname) }}
+    {{ form_widget(ticket_form.surname) }}
+
+    {{ form_label(ticket_form.dob) }}
+    {{ form_widget(ticket_form.dob) }}
+
+    {{ form_label(ticket_form.time_access,'Type de ticket: '~ticket.timeAccessType) }}
+    {{ form_widget(ticket_form.time_access) }}
+
+    {{ form_label(ticket_form.discount) }}
+    {{ form_widget(ticket_form.discount) }}
+
+    {{ form_end(ticket_form) }}
+
+
+
+
+    {{ form(ticket_form) }}
+</div>
+<div class="col-sm-7">
+    <table class="table table-responsive table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Porteur du billet</th>
+            <th>Valable le</th>
+            <th>Type de billet</th>
+            <th>Prix du billet</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ ticket.name }} {{ ticket.surname }}</td>
+            <td>{{ ticket.date }}</td>
+            <td>{{ ticket.timeAccessType }} ,{{ ticket.priceType }}</td>
+            <td>{{ ticket.price }} €</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

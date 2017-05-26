@@ -1,0 +1,54 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Emilien
+ * Date: 16/05/2017
+ * Time: 17:11
+ */
+
+namespace EL\BookingBundle\Managers;
+
+
+use EL\BookingBundle\Entity\TempOrder;
+use Symfony\Component\HttpFoundation\Session\Session;
+
+class TempOrderManager
+{
+
+    private $session;
+
+
+    public function __construct(Session $session)
+    {
+        $this->session   = $session;
+    }
+
+    /**
+     * @param $user_date
+     * @param $user_n_tickets
+     * @param $prefix
+     * @return Session
+     */
+    public function createOrderSession($user_date,$user_n_tickets,$prefix)
+    {
+        $tempOrder = new TempOrder();
+        //hydrate tempOrder object
+        //1-setters
+        $tempOrder->setTempOrderDate($user_date);
+        $tempOrder->setTempNumberOfTickets($user_n_tickets);
+        $tempOrder->setTempOrderToken($prefix);
+        //2-getters
+        $date      = $tempOrder->getTempOrderDate()->format('m-d-Y');
+        $n_tickets = $tempOrder->getTempNumberOfTickets();
+        $token     = $tempOrder->getTempOrderToken();
+        //assign tempOrder object values to session variables
+        $this->session->set('user_date',$date);
+        $this->session->set('user_n_tickets',$n_tickets);
+        $this->session->set('temp_order_token',$token);
+        $this->session->set('sold_out',0);
+
+        return $this->session;
+    }
+
+
+}

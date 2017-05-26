@@ -1,0 +1,32 @@
+
+{% block body %}
+    <div class="intro">
+        <h1>{{ billing.token }}</h1>
+
+        <p>Bonjour {{ billing.name }} {{ billing.surname }} cet email contient l'ensemble des billets que vous avez commandez,
+            nous avons hâte de vous recvoir le {{ billing.visitDay }}  pour votre viste au musée du Louvre.
+        </p>
+    </div>
+    <div class="order_summary">
+        <h3>{{ billing.token }}</h3>
+        <ul>
+            <li>Nombre de billets   : {{ billing.numberOfTickets}}</li>
+            <li>Billets valable le  : {{ billing.visitDay }}</li>
+            <li>Prix de la commande : {{ billing.price }} €</li>
+        </ul>
+
+    </div>
+
+    {% for ticket in ticket_list  %}
+        <div class = "ticket_list" style=" border-bottom: solid black 1px;">
+            <h3>{{ticket.token }}</h3>
+            <ul>
+                <li>{{ ticket.name }} {{ ticket.surname }}</li>
+                <li>Tarif  : {{ ticket_type.price_type }}</li>
+                <li>Prix du billet : {{ ticket.price }} €</li>
+                <li>Type de billet : {{ ticket_type.time_access }}</li>
+            </ul>
+        </div>
+    {% endfor %}
+
+{% endblock %}

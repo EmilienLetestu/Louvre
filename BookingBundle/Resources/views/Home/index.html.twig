@@ -1,0 +1,94 @@
+{% extends "ELBookingBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Accueil billetterie {% endblock %}
+
+{% block body %}
+    <div class ="container col-sm-12">
+        <div class="col-sm-12">
+            <h1 class="col-sm-offset-5">Lorem Ipsum</h1>
+        </div>
+
+        <div class="col-sm-12">
+            <p>
+                Contrairement à une opinion répandue, le Lorem Ipsum n'est pas simplement du texte aléatoire. Il trouve ses racines dans une oeuvre de la littérature latine classique datant de 45 av. J.-C.,
+                le rendant vieux de 2000 ans. Un professeur du Hampden-Sydney College, en Virginie, s'est intéressé à un des mots latins les plus obscurs, consectetur, extrait d'un passage du Lorem Ipsum,
+                et en étudiant tous les usages de ce mot dans la littérature classique, découvrit la source incontestable du Lorem Ipsum. Il provient en fait des sections 1.10.32 et 1.10.33 du "De Finibus Bonorum et Malorum"
+                (Des Suprêmes Biens et des Suprêmes Maux)de Cicéron.
+                Cet ouvrage, très populaire pendant la Renaissance, est un traité sur la théorie de l'éthique. Les premières lignes du Lorem Ipsum, "Lorem ipsum dolor sit amet...", proviennent de la section 1.10.32.
+            </p>
+        </div>
+
+        <div class="col-sm-6">
+            <h2>Tarifs du musée</h2>
+            <table class="table table-responsive table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>Conditions</th>
+                        <th>Journée</th>
+                        <th>1/2 Journée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Normal</td>
+                        <td>A partir de 12 ans</td>
+                        <td>16 €</td>
+                        <td>8 €</td>
+                    </tr>
+                    <tr>
+                        <td>Enfant</td>
+                        <td>A partir de 4 ans et jusqu'à 12 ans</td>
+                        <td>&nbsp 8 €</td>
+                        <td>4 €</td>
+                    </tr>
+                    <tr>
+                        <td>Senior</td>
+                        <td>A partir de 60 ans</td>
+                        <td>12 €</td>
+                        <td>6 €</td>
+                    </tr>
+                    <tr>
+                        <td>Réduit*</td>
+                        <td>Etudiants,militaires, employés du ministère de la culture</td>
+                        <td>10 €</td>
+                        <td>5 €</td>
+                    </tr>
+                    <tr>
+                        <td>Gratuit</td>
+                        <td>Enfants de moins de 4 ans</td>
+                        <td>&nbsp----</td>
+                        <td>----</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="col-sm-6">
+            <h2>Vérifier la disponibilité</h2>
+
+            {{ form_start(booking_status_form,{action:path('accueil_billetterie')}) }}
+            {{ form_row(booking_status_form.temp_order_date) }}
+            {{ form_row(booking_status_form.temp_number_of_tickets) }}
+            {{ form_end(booking_status_form) }}
+            <p id="disclaimer">{{ disclaimer }}</p>
+
+        </div>
+
+        {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) %}
+        <a class="btn btn-success" href="{{path('reservation_billetterie')}} ">
+            Commander des billets pour le {{ app.session.get('user_date') }}
+        </a>
+        {% endif %}
+        {% if app.session.get('sold_out') == 1 %}
+        <span>Complet</span>
+        {% endif %}
+
+
+
+
+    </div>
+
+
+{% endblock %}

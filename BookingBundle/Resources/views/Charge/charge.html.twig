@@ -1,0 +1,54 @@
+{% extends "ELBookingBundle::layout.html.twig" %}
+
+{% block title %} {{ parent() }} - Payement des billets {% endblock %}
+
+{% block body %}
+
+    {% if message is defined %}
+        <div class ="col-sm-12" id ="thx">
+            <p>{{ message }}</p>
+        </div>
+    {% endif %}
+    <h1>Payer {{ app.session.get('total') }} € pour {{ app.session.get('tickets') }} billets</h1>
+    <div class = "well col-sm-8">
+        {{ form_start(stripe_form, {'attr': {'id': 'payment_form'}}) }}
+        <div class = "form-group col-sm-4">
+            {{ form_label(stripe_form.name) }}
+            {{ form_widget(stripe_form.name) }}
+        </div >
+        <div class = "form-group col-sm-4">
+            {{ form_label(stripe_form.surname) }}
+            {{ form_widget(stripe_form.surname) }}
+        </div>
+        <div class = "form-group col-sm-8">
+            {{ form_label(stripe_form.email) }}
+            {{ form_widget(stripe_form.email) }}
+        </div>
+        <div class = "form-group col-sm-6">
+            {{ form_label(stripe_form.number) }}
+            {{ form_widget(stripe_form.number,{'attr':{'data-stripe':'number'}} ) }}
+        </div>
+        <div class = "form-group col-sm-2">
+            {{ form_row(stripe_form.cvc, {'attr':{'data-stripe':'cvc'}}) }}
+        </div>
+        <div class = "form-group col-sm-2">
+            {{ form_widget(stripe_form.exp_month, {'attr':{'data-stripe':'exp_month'}}) }}
+        </div>
+        <div class = "form-group col-sm-2">
+            {{ form_widget(stripe_form.exp_year, {'attr':{'data-stripe':'exp_year'}}) }}
+        </div>
+        <div class = "form-group col-sm-1">
+            {{ form_label(stripe_form.submit) }}
+            {{ form_widget(stripe_form.submit) }}
+        </div>
+        <div class = "form-group col-sm-1">
+            {{ form_row(stripe_form.stripeToken) }}
+        </div>
+        {{ form_end(stripe_form) }}
+    </div>
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset("CustomJs/stripeForm.js") }}"></script>
+    {% endblock %}
+{%  endblock %}
