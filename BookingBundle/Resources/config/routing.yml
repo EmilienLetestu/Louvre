@@ -3,11 +3,9 @@ accueil_billetterie:
     defaults: { _controller: ELBookingBundle:Home:index }
 
 reservation_billetterie:
-    path:     /reservation-billetterie/{action}/{id}
+    path:     /reservation-billetterie
     defaults:
         _controller: ELBookingBundle:Booking:booking
-        action:      null
-        id:          null
 
 modifier_ticket:
     path:    /modifier-ticket
