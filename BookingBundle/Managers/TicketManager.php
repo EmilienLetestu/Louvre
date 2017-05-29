@@ -42,34 +42,6 @@ class TicketManager
      * @param $time_access
      * @return mixed
      */
-    public function createOrder($name,$surname,$dob,$discount,$time_access)
-    {
-        //fetch date and order_token into session
-        $date = $this->session->get('user_date');
-        $order_token = $this->session->get('temp_order_token');
-        //initialise requested classes
-        $ticket = new Ticket();
-        $tools  = new Tools();
-        //->price  : age + discount + museum time access => ticket price
-        $age   = $tools->getAge($dob);
-        $price = $tools->getPriceRange($age,$discount);
-        $ticket_price = $tools->getTicketPrice($time_access,$price);
-
-        $ticket->setDate($date)->getDate();
-        $ticket->setName($name)->getName();
-        $ticket->setSurname($surname)->getSurname();
-        $ticket->setDob($dob)->getDob();
-        $ticket->setDiscount($discount)->getDiscount();
-        $ticket->setToken($name,$surname)->getToken();
-        $ticket->setTimeAccess($time_access)->getTimeAccess($display = true);
-        $ticket->setPrice($ticket_price)->getPrice();
-        $ticket->setPriceType($dob);
-        $ticket->setTimeAccessType($time_access)->getTimeAccessType();
-        $ticket->setOrderToken($order_token);
-
-        return $ticket;
-    }
-
     public function createSession($name,$surname,$dob,$discount,$time_access)
     {
         //fetch date and order_token into session
@@ -96,26 +68,10 @@ class TicketManager
         $ticket->setOrderToken($order_token);
         //add ticket to billing
         $billing->addTicket($ticket);
-        $ticket->setBilling($billing);
-        $this->session->set('order', $billing);
+        
+
         return $this->session->get('order');
     }
-
-    /**
-     * @param $ticket
-     * @return array|mixed
-     */
-    public function createSessionOrder($ticket)
-    {
-        $order[][] = $ticket;
-        $_SESSION['order'][] = $ticket;
-        $this->session->set('order', $_SESSION['order']);
-        $order = $this->session->get('order');
-        //store total price and tickets into session variable => 'total','number_of_tickets'
-        $this->buildOrder($order);
-        return $order;
-    }
-
 
     /**
      * @param $order

@@ -1,5 +1,6 @@
 <?php
 namespace EL\BookingBundle\Controller;
+use EL\BookingBundle\Entity\Billing;
 use EL\BookingBundle\Entity\Ticket;
 use EL\BookingBundle\Form\TicketType;
 
@@ -20,6 +21,7 @@ class BookingController extends Controller
        //initialize needed services or classes
        $ticket_manager = $this->get('el_booking.ticketManager');
        $ticket =new Ticket();
+       $billing = new Billing();
        $ticket_form = $this->get('form.factory')->create(TicketType::class,$ticket);
        $session = new Session();
        var_dump($session->get('order'));
