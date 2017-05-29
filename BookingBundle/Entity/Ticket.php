@@ -15,6 +15,12 @@ use EL\BookingBundle\Managers\Tools;
 class Ticket
 {
     /**
+     * @ORM\ManyToOne(targetEntity="EL\BookingBundle\Entity\Billing"
+     * @ORM\JoinColumn
+     */
+    private $billing;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -101,6 +107,23 @@ class Ticket
     private $timeAccessType;
 
 
+    /**
+     * @param Billing $billing
+     * @return $this
+     */
+    public function setBilling(Billing $billing)
+    {
+        $this->billing = $billing;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBilling()
+    {
+        return $this->billing;
+    }
 
     /**
      * Get id
