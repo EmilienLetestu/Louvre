@@ -15,8 +15,8 @@ use EL\BookingBundle\Managers\Tools;
 class Ticket
 {
     /**
-     * @ORM\ManyToOne(targetEntity="EL\BookingBundle\Entity\Billing"
-     * @ORM\JoinColumn
+     * @ORM\ManyToOne(targetEntity="EL\BookingBundle\Entity\Billing",inversedBy="tickets")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $billing;
 

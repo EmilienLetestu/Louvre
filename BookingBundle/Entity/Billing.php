@@ -2,6 +2,7 @@
 
 namespace EL\BookingBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Billing
 {
+    /**
+     * @ORM\OneToMany(targetEntity="EL\BookingBundle\Entity\Ticket", mappedBy="billing")
+     */
+    private $tickets;
+
     /**
      * @var int
      *
@@ -76,6 +82,21 @@ class Billing
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
+
+    /**
+     * Billing constructor.
+     */
+    public function __construct()
+    {
+        $this->tickets[] = new ArrayCollection();
+    }
+
+    public function addTicket(Ticket $ticket)
+    {
+        $this->tickets[] =$ticket;
+        $ticket->setBilling($this);
+        return $this;
+    }
 
 
     /**

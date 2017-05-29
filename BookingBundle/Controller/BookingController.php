@@ -33,7 +33,7 @@ class BookingController extends Controller
            $time_access = $ticket_form->get('time_access')->getData();
            $discount = $ticket_form->get('discount')->getData();
            //create session order (cart)
-           $ticket_manager->createSessionOrder($ticket_manager->createOrder($name, $surname, $dob, $discount, $time_access));
+           $ticket_manager->createSession($name, $surname, $dob, $discount, $time_access);
            return $this->render('ELBookingBundle:Booking:booking.html.twig', array('ticket_form'=> $ticket_form->createView()));
        }
 
