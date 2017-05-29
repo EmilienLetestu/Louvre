@@ -2,6 +2,7 @@
 namespace EL\BookingBundle\Controller;
 use EL\BookingBundle\Entity\Billing;
 use EL\BookingBundle\Entity\Ticket;
+use EL\BookingBundle\Form\OrderType;
 use EL\BookingBundle\Form\TicketType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,24 +23,21 @@ class BookingController extends Controller
        $ticket_manager = $this->get('el_booking.ticketManager');
        $ticket =new Ticket();
        $billing = new Billing();
-       $ticket_form = $this->get('form.factory')->create(TicketType::class,$ticket);
-       $session = new Session();
-       var_dump($session->get('order'));
+       $order_form = $this->get('form.factory')->create(OrderType::class,$billing);
 
-       if($ticket_form->handleRequest($request)->isSubmitted())
+
+       if($order_form->handleRequest($request)->isSubmitted())
        {
            //fetch submitted data
-           $name = $ticket_form->get('name')->getData();
-           $surname = $ticket_form->get('surname')->getData();
-           $dob = $ticket_form->get('dob')->getData();
-           $time_access = $ticket_form->get('time_access')->getData();
-           $discount = $ticket_form->get('discount')->getData();
+           $billing = $ticket->setBilling($order_form->getData());
+
            //create session order (cart)
-           $ticket_manager->createSession($name, $surname, $dob, $discount, $time_access);
-           return $this->render('ELBookingBundle:Booking:booking.html.twig', array('ticket_form'=> $ticket_form->createView()));
+           $ticket_manager->createSession($billing);
+
+           return $this->render('ELBookingBundle:Booking:booking.html.twig', array('order_form' => $order_form ->createView(),));
        }
 
-       return $this->render('ELBookingBundle:Booking:booking.html.twig', array('ticket_form' => $ticket_form->createView()));
+       return $this->render('ELBookingBundle:Booking:booking.html.twig', array('order_form' => $order_form ->createView(),));
    }
 
 }

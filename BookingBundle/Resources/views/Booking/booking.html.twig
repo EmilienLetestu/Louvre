@@ -7,9 +7,10 @@
         <h1 id ="booking_title">Commander mes tickets pour ma visite du {{ app.session.get('user_date') }}</h1>
     </div>
     <div class="col-sm-5">
-        {{ form_start(ticket_form) }}
-        {{ form(ticket_form) }}
-        {{ form_end(ticket_form) }}
+        {{ form_start(order_form) }}
+        {{ form_row(order_form.tickets) }}
+        <a href="#" id="add_ticket" class="btn btn-default">Ajouter un billet</a>
+        {{ form_end(order_form) }}
     </div>
     {% if (app.session.get('order') != null)%}
         {% set order_in_progress = app.session.get('order')  %}
@@ -32,8 +33,6 @@
                         <td>{{ ticket.date }}</td>
                         <td>{{ ticket.timeAccessType }} ,{{ ticket.priceType }}</td>
                         <td>{{ ticket.price }} €</td>
-                        <td><a class="btn btn-warning" href="{{ path('modifier_ticket',{'ticket' :key}) }}"> Modidfier </a></td>
-                        <td><a class="btn btn-danger"  href="{{ path('supprimer_ticket',{'ticket' :key}) }}"> Supprimer </a></td>
                     </tr>
                 </tbody>
         {% endfor %}
@@ -45,4 +44,41 @@
                 <a class="btn btn-success" id="link_to_charge" href="{{ path('payer_commande') }}"> Payer </a>
             </div>
     {% endif %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var $container = $('div#order_tickets');
+            var index = $container.find(':input').length;
+            $('#add_ticket').click(function(e) {
+                addTicket($container);
+                e.preventDefault();
+                return false;
+            });
+            if (index == 0) {
+                addTicket($container);
+            } else {
+                $container.children('div').each(function() {
+                    addDeleteLink($(this));
+                });
+            }
+            function addTicket($container) {
+                var template = $container.attr('data-prototype')
+                        .replace(/__name__label__/g, 'Ticket n°' + (index+1))
+                        .replace(/__name__/g,        index)
+                    ;
+                var $prototype = $(template);
+                addDeleteLink($prototype);
+                $container.append($prototype);
+                index++;
+            }
+            function addDeleteLink($prototype) {
+                var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+                $prototype.append($deleteLink);
+                $deleteLink.click(function(e) {
+                    $prototype.remove();
+                    e.preventDefault();
+                    return false;
+                });
+            }
+        });
+    </script>
 {% endblock %}

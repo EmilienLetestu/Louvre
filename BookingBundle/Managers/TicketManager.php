@@ -35,43 +35,18 @@ class TicketManager
     }
 
     /**
-     * @param $name
-     * @param $surname
-     * @param $dob
-     * @param $discount
-     * @param $time_access
-     * @return mixed
+     * @param $billing
      */
-    public function createSession($name,$surname,$dob,$discount,$time_access)
+    public function createSession($billing)
     {
-        //fetch date and order_token into session
-        $date = $this->session->get('user_date');
-        $order_token = $this->session->get('temp_order_token');
-        //initialise requested classes
-        $ticket = new Ticket();
-        $tools = new Tools();
-        $billing = new Billing();
-        //->price  : age + discount + museum time access => ticket price
-        $age = $tools->getAge($dob);
-        $price = $tools->getPriceRange($age, $discount);
-        $ticket_price = $tools->getTicketPrice($time_access, $price);
-        $ticket->setDate($date)->getDate();
-        $ticket->setName($name)->getName();
-        $ticket->setSurname($surname)->getSurname();
-        $ticket->setDob($dob)->getDob();
-        $ticket->setDiscount($discount)->getDiscount();
-        $ticket->setToken($name, $surname)->getToken();
-        $ticket->setTimeAccess($time_access)->getTimeAccess($display = true);
-        $ticket->setPrice($ticket_price)->getPrice();
-        $ticket->setPriceType($dob);
-        $ticket->setTimeAccessType($time_access)->getTimeAccessType();
-        $ticket->setOrderToken($order_token);
-        //add ticket to billing
-        $billing->addTicket($ticket);
-        
+        $this->session->set('order',$billing);
+        $order = $this->session->get('order');
+        $order_in_progress = $this->buildOrder($order);
+        return $order_in_progress;
 
-        return $this->session->get('order');
     }
+
+
 
     /**
      * @param $order
@@ -104,6 +79,7 @@ class TicketManager
     {
         //initialise requested classes
         $tools  = new Tools();
+        $ticket = new Ticket();
         //fetch order, order_token, and date into session
         $order_token = $this->session->get('temp_order_token');
         $order       = $this->session->get('order');

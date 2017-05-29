@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Billing
 {
     /**
-     * @var ArrayCollection $tickets
      * @ORM\OneToMany(targetEntity="EL\BookingBundle\Entity\Ticket", mappedBy="billing")
      */
     private $tickets;
@@ -85,19 +84,32 @@ class Billing
     private $price;
 
     /**
-     * Billing constructor.
+     * constructor.
      */
     public function __construct()
     {
-        $this->tickets[] = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
-    public function addTicket(Ticket $ticket)
+    /**
+     * @param Ticket $ticket
+     * @return Billing
+     */
+    public function addTickets(Ticket $ticket)
     {
-        $this->tickets[] = $ticket;
+        $this->tickets[] =$ticket;
         $ticket->setBilling($this);
         return $this;
     }
+
+    /**
+     * @param Ticket $ticket
+     */
+    public function removeTicket(Ticket $ticket)
+    {
+        $this->tickets->removeElement($ticket);
+    }
+
 
     public function getTickets()
     {

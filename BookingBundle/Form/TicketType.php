@@ -34,7 +34,7 @@ class TicketType extends AbstractType
                                                 'format' => 'dd-MM-yyyy'
             ))
             ->add('time_access', ChoiceType::class, array('label'   => 'Type de ticket',
-                                                          'choices' => array('journée complète' => 'a.m.',
+                                                          'choices' => array('journée complète' =>'a.m.',
                                                                              '1/2 journée'      =>'p.m.'
                                                           )
             ))
@@ -42,7 +42,6 @@ class TicketType extends AbstractType
                                                          'label'    => 'Je bénéficie d\'un tarif préférenciel',
                                                          'required' => false
             ))
-            ->add('Ajouter', SubmitType::class)
         ;
 
     }

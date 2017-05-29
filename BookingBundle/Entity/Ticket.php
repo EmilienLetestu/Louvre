@@ -15,8 +15,7 @@ use EL\BookingBundle\Managers\Tools;
 class Ticket
 {
     /**
-     * @ORM\ManyToOne(targetEntity="EL\BookingBundle\Entity\Billing",inversedBy="tickets")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="EL\BookingBundle\Entity\Billing",  inversedBy="tickets")
      */
     private $billing;
 
@@ -107,9 +106,14 @@ class Ticket
     private $timeAccessType;
 
 
-    /**
-     * @param Billing $billing
-     * @return $this
+    public function __construct(Billing $billing = null)
+    {
+         $this->billing = $billing;
+    }
+
+/**
+     * @param Billing|null $billing
+     * @return Ticket
      */
     public function setBilling(Billing $billing)
     {
