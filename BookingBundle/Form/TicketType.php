@@ -18,6 +18,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
 
 class TicketType extends AbstractType
 {
@@ -26,13 +30,37 @@ class TicketType extends AbstractType
         $builder
 
             ->setMethod('POST')
-            ->add('name', TextType::class, array('label' => 'Prénom'))
-            ->add('surname', TextType::class, array('label' => 'Nom'))
-            ->add('dob', DateType::class, array('label'  => 'Date de naissance',
-                                                'widget' => 'text',
+            ->add('name', TextType::class, ['constraints'=>[ new NotBlank(),
+                                                             new Type('string'),
+                                                             new Length(['min'        => 3,
+                                                                         'max'        => 50,
+                                                                         'minMessage' => 'Le prénom doit comporter 3 caractères minimum !',
+                                                                         'maxMessage' => 'Le prénom est limité à 50 caractères !'])
+                                                            ],
+                                            'label' => 'Nom'
+                                           ]
+            )
+            ->add('surname', TextType::class, ['constraints'=>[ new NotBlank(),
+                                                                new Type('string'),
+                                                                new Length(['min' => 3,
+                                                                            'max' => 50,
+                                                                            'minMessage' => 'Le nom doit comporter 3 caractères minimum !',
+                                                                            'maxMessage' => 'Le nom est limité à 50 caractères !'])
+                                                                ],
+                                                'label' => 'Prénom'
+                                                ]
+            )
+            ->add('dob', DateType::class,['constraints' =>[ new NotBlank(),
+                                                            new DateTime()
+                                                          ],
+                                                'label'  => 'Date de naissance',
+                                                'widget' => 'single_text',
                                                 'html5'  => false,
-                                                'format' => 'dd-MM-yyyy'
-            ))
+                                                'years'  => range(date('Y') - 95, date('Y') + 1),
+                                                'format' => 'dd-MM-yyyy',
+                                                'attr'   => ['class' => 'js-datepicker_dob']
+                                           ]
+            )
             ->add('time_access', ChoiceType::class, array('label'   => 'Type de ticket',
                                                           'choices' => array('journée complète' => 'a.m.',
                                                                              '1/2 journée'      =>'p.m.'
@@ -49,6 +77,7 @@ class TicketType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-       $resolver->setDefaults(array('data_class' => 'EL\BookingBundle\Entity\Ticket'));
+       $resolver->setDefaults(array('data_class'  => 'EL\BookingBundle\Entity\Ticket',
+                                    'time_access' => true));
     }
 }

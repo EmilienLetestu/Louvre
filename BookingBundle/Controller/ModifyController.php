@@ -19,7 +19,6 @@ class ModifyController extends Controller
     public function modifyAction(Request $request)
     {
         $ticket = new Ticket();
-        $session = new Session();
         $ticket_manager = $this->container->get('el_booking.ticketManager');
         $ticket_form    = $this->get('form.factory')->create(TicketType::class,$ticket);
         $ticket = $ticket_manager->getTicketToModify($query='ticket',$session_name='order');
@@ -37,7 +36,7 @@ class ModifyController extends Controller
             return $this->redirectToRoute('reservation_billetterie');
 
         }
-        return $this->render('ELBookingBundle:Modify:modify.html.twig',array('ticket'      => $ticket,
+        return $this->render('ELBookingBundle:Modify:modify.html.twig',array('modify'      => $ticket,
                                                                              'ticket_form' =>$ticket_form->createView()));
     }
 }

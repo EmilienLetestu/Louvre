@@ -45,4 +45,20 @@ class MuseumPolicy
         return $total_booked;
 
     }
+
+    public function isFullDayTicketAvailable()
+    {
+        $now = new \DateTime();
+        $visit_day = $this->session->get('user_date');
+        if ($visit_day == $now->format('m-d-Y'))
+        {
+            $available = false;
+        }
+        else
+        {
+            $available = true;
+        }
+        return $available;
+
+    }
 }

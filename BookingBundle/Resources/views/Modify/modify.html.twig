@@ -6,6 +6,8 @@
 
 <h1>Modifier le tickets</h1>
 <div class="col-sm-5 ">
+    {% for key,ticket in modify %}
+
     {{ form_start(ticket_form)}}
 
     {{ form_label(ticket_form.name,'Prénom: '~ticket.name) }}
@@ -49,5 +51,7 @@
         </tr>
         </tbody>
     </table>
+    {% endfor %}
+
 </div>
 {% endblock %}

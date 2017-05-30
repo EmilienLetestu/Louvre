@@ -11,6 +11,7 @@ namespace EL\BookingBundle\Managers;
 
 use Doctrine\ORM\EntityManager;
 use EL\BookingBundle\Entity\Ticket;
+use EL\BookingBundle\Services\MuseumPolicy;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -20,17 +21,21 @@ class TicketManager
     private $session;
     private $doctrine;
     private $request;
+    private $policy;
 
     public function __construct(
         Session       $session,
         EntityManager $doctrine,
-        RequestStack  $request
+        RequestStack  $request,
+        MuseumPolicy  $policy
+
 
     )
     {
         $this->session  = $session;
         $this->doctrine = $doctrine;
         $this->request  = $request;
+        $this->policy   = $policy;
     }
 
     /**
@@ -53,7 +58,6 @@ class TicketManager
         $age   = $tools->getAge($dob);
         $price = $tools->getPriceRange($age,$discount);
         $ticket_price = $tools->getTicketPrice($time_access,$price);
-
         $ticket->setDate($date)->getDate();
         $ticket->setName($name)->getName();
         $ticket->setSurname($surname)->getSurname();
@@ -69,20 +73,25 @@ class TicketManager
         return $ticket;
     }
 
-    /**
-     * @param $ticket
-     * @return array|mixed
-     */
-    public function createSessionOrder($ticket)
+    public function isSessionSet()
     {
-        $order[][] = $ticket;
-        $_SESSION['order'][] = $ticket;
-        $this->session->set('order', $_SESSION['order']);
-        $order = $this->session->get('order');
-        //store total price and tickets into session variable => 'total','number_of_tickets'
-        $this->buildOrder($order);
-        return $order;
+        if(!$this->session->has('order'))
+        {
+            $this->session->set('order', array());
+        }
+
+        return $this->session->get('order');
     }
+
+    public function addToOrder($ticket)
+    {
+        $order = $this->isSessionSet();
+        $order[]=array($ticket);
+        $this->buildOrder($order);
+        return $this->session->set('order',$order);
+    }
+
+
 
 
     /**
@@ -94,9 +103,12 @@ class TicketManager
         $number_of_tickets = count($order);
         $total = 0;
 
-        foreach ($order as $ticket)
+        foreach ($order as $key)
         {
-            $total += $ticket->getPrice();
+            foreach ($key as $ticket)
+            {
+                $total += $ticket->getPrice();
+            }
         }
         $order = array('total'             => $total,
                        'number_of_tickets' => $number_of_tickets
@@ -122,18 +134,24 @@ class TicketManager
         $date        = $this->session->get('user_date');
         //get date from session and turn it into a "datetime format"
         $date_time = $tools->formatDate($date);
-        foreach ($order as $ticket)
+        foreach ($order as $key)
         {
-            $ticket->setDate(\DateTime::createFromFormat('m-d-Y H:i:s',$date_time));
-            $ticket->getName();
-            $ticket->getSurname();
-            $ticket->getDiscount();
-            $ticket->getPriceType();
-            $ticket->setOrderToken($order_token);
-            $ticket->getTimeAccess();
-            $ticket->getPrice();
-            $ticket->getDob();
-            if($save == true) {$this->doctrine->persist($ticket);};
+            foreach ($key as $ticket)
+            {
+                $ticket->setDate(\DateTime::createFromFormat('m-d-Y H:i:s', $date_time));
+                $ticket->getName();
+                $ticket->getSurname();
+                $ticket->getDiscount();
+                $ticket->getPriceType();
+                $ticket->setOrderToken($order_token);
+                $ticket->getTimeAccess();
+                $ticket->getPrice();
+                $ticket->getDob();
+                if ($save == true)
+                {
+                    $this->doctrine->persist($ticket);
+                };
+            }
         }
         return $ticket;
     }
@@ -148,10 +166,8 @@ class TicketManager
        $id = $this->request->getCurrentRequest()->query->get($query);
        $order = $this->session->get($session_name);
        unset($order[$id]);
-       unset($_SESSION[$session_name][$id]);
        $this->session->set($session_name,$order);
        $updated_session = $this->session->get($session_name);
-
        $this->buildOrder($updated_session);
        return $updated_session;
     }
@@ -205,12 +221,11 @@ class TicketManager
 
         $id = $this->request->getCurrentRequest()->query->get($query);
         $order = $this->session->get($session_name);
-        $order[$id] = $ticket;
+        $order[$id][]= $ticket;
+        array_shift($order[$id]);
         $this->session->set($session_name,$order);
         $updated_session = $this->session->get($session_name);
-
         $this->buildOrder($updated_session);
-
         return $updated_session;
     }
 

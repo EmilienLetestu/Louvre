@@ -19,6 +19,7 @@ services:
          - "@session"
          - "@doctrine.orm.entity_manager"
          - "@request_stack"
+         - "@el_booking.museumPolicy"
 
     el_booking.stripeCheckOut:
         class: EL\BookingBundle\Services\StripeCheckOut

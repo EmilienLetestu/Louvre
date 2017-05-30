@@ -9,6 +9,9 @@
     <div class="col-sm-5">
         {{ form_start(ticket_form) }}
         {{ form(ticket_form) }}
+        {% if (full_day_ticket == false) %}
+           <span>Billets 1/2 journée</span>
+         {% endif %}
         {{ form_end(ticket_form) }}
     </div>
     {% if (app.session.get('order') != null)%}
@@ -25,7 +28,8 @@
                         <th>Supprimer</th>
                     </tr>
                 </thead>
-        {% for key,ticket in order_in_progress %}
+        {% for key,value in order_in_progress %}
+            {% for ticket in value %}
                 <tbody>
                     <tr>
                         <td>{{ ticket.name }} {{ ticket.surname }}</td>
@@ -36,6 +40,7 @@
                         <td><a class="btn btn-danger"  href="{{ path('supprimer_ticket',{'ticket' :key}) }}"> Supprimer </a></td>
                     </tr>
                 </tbody>
+                {% endfor %}
         {% endfor %}
               </table>
             </div>
