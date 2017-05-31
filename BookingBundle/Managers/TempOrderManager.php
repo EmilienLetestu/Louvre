@@ -64,7 +64,27 @@ class TempOrderManager
         return $this->session;
     }
 
-
-
-
+    /**
+     * @param $total_booked
+     * @param $booking_limit
+     * @param $user_date
+     * @param $user_n_tickets
+     * @param $prefix
+     * @return string
+     */
+    public function checkAvailabilityAndRedirect($total_booked,$booking_limit,$user_date,$user_n_tickets,$prefix)
+    {
+        if($total_booked < $booking_limit)
+        {
+            $this->createOrderSession($user_date,$user_n_tickets,$prefix);
+            $redirect = 'accueil_billetterie';
+        }
+        else
+        {
+            $this->set('sold_out',1);
+            $redirect = 'accueil_billetterie';
+        }
+        return $redirect;
+    }
+    
 }
