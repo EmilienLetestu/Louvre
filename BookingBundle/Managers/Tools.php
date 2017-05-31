@@ -7,8 +7,6 @@
  */
 
 namespace EL\BookingBundle\Managers;
-
-
 class Tools
 {
     /**
@@ -140,6 +138,5 @@ class Tools
 
         return $date_time;
     }
-
 
 }

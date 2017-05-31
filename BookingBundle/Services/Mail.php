@@ -67,6 +67,8 @@ class Mail
             )),'text/html');
         //send mail
         $this->mailer->send($message);
-        $this->session->invalidate();
+        $this->session->getFlashBag()->add('success', 'Votre payememt à été effectué avec succès, consultez votre boîte mail pour obtenir vos billets');
+        //will be used later on to detect end of process and kill session
+        $this->session->set('mail_sent',1);
     }
 }

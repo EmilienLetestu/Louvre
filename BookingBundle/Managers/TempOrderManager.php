@@ -87,4 +87,15 @@ class TempOrderManager
         return $redirect;
     }
 
+    /**
+     * @param $session_name
+     */
+    public function killSession($session_name)
+    {
+        if($this->session->has($session_name))
+        {
+            $this->session->invalidate();
+        }
+    }
+
 }

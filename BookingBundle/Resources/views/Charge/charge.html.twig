@@ -4,11 +4,11 @@
 
 {% block body %}
 
-    {% if message is defined %}
-        <div class ="col-sm-12" id ="thx">
-            <p>{{ message }}</p>
-        </div>
-    {% endif %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+
+      <div class="success">{{ flashMessage }}</div>
+
+    {% endfor %}
     <h1>Payer {{ app.session.get('total') }} € pour {{ app.session.get('tickets') }} billets</h1>
     <div class = "well col-sm-8">
         {{ form_start(stripe_form, {'attr': {'id': 'payment_form'}}) }}

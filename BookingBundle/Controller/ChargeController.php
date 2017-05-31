@@ -37,10 +37,7 @@ class ChargeController extends Controller
             //save billing, save ticket,send mail
             $save_order->saveOrder($email,$name,$surname,$source);
             $send_mail ->sendMail($email);
-
-            $message = 'Votre payememt à été effectué avec succès, consultez votre boîte mail pour obtenir vos billets';
-            return $this->render('ELBookingBundle:Charge:charge.html.twig', array('stripe_form' => $stripe_form->createview(),
-                                                                                      'message' => $message));
+            return $this->render('ELBookingBundle:Charge:charge.html.twig', array('stripe_form' => $stripe_form->createview()));
         }
 
 

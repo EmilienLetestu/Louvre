@@ -22,12 +22,14 @@ class TicketManager
     private $doctrine;
     private $request;
     private $policy;
+    private $tools;
 
     public function __construct(
         Session       $session,
         EntityManager $doctrine,
         RequestStack  $request,
-        MuseumPolicy  $policy
+        MuseumPolicy  $policy,
+        Tools         $tools
 
 
     )
@@ -36,6 +38,7 @@ class TicketManager
         $this->doctrine = $doctrine;
         $this->request  = $request;
         $this->policy   = $policy;
+        $this->tools    = $tools;
     }
 
     /**
@@ -53,11 +56,10 @@ class TicketManager
         $order_token = $this->session->get('temp_order_token');
         //initialise requested classes
         $ticket = new Ticket();
-        $tools  = new Tools();
         //->price  : age + discount + museum time access => ticket price
-        $age   = $tools->getAge($dob);
-        $price = $tools->getPriceRange($age,$discount);
-        $ticket_price = $tools->getTicketPrice($time_access,$price);
+        $age   = $this->tools->getAge($dob);
+        $price = $this->tools->getPriceRange($age,$discount);
+        $ticket_price = $this->tools->getTicketPrice($time_access,$price);
         $ticket->setDate($date)->getDate();
         $ticket->setName($name)->getName();
         $ticket->setSurname($surname)->getSurname();
@@ -118,19 +120,16 @@ class TicketManager
 
     /**
      * @param $billing
-     * @param bool $save
      * @return mixed
      */
-    public function getTickets($billing,$save = false)
+    public function getTickets($billing)
     {
-        //initialise requested classes
-        $tools  = new Tools();
         //fetch order, order_token, and date into session
         $order_token = $this->session->get('temp_order_token');
         $order       = $this->session->get('order');
         $date        = $this->session->get('user_date');
         //get date from session and turn it into a "datetime format"
-        $date_time = $tools->formatDate($date);
+        $date_time = $this->tools->formatDate($date);
         foreach ($order as $key)
         {
             foreach ($key as $ticket)
@@ -145,10 +144,6 @@ class TicketManager
                 $ticket->getPrice();
                 $ticket->getDob();
                 $ticket->setBilling($billing);
-                if ($save == true)
-                {
-                    $this->doctrine->persist($ticket);
-                };
             }
         }
         return $ticket;
@@ -200,11 +195,10 @@ class TicketManager
         $order_token = $this->session->get('temp_order_token');
         //initialise requested classes
         $ticket = new Ticket();
-        $tools  = new Tools();
         //->price type : age + discount + museum time access => ticket price
-        $age   = $tools->getAge($dob);
-        $price = $tools->getPriceRange($age,$discount);
-        $ticket_price = $tools->getTicketPrice($time_access,$price);
+        $age   = $this->tools->getAge($dob);
+        $price = $this->tools->getPriceRange($age,$discount);
+        $ticket_price = $this->tools->getTicketPrice($time_access,$price);
         $ticket->setDate($date)->getDate();
         $ticket->setName($name)->getName();
         $ticket->setSurname($surname)->getSurname();

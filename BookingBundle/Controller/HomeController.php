@@ -22,6 +22,8 @@ class HomeController extends Controller
         $tools = $this->container->get('el_booking.tools');
         $museum_policy = $this->container->get('el_booking.museumPolicy');
         $temp_order_manager = $this->container->get('el_booking.tempOrderManager');
+        //end session if user as already bought his tickets
+        $temp_order_manager->killSession($session_name="mail_sent");
         //check for disclaimer
         $disclaimer = $tools->getDisclaimer($timezone = 'Europe/Paris',$pm_access = 14);
         //create form
