@@ -144,6 +144,7 @@ class TicketManager
                 $ticket->getPrice();
                 $ticket->getDob();
                 $ticket->setBilling($billing);
+                $this->doctrine->persist($ticket);
             }
         }
         return $ticket;

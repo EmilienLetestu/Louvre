@@ -67,11 +67,9 @@ class SaveOrder
         $billing->setStripeToken($source);
         $billing->setPrice($this->session->get('total'));
         //2 get user tickets for saving
-        $ticket=$this->ticketManager->getTickets($billing);
+        $this->ticketManager->getTickets($billing);
         //2b persist it
         $em->persist($billing);
-        $em->persist($ticket);
-
         //3-store ticket and billing into db
         $em->flush();
 
