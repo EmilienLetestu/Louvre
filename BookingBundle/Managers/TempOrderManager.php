@@ -42,13 +42,29 @@ class TempOrderManager
         $n_tickets = $tempOrder->getTempNumberOfTickets();
         $token     = $tempOrder->getTempOrderToken();
         //assign tempOrder object values to session variables
-        $this->session->set('user_date',$date);
-        $this->session->set('user_n_tickets',$n_tickets);
-        $this->session->set('temp_order_token',$token);
-        $this->session->set('sold_out',0);
+        if(!$this->session->has('sold_out'))
+        {
+            //create session variables
+            $this->session->set('user_date',$date);
+            $this->session->set('user_n_tickets',$n_tickets);
+            $this->session->set('temp_order_token',$token);
+            $this->session->set('sold_out',0);
+        }
+        else
+        {
+            //remove and replace session variables
+            $this->session->remove('user_date',$date);
+            $this->session->remove('user_n_tickets',$n_tickets);
+            $this->session->remove('temp_order_token',$token);
+            $this->session->set('user_date',$date);
+            $this->session->set('user_n_tickets',$n_tickets);
+            $this->session->set('temp_order_token',$token);
+        }
 
         return $this->session;
     }
+
+
 
 
 }
