@@ -70,7 +70,7 @@ class SaveOrder
         $em->persist($billing);
 
         //2 get user tickets for saving
-        $this->ticketManager->getTickets($save = true);
+        $this->ticketManager->getTickets($billing,$save = true);
 
         //3-store ticket and billing into db
         $em->flush();

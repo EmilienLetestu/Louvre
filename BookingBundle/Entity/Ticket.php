@@ -99,6 +99,12 @@ class Ticket
      */
     private $timeAccessType;
 
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="Billing")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $billing;
 
 
     /**
@@ -361,7 +367,29 @@ class Ticket
         return $this->timeAccessType;
     }
 
+    /**
+     * @param Billing $billing
+     * @return $this
+     */
+    public function setBilling(Billing $billing)
+    {
+        $this->billing = $billing;
+        return $this;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getBilling()
+    {
+        return $this->billing;
+    }
+
+    /**
+     * @param $name
+     * @param $surname
+     * @return string
+     */
     private function generateToken($name,$surname)
     {
         $initial_1 = ucfirst($name);

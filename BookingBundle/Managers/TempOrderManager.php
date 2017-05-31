@@ -86,5 +86,5 @@ class TempOrderManager
         }
         return $redirect;
     }
-    
+
 }

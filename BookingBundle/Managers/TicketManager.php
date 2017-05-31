@@ -69,7 +69,6 @@ class TicketManager
         $ticket->setPriceType($dob);
         $ticket->setTimeAccessType($time_access)->getTimeAccessType();
         $ticket->setOrderToken($order_token);
-
         return $ticket;
     }
 
@@ -118,10 +117,11 @@ class TicketManager
     }
 
     /**
+     * @param $billing
      * @param bool $save
      * @return mixed
      */
-    public function getTickets($save = false)
+    public function getTickets($billing,$save = false)
     {
         //initialise requested classes
         $tools  = new Tools();
@@ -144,6 +144,7 @@ class TicketManager
                 $ticket->getTimeAccess();
                 $ticket->getPrice();
                 $ticket->getDob();
+                $ticket->setBilling($billing);
                 if ($save == true)
                 {
                     $this->doctrine->persist($ticket);
