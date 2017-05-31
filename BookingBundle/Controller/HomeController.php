@@ -22,7 +22,6 @@ class HomeController extends Controller
         $tools = $this->container->get('el_booking.tools');
         $museum_policy = $this->container->get('el_booking.museumPolicy');
         $temp_order_manager = $this->container->get('el_booking.tempOrderManager');
-        $session = new Session();
         //check for disclaimer
         $disclaimer = $tools->getDisclaimer($timezone = 'Europe/Paris',$pm_access = 14);
         //create form
@@ -35,18 +34,9 @@ class HomeController extends Controller
           $tickets = $booking_status_form->get('temp_number_of_tickets')->getData();
           //check total booking for requested date
           $total_booked = $museum_policy->getTotalBooked($date,$tickets);
-
-
-          if($total_booked < 1000)
-          {
-             $temp_order_manager->createOrderSession($date,$tickets,$prefix = 'Commande n°: ');
-             return $this->redirectToRoute('accueil_billetterie');
-          }
-          else
-          {
-              $session->set('sold_out',1);
-              return $this->redirectToRoute('accueil_billetterie');
-          }
+          //use "total_booked" result => set some session var and redirect to home
+          $redirect = $temp_order_manager->checkAvailabilityAndRedirect($total_booked,$booking_limit=1000,$date,$tickets,$prefix = 'Commande n°: ');
+          return $this->redirectToRoute($redirect);
         }
         return $this->render('ELBookingBundle:Home:index.html.twig', array('booking_status_form'=> $booking_status_form->createView(),
                                                                            'disclaimer'         => $disclaimer
