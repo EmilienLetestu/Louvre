@@ -25,14 +25,13 @@ class BookingController extends Controller
        $full_day_ticket = $museum_policy->isFullDayTicketAvailable($timezone='Europe/Paris',$time=14);
        if($full_day_ticket == false){$ticket_form->remove('time_access');}
 
-
        if($ticket_form->handleRequest($request)->isSubmitted())
        {
            //fetch submitted data
            $name = $ticket_form->get('name')->getData();
            $surname = $ticket_form->get('surname')->getData();
            $dob = $ticket_form->get('dob')->getData();
-           if($full_day_ticket !== false)
+           if($full_day_ticket == true)
            {
                $time_access = $ticket_form->get('time_access')->getData();
            }

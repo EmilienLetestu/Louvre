@@ -61,11 +61,11 @@ class TicketType extends AbstractType
                                                 'attr'   => ['class' => 'js-datepicker_dob']
                                            ]
             )
-            ->add('time_access', ChoiceType::class, array('label'   => 'Type de ticket',
-                                                          'choices' => array('journée complète' => 'a.m.',
-                                                                             '1/2 journée'      =>'p.m.'
-                                                          )
-            ))
+            ->add('time_access', ChoiceType::class, ['label'    => 'Type de ticket',
+                                                     'choices'  => ['journée complète' => 'a.m.',
+                                                                    '1/2 journée'      =>'p.m.']
+                                                     ]
+            )
             ->add('discount', CheckboxType::class, array('mapped'   => false,
                                                          'label'    => 'Je bénéficie d\'un tarif préférenciel',
                                                          'required' => false
