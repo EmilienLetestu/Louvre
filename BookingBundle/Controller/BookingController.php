@@ -22,7 +22,7 @@ class BookingController extends Controller
        $museum_policy = $this->container->get('el_booking.museumPolicy');
        $ticket =new Ticket();
        $ticket_form = $this->get('form.factory')->create(TicketType::class,$ticket);
-       $full_day_ticket = $museum_policy->isFullDayTicketAvailable();
+       $full_day_ticket = $museum_policy->isFullDayTicketAvailable($timezone='Europe/Paris',$time=14);
        if($full_day_ticket == false){$ticket_form->remove('time_access');}
 
 

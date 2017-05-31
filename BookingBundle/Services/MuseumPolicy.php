@@ -10,25 +10,30 @@ namespace EL\BookingBundle\Services;
 
 
 use Doctrine\ORM\EntityManager;
+use EL\BookingBundle\Managers\Tools;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class MuseumPolicy
 {
     private $session;
     private $doctrine;
+    private $tools;
 
     /**
-     * TempOrderManager constructor.
+     * MuseumPolicy constructor.
      * @param Session $session
      * @param EntityManager $doctrine
+     * @param Tools $tools
      */
     public function __construct(
         Session       $session,
-        EntityManager $doctrine
+        EntityManager $doctrine,
+        Tools         $tools
     )
     {
         $this->session  = $session;
         $this->doctrine = $doctrine;
+        $this->tools    = $tools;
     }
 
     public function getTotalBooked($date,$tickets)
@@ -46,11 +51,12 @@ class MuseumPolicy
 
     }
 
-    public function isFullDayTicketAvailable()
+    public function isFullDayTicketAvailable($timezone,$pm_access)
     {
-        $now = new \DateTime();
+        $now  = new \DateTime();
+        $time = $this->tools->getTime($timezone);
         $visit_day = $this->session->get('user_date');
-        if ($visit_day == $now->format('m-d-Y'))
+        if ($visit_day == $now->format('m-d-Y') && $time >= $pm_access)
         {
             $available = false;
         }

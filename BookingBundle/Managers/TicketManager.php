@@ -91,9 +91,6 @@ class TicketManager
         return $this->session->set('order',$order);
     }
 
-
-
-
     /**
      * @param $order
      * @return array
@@ -228,5 +225,4 @@ class TicketManager
         $this->buildOrder($updated_session);
         return $updated_session;
     }
-
 }

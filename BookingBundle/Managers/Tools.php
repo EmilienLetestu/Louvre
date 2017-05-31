@@ -18,9 +18,7 @@ class Tools
      */
     public function getDisclaimer($time_zone,$pm_access)
     {
-        date_default_timezone_set($time_zone);
-        $time = explode(':',date("H:i:s"));
-        $time_to_check = $time[0];
+       $time_to_check =$this->getTime($time_zone);
 
         if($time_to_check < $pm_access)
         {
@@ -32,6 +30,14 @@ class Tools
         }
 
         return $disclaimer;
+    }
+
+    public function getTime($time_zone)
+    {
+        date_default_timezone_set($time_zone);
+        $time = explode(':',date("H:i:s"));
+        $time_to_check = $time[0];
+        return $time_to_check;
     }
 
     /**

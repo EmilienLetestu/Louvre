@@ -23,7 +23,6 @@ class HomeController extends Controller
         $museum_policy = $this->container->get('el_booking.museumPolicy');
         $temp_order_manager = $this->container->get('el_booking.tempOrderManager');
         $session = new Session();
-
         //check for disclaimer
         $disclaimer = $tools->getDisclaimer($timezone = 'Europe/Paris',$pm_access = 14);
         //create form
