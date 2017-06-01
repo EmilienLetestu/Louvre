@@ -19,11 +19,11 @@
     {{ form_label(ticket_form.dob) }}
     {{ form_widget(ticket_form.dob) }}
 
-    {% if(full_day_ticket == true) %}
+    {% if(app.session.get('full_day_ticket') == true) %}
     {{ form_label(ticket_form.time_access,'Type de ticket: '~ticket.timeAccessType) }}
     {{ form_widget(ticket_form.time_access) }}
     {% endif %}
-    {% if(full_day_ticket == false) %}
+    {% if(app.session.get('full_day_ticket') == false) %}
     <span>Type de ticket: {{ ticket.timeAccessType }}</span>
     {% endif %}
 

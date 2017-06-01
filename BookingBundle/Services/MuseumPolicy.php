@@ -64,6 +64,7 @@ class MuseumPolicy
         {
             $available = true;
         }
+        $this->session->set('full_day_ticket',$available);
         return $available;
 
     }

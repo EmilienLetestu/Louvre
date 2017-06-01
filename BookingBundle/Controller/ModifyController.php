@@ -34,13 +34,12 @@ class ModifyController extends Controller
             $discount = $ticket_form->get('discount')->getData();
             if($full_day_ticket == true)
             {
-                $time_access = $ticket_form->get('surname')->getData();
+                $time_access = $ticket_form->get('time_access')->getData();
             }
             else
             {
                 $time_access = 'p.m.';
             }
-
             $ticket_manager->modifyTicket($query='ticket',$session_name='order',$name,$surname,$dob,$discount,$time_access);
 
             return $this->redirectToRoute('reservation_billetterie');
