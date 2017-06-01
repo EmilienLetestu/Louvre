@@ -39,8 +39,6 @@ class ChargeController extends Controller
             $send_mail ->sendMail($email);
             return $this->render('ELBookingBundle:Charge:charge.html.twig', array('stripe_form' => $stripe_form->createview()));
         }
-
-
         return $this->render('ELBookingBundle:Charge:charge.html.twig', array('stripe_form' => $stripe_form->createview()));
     }
 }

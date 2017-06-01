@@ -3,7 +3,7 @@
 {% block title %} {{ parent() }} - Payement des billets {% endblock %}
 
 {% block body %}
-
+    {{ dump(app.session.all()) }}
     {% for flashMessage in app.session.flashbag.get('success') %}
 
       <div class="success">{{ flashMessage }}</div>

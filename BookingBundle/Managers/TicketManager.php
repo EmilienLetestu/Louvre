@@ -160,10 +160,8 @@ class TicketManager
        $id = $this->request->getCurrentRequest()->query->get($query);
        $order = $this->session->get($session_name);
        unset($order[$id]);
-       $this->session->set($session_name,$order);
-       $updated_session = $this->session->get($session_name);
-       $this->buildOrder($updated_session);
-       return $updated_session;
+       $this->buildOrder($order);
+       return $this->session->set($session_name,$order);
     }
 
     /**
@@ -216,9 +214,9 @@ class TicketManager
         $order = $this->session->get($session_name);
         $order[$id][]= $ticket;
         array_shift($order[$id]);
+        $this->buildOrder($order);
         $this->session->set($session_name,$order);
-        $updated_session = $this->session->get($session_name);
-        $this->buildOrder($updated_session);
-        return $updated_session;
+
+        return $this->session->set($session_name,$order);;
     }
 }
