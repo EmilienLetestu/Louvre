@@ -24,6 +24,8 @@ class TempOrderManager
     }
 
     /**
+     * each time user test a date for availability this method will be called
+     * this method is creating the very first session variable
      * @param $user_date
      * @param $user_n_tickets
      * @param $prefix
@@ -41,6 +43,7 @@ class TempOrderManager
         $date      = $tempOrder->getTempOrderDate()->format('m-d-Y');
         $n_tickets = $tempOrder->getTempNumberOfTickets();
         $token     = $tempOrder->getTempOrderToken();
+        //check if user has already tested a date
         //assign tempOrder object values to session variables
         if(!$this->session->has('sold_out'))
         {
@@ -60,7 +63,6 @@ class TempOrderManager
             $this->session->set('user_n_tickets',$n_tickets);
             $this->session->set('temp_order_token',$token);
         }
-
         return $this->session;
     }
 
@@ -88,6 +90,8 @@ class TempOrderManager
     }
 
     /**
+     * this method is called to destroy all session if a given session is set
+     * mainly used to destroy session at the end of shopping process if user goes back to homepage
      * @param $session_name
      */
     public function killSession($session_name)

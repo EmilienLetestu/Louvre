@@ -38,6 +38,7 @@ class SaveOrder
     }
 
     /**
+     * get all data and store them into db
      * @param $email
      * @param $name
      * @param $surname
@@ -52,10 +53,8 @@ class SaveOrder
         //fetch order token into session
         $order_token = $this->session->get('temp_order_token');
         $date = $this->session->get('user_date');
-
         //get date from session and turn it into a "datetime format"
         $date_time = $tools->formatDate($date);
-
         //1 save billing
         //1-a hydrate billing
         $billing->setEmail($email);
@@ -72,7 +71,6 @@ class SaveOrder
         $em->persist($billing);
         //3-store ticket and billing into db
         $em->flush();
-
         $this->session->set('billing',$billing);
     }
 

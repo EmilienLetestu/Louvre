@@ -42,6 +42,9 @@ class TicketManager
     }
 
     /**
+     * get user submitted data(form)
+     * get some session stored data
+     * then prepare a new ticket which will be added to cart later on with another method
      * @param $name
      * @param $surname
      * @param $dob
@@ -74,6 +77,11 @@ class TicketManager
         return $ticket;
     }
 
+    /**
+     * call the method at the very beginning of shopping process to create a cart
+     * if cart hasn't been created yet => create it
+     * @return mixed
+     */
     public function isSessionSet()
     {
         if(!$this->session->has('order'))
@@ -84,6 +92,10 @@ class TicketManager
         return $this->session->get('order');
     }
 
+    /**
+     * add any given new ticket to cart
+     * @param $ticket
+     */
     public function addToOrder($ticket)
     {
         $order = $this->isSessionSet();
@@ -93,6 +105,8 @@ class TicketManager
     }
 
     /**
+     * this method is used to display some feedback to user while his shopping
+     * this method will also provide some useful information for check out
      * @param $order
      * @return array
      */
@@ -100,7 +114,6 @@ class TicketManager
     {
         $number_of_tickets = count($order);
         $total = 0;
-
         foreach ($order as $key)
         {
             foreach ($key as $ticket)
@@ -111,7 +124,6 @@ class TicketManager
         $order = array('total'             => $total,
                        'number_of_tickets' => $number_of_tickets
         );
-
         $this->session->set('total',$order['total']);
         $this->session->set('tickets',$order['number_of_tickets']);
 
@@ -119,6 +131,7 @@ class TicketManager
     }
 
     /**
+     * this method will fetch and persist all ticket inside cart
      * @param $billing
      * @return mixed
      */

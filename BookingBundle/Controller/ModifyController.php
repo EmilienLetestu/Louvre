@@ -1,12 +1,11 @@
 <?php
 namespace EL\BookingBundle\Controller;
 
-use EL\BookingBundle\ELBookingBundle;
 use EL\BookingBundle\Entity\Ticket;
 use EL\BookingBundle\Form\TicketType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+
 
 /**
  * Created by PhpStorm.
@@ -18,11 +17,15 @@ class ModifyController extends Controller
 {
     public function modifyAction(Request $request)
     {
+        //initialize needed services or classes
         $ticket = new Ticket();
         $ticket_manager = $this->container->get('el_booking.ticketManager');
         $museum_policy  = $this->container->get('el_booking.museumPolicy');
+        //create form
         $ticket_form    = $this->get('form.factory')->create(TicketType::class,$ticket);
+        //get ticket to modify to display it
         $ticket = $ticket_manager->getTicketToModify($param='id',$session_name='order');
+        //check ticket type availability
         $full_day_ticket = $museum_policy->isFullDayTicketAvailable($timezone='Europe/Paris',$time=14);
         if($full_day_ticket == false){$ticket_form->remove('time_access');}
         if($ticket_form->handleRequest($request)->isSubmitted() && $ticket_form->isValid())
@@ -40,10 +43,9 @@ class ModifyController extends Controller
             {
                 $time_access = 'p.m.';
             }
+            //update ticket with modified data
             $ticket_manager->modifyTicket($param='id',$session_name='order',$name,$surname,$dob,$discount,$time_access);
-
             return $this->redirectToRoute('reservation_billetterie');
-
         }
         return $this->render('ELBookingBundle:Modify:modify.html.twig',array('modify'          => $ticket,
                                                                              'ticket_form'     =>$ticket_form->createView(),

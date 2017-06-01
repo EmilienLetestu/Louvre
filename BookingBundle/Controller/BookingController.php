@@ -21,8 +21,11 @@ class BookingController extends Controller
        $ticket_manager = $this->container->get('el_booking.ticketManager');
        $museum_policy = $this->container->get('el_booking.museumPolicy');
        $ticket =new Ticket();
+       //create form
        $ticket_form = $this->get('form.factory')->create(TicketType::class,$ticket);
+       //check ticket type availability
        $full_day_ticket = $museum_policy->isFullDayTicketAvailable($timezone='Europe/Paris',$time=14);
+       //remove select box if only 1/2 day ticket are available for order
        if($full_day_ticket == false){$ticket_form->remove('time_access');}
 
        if($ticket_form->handleRequest($request)->isSubmitted())

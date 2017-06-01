@@ -5,7 +5,7 @@
 {% block body %}
     {% for flashMessage in app.session.flashbag.get('success') %}
 
-      <div class="col-sm-6 offset-sm-3 off success">{{ flashMessage }}</div>
+      <div class="col-sm-6 offset-sm-3 success">{{ flashMessage }}</div>
 
     {% endfor %}
     <h1>Payer {{ app.session.get('total') }} € pour {{ app.session.get('tickets') }} billets</h1>

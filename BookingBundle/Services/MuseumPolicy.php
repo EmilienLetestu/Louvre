@@ -36,6 +36,12 @@ class MuseumPolicy
         $this->tools    = $tools;
     }
 
+    /**
+     * get total ticket sales for a given date
+     * @param $date
+     * @param $tickets
+     * @return int
+     */
     public function getTotalBooked($date,$tickets)
     {
         //To do check session
@@ -51,6 +57,13 @@ class MuseumPolicy
 
     }
 
+    /**
+     * this method will check if user is buying ticket for today,
+     * if so the method will check current time to see if user can order full day ticket or not
+     * @param $timezone
+     * @param $pm_access
+     * @return bool
+     */
     public function isFullDayTicketAvailable($timezone,$pm_access)
     {
         $now  = new \DateTime();

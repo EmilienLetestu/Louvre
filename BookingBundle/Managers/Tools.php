@@ -10,6 +10,7 @@ namespace EL\BookingBundle\Managers;
 class Tools
 {
     /**
+     * Display an information message
      * @param $time_zone
      * @param $pm_access
      * @return null|string
@@ -30,6 +31,11 @@ class Tools
         return $disclaimer;
     }
 
+    /**
+     * find current time
+     * @param $time_zone
+     * @return mixed
+     */
     public function getTime($time_zone)
     {
         date_default_timezone_set($time_zone);
@@ -53,6 +59,7 @@ class Tools
     }
 
     /**
+     * calculate pricing
      * @param $dob
      * @return string
      */
@@ -83,6 +90,7 @@ class Tools
     }
 
     /**
+     * display ticket type a user friendly way
      * @param $time_access
      * @return string
      */
@@ -109,6 +117,7 @@ class Tools
     }
 
     /**
+     * collect all data from above method and build a user friendly ticket to display
      * @param $dob
      * @param $price
      * @param $time_access
@@ -128,6 +137,7 @@ class Tools
 
     /**
      * turn the date variable stored into session to a date_time format friendly string
+     * @param $date
      * @return string
      */
     public function formatDate($date)

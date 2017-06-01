@@ -33,6 +33,9 @@ class StripeCheckOut
         $this->session    = $session;
     }
 
+    /**
+     * @return string
+     */
     public function getEnv()
     {
         $env = $this->kernel->getEnvironment();
