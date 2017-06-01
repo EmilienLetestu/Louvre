@@ -8,12 +8,18 @@ reservation_billetterie:
         _controller: ELBookingBundle:Booking:booking
 
 modifier_ticket:
-    path:    /modifier-ticket
-    defaults: { _controller: ELBookingBundle:Modify:modify }
+    path:    /modifier-ticket/{id}
+    defaults:
+         _controller: ELBookingBundle:Modify:modify
+    requirements:
+         id: \d+
 
 supprimer_ticket:
-    path:     /supprimer-ticket
-    defaults: { _controller: ELBookingBundle:Delete:delete }
+    path:     /supprimer-ticket/{id}
+    defaults:
+         _controller: ELBookingBundle:Delete:delete
+    requirements:
+         id: \d+
 
 payer_commande:
      path:     /payer-commande

@@ -15,9 +15,8 @@ class DeleteController extends Controller
 
     public function deleteAction()
     {
-
         $ticket_manager = $this->container->get('el_booking.ticketManager');
-        $ticket_manager->deleteTicketFromOrderInProgress($query='ticket',$session_name='order');
+        $ticket_manager->deleteTicketFromOrderInProgress($param='id',$session_name='order');
         return $this->redirectToRoute('reservation_billetterie');
     }
 

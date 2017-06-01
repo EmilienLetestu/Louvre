@@ -36,11 +36,11 @@
                         <td>{{ ticket.date }}</td>
                         <td>{{ ticket.timeAccessType }} ,{{ ticket.priceType }}</td>
                         <td>{{ ticket.price }} €</td>
-                        <td><a class="btn btn-warning" href="{{ path('modifier_ticket',{'ticket' :key}) }}"> Modidfier </a></td>
-                        <td><a class="btn btn-danger"  href="{{ path('supprimer_ticket',{'ticket' :key}) }}"> Supprimer </a></td>
+                        <td><a class="btn btn-warning" href="{{ path('modifier_ticket',{'id' :key}) }}"> Modidfier </a></td>
+                        <td><a class="btn btn-danger"  href="{{ path('supprimer_ticket',{'id' :key}) }}"> Supprimer </a></td>
                     </tr>
                 </tbody>
-                {% endfor %}
+            {% endfor %}
         {% endfor %}
               </table>
             </div>

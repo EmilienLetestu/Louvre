@@ -22,7 +22,7 @@ class ModifyController extends Controller
         $ticket_manager = $this->container->get('el_booking.ticketManager');
         $museum_policy  = $this->container->get('el_booking.museumPolicy');
         $ticket_form    = $this->get('form.factory')->create(TicketType::class,$ticket);
-        $ticket = $ticket_manager->getTicketToModify($query='ticket',$session_name='order');
+        $ticket = $ticket_manager->getTicketToModify($param='id',$session_name='order');
         $full_day_ticket = $museum_policy->isFullDayTicketAvailable($timezone='Europe/Paris',$time=14);
         if($full_day_ticket == false){$ticket_form->remove('time_access');}
         if($ticket_form->handleRequest($request)->isSubmitted() && $ticket_form->isValid())
@@ -40,7 +40,7 @@ class ModifyController extends Controller
             {
                 $time_access = 'p.m.';
             }
-            $ticket_manager->modifyTicket($query='ticket',$session_name='order',$name,$surname,$dob,$discount,$time_access);
+            $ticket_manager->modifyTicket($param='id',$session_name='order',$name,$surname,$dob,$discount,$time_access);
 
             return $this->redirectToRoute('reservation_billetterie');
 

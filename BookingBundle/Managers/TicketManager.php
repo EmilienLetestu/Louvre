@@ -151,13 +151,13 @@ class TicketManager
     }
 
     /**
-     * @param $query
+     * @param $param
      * @param $session_name
      * @return mixed
      */
-    public function deleteTicketFromOrderInProgress($query,$session_name)
+    public function deleteTicketFromOrderInProgress($param,$session_name)
     {
-       $id = $this->request->getCurrentRequest()->query->get($query);
+       $id = $this->request->getCurrentRequest()->attributes->get($param);
        $order = $this->session->get($session_name);
        unset($order[$id]);
        $this->buildOrder($order);
@@ -165,20 +165,20 @@ class TicketManager
     }
 
     /**
-     * @param $query
+     * @param $param
      * @param $session_name
      * @return mixed
      */
-    public function getTicketToModify($query,$session_name)
+    public function getTicketToModify($param,$session_name)
     {
-        $id = $this->request->getCurrentRequest()->query->get($query);
+        $id = $this->request->getCurrentRequest()->attributes->get($param);
         $order = $this->session->get($session_name);
         $ticket_to_modify = $order[$id];
         return $ticket_to_modify;
     }
 
     /**
-     * @param $query
+     * @param $param
      * @param $session_name
      * @param $name
      * @param $surname
@@ -187,7 +187,7 @@ class TicketManager
      * @param $time_access
      * @return mixed
      */
-    public function modifyTicket($query,$session_name,$name,$surname,$dob,$discount,$time_access)
+    public function modifyTicket($param,$session_name,$name,$surname,$dob,$discount,$time_access)
     {
         //fetch date and order_token into session
         $date = $this->session->get('user_date');
@@ -210,13 +210,13 @@ class TicketManager
         $ticket->setTimeAccessType($time_access)->getTimeAccessType();
         $ticket->setOrderToken($order_token);
 
-        $id = $this->request->getCurrentRequest()->query->get($query);
+        $id = $this->request->getCurrentRequest()->attributes->get($param);
         $order = $this->session->get($session_name);
         $order[$id][]= $ticket;
         array_shift($order[$id]);
         $this->buildOrder($order);
         $this->session->set($session_name,$order);
 
-        return $this->session->set($session_name,$order);;
+        return $this->session->set($session_name,$order);
     }
 }
