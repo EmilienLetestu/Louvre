@@ -9,7 +9,7 @@
     <div class="col-sm-5">
         {{ form_start(ticket_form) }}
         {{ form(ticket_form) }}
-        {% if (full_day_ticket == false) %}
+        {% if (app.session.get('full_day_ticket') == false) %}
            <span>Billets 1/2 journée</span>
          {% endif %}
         {{ form_end(ticket_form) }}
