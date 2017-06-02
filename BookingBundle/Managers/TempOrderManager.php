@@ -12,48 +12,52 @@ namespace EL\BookingBundle\Managers;
 use EL\BookingBundle\Entity\TempOrder;
 use EL\BookingBundle\Form\CheckStatusType;
 use EL\BookingBundle\Services\MuseumPolicy;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormFactory;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class TempOrderManager
 {
 
     private $session;
-    private $request;
-    private $formBuilder;
+    private $formFactory;
     private $policy;
 
 
     public function __construct
     (
-        Session      $session,
-        RequestStack $request,
-        FormFactory  $formFactory,
-        MuseumPolicy $policy
+        Session         $session,
+        FormFactory     $formFactory,
+        MuseumPolicy    $policy,
+        Tools           $tools
     )
     {
         $this->session      = $session;
-        $this->request      = $request;
-        $this->formBuilder  = $formFactory;
+        $this->formFactory  = $formFactory;
         $this->policy       = $policy;
+        $this->tools        = $tools;
     }
 
-    public function checkStatusAndProcess($booking_limit,$prefix)
+    public function checkStatusAndProcess(Request $request,$booking_limit,$prefix)
     {
-        $booking_status_form = $this->formBuilder->create(CheckStatusType::class);
-        $this->request->getCurrentRequest();
+        //create form
+        $booking_status_form = $this->formFactory->create(CheckStatusType::class);
+        //processing form
+        $booking_status_form->handleRequest($request);
         if($booking_status_form->isSubmitted()&&$booking_status_form->isValid())
         {
+            //extract data
             $date = $booking_status_form->get('temp_order_date')->getData();
             $tickets = $booking_status_form->get('temp_number_of_tickets')->getData();
+            //check booking for requested date
             $total_booked = $this->policy->getTotalBooked($date,$tickets);
-            var_dump($total_booked);
-            $redirect = $this->checkAvailabilityAndRedirect($total_booked,$booking_limit,$date,$tickets,$prefix);
-            return $redirect;
+            //compile all data and results => set session var
+            $this->checkAvailabilityAndRedirect($total_booked,$booking_limit,$date,$tickets,$prefix);
+            //return a session var to look for into controller
+            return $this->session->set('submitted',1);
         }
-        return $booking_status_form;
+        $render = array('booking_status_form'=>$booking_status_form->createView());
+        return $render;
     }
 
     /**
@@ -112,14 +116,12 @@ class TempOrderManager
         if($total_booked < $booking_limit)
         {
             $this->createTempOrderSession($user_date,$user_n_tickets,$prefix);
-            $redirect = 'accueil_billetterie';
         }
         else
         {
-            $this->set('sold_out',1);
-            $redirect = 'accueil_billetterie';
+            $this->session->set('sold_out',1);
         }
-        return $redirect;
+        return $this;
     }
 
     /**

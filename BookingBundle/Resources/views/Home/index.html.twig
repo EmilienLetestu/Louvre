@@ -65,7 +65,6 @@
             </table>
         </div>
 
-
         <div class="col-sm-6">
             <h2>Vérifier la disponibilité</h2>
             {{ form_start(booking_status_form,{action:path('accueil_billetterie')}) }}
@@ -77,18 +76,14 @@
         </div>
 
         {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) %}
+        <div class="col-sm-6">
         <a class="btn btn-success" href="{{path('reservation_billetterie')}} ">
             Commander des billets pour le {{ app.session.get('user_date') }}
         </a>
         {% endif %}
         {% if app.session.get('sold_out') == 1 %}
         <span>Complet</span>
+        </div>
         {% endif %}
-
-
-
-
     </div>
-
-
 {% endblock %}
