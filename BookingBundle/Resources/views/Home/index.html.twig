@@ -3,6 +3,7 @@
 {% block title %}{{ parent() }} - Accueil billetterie {% endblock %}
 
 {% block body %}
+    {{ dump(app.session)}}
     <div class ="container col-sm-12">
         <div class="col-sm-12">
             <h1 class="col-sm-offset-5">Lorem Ipsum</h1>
@@ -67,13 +68,12 @@
 
         <div class="col-sm-6">
             <h2>Vérifier la disponibilité</h2>
-
             {{ form_start(booking_status_form,{action:path('accueil_billetterie')}) }}
             {{ form_row(booking_status_form.temp_order_date) }}
             {{ form_row(booking_status_form.temp_number_of_tickets) }}
+            <button type="submit" class="btn btn-primary">Tester cette date</button>
             {{ form_end(booking_status_form) }}
             <p id="disclaimer">{{ disclaimer }}</p>
-
         </div>
 
         {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) %}

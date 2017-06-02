@@ -71,8 +71,7 @@ class SaveOrder
         $em->persist($billing);
         //3-store ticket and billing into db
         $em->flush();
+        //store billing into session => will be use later on to build email
         $this->session->set('billing',$billing);
     }
-
-
 }

@@ -52,9 +52,7 @@ class MuseumPolicy
         $count_booked = count($check_booking_on_user_date);
 
         $total_booked = $count_booked + $tickets;
-
         return $total_booked;
-
     }
 
     /**
@@ -79,6 +77,5 @@ class MuseumPolicy
         }
         $this->session->set('full_day_ticket',$available);
         return $available;
-
     }
 }

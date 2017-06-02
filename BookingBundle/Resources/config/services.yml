@@ -13,6 +13,9 @@ services:
         class: EL\BookingBundle\Managers\TempOrderManager
         arguments:
          - "@session"
+         - "@request_stack"
+         - "@form.factory"
+         - "@el_booking.museumPolicy"
 
     el_booking.ticketManager:
          class: EL\BookingBundle\Managers\TicketManager

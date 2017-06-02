@@ -10,17 +10,50 @@ namespace EL\BookingBundle\Managers;
 
 
 use EL\BookingBundle\Entity\TempOrder;
+use EL\BookingBundle\Form\CheckStatusType;
+use EL\BookingBundle\Services\MuseumPolicy;
+use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class TempOrderManager
 {
 
     private $session;
+    private $request;
+    private $formBuilder;
+    private $policy;
 
 
-    public function __construct(Session $session)
+    public function __construct
+    (
+        Session      $session,
+        RequestStack $request,
+        FormFactory  $formFactory,
+        MuseumPolicy $policy
+    )
     {
-        $this->session   = $session;
+        $this->session      = $session;
+        $this->request      = $request;
+        $this->formBuilder  = $formFactory;
+        $this->policy       = $policy;
+    }
+
+    public function checkStatusAndProcess($booking_limit,$prefix)
+    {
+        $booking_status_form = $this->formBuilder->create(CheckStatusType::class);
+        $this->request->getCurrentRequest();
+        if($booking_status_form->isSubmitted()&&$booking_status_form->isValid())
+        {
+            $date = $booking_status_form->get('temp_order_date')->getData();
+            $tickets = $booking_status_form->get('temp_number_of_tickets')->getData();
+            $total_booked = $this->policy->getTotalBooked($date,$tickets);
+            var_dump($total_booked);
+            $redirect = $this->checkAvailabilityAndRedirect($total_booked,$booking_limit,$date,$tickets,$prefix);
+            return $redirect;
+        }
+        return $booking_status_form;
     }
 
     /**
@@ -31,7 +64,7 @@ class TempOrderManager
      * @param $prefix
      * @return Session
      */
-    public function createOrderSession($user_date,$user_n_tickets,$prefix)
+    public function createTempOrderSession($user_date,$user_n_tickets,$prefix)
     {
         $tempOrder = new TempOrder();
         //hydrate tempOrder object
@@ -78,7 +111,7 @@ class TempOrderManager
     {
         if($total_booked < $booking_limit)
         {
-            $this->createOrderSession($user_date,$user_n_tickets,$prefix);
+            $this->createTempOrderSession($user_date,$user_n_tickets,$prefix);
             $redirect = 'accueil_billetterie';
         }
         else

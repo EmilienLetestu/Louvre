@@ -27,10 +27,8 @@ class CheckStatusType extends AbstractType
                                                             'attr'   => ['class' => 'js-datepicker']
             ))
 
-            ->add('temp_number_of_tickets', NumberType::class, array('label'  => 'Nombre d\'entrées souhaitées'))
+            ->add('temp_number_of_tickets', NumberType::class, array('label'  => 'Nombre d\'entrées souhaitées'));
 
-            ->add('Valider', SubmitType::class)
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
