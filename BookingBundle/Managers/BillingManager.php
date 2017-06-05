@@ -1,0 +1,71 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Emilien
+ * Date: 05/06/2017
+ * Time: 16:29
+ */
+
+namespace EL\BookingBundle\Managers;
+
+
+use EL\BookingBundle\Entity\Billing;
+use EL\BookingBundle\Form\StripeFormType;
+use EL\BookingBundle\Services\Mail;
+use EL\BookingBundle\Services\SaveOrder;
+use EL\BookingBundle\Services\StripeCheckOut;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpFoundation\Request;
+
+class BillingManager
+{
+    private $formFactory;
+    private $checkOut;
+    private $save;
+    private $mail;
+
+    public function __construct(
+        FormFactory    $formFactory,
+        StripeCheckOut $checkOut,
+        SaveOrder      $save,
+        Mail           $mail
+    )
+    {
+        $this->formFactory = $formFactory;
+        $this->checkOut    = $checkOut;
+        $this->save        = $save;
+        $this->mail        = $mail;
+    }
+
+    /**
+     * @param Request $request
+     * @param $currency
+     * @return array
+     */
+    Public function stripeAndProcess(Request $request,$currency)
+    {
+        //initialise entity
+        $billing = new Billing();
+        //create form
+        $stripe_form = $this->formFactory->create(StripeFormType::class,$billing);
+        //prepare data to render in view
+        $render = array('stripe_form' => $stripe_form->createview());
+        //process form
+        $stripe_form->handleRequest($request);
+        if($stripe_form->isSubmitted() && $stripe_form->isValid())
+        {
+            //get submitted data
+            $name    = $stripe_form->get('name')->getData();
+            $surname = $stripe_form->get('surname')->getData();
+            $source  = $stripe_form->get('stripeToken')->getData();
+            $email   = $stripe_form->get('email')->getData();
+            //processing payment
+            $this->checkOut->stripePayment($currency,$source);
+            //save billing, save ticket,send mail
+            $this->save->saveOrder($email,$name,$surname,$source);
+            $this->mail->sendMail($email);
+            return $render;
+        }
+        return $render;
+    }
+}
