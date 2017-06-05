@@ -8,7 +8,6 @@
 
 namespace EL\BookingBundle\Managers;
 
-
 use EL\BookingBundle\Entity\TempOrder;
 use EL\BookingBundle\Form\CheckStatusType;
 use EL\BookingBundle\Services\MuseumPolicy;
@@ -56,6 +55,7 @@ class TempOrderManager
             //return a session var to look for into controller
             return $this->session->set('submitted',1);
         }
+        //prepare data to render in view
         $render = array('booking_status_form'=>$booking_status_form->createView());
         return $render;
     }
