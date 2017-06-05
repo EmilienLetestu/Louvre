@@ -49,6 +49,14 @@ services:
         - "@twig"
         - "@session"
 
+    el_booking.billingManager:
+        class: EL\BookingBundle\Managers\BillingManager
+        arguments:
+        - "@form.factory"
+        - "@el_booking.stripeCheckOut"
+        - "@el_booking.saveOrder"
+        - "@el_booking.mail"
+
 
 
 

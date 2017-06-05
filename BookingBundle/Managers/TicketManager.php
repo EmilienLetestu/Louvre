@@ -277,6 +277,14 @@ class TicketManager
        return $render;
     }
 
+    /**
+     * @param Request $request
+     * @param $timezone
+     * @param $time
+     * @param $param
+     * @param $session_name
+     * @return array|void
+     */
     public function modifyTicketAndProcess(Request $request,$timezone,$time,$param,$session_name)
     {
         //initialise entity
