@@ -67,7 +67,7 @@ class MuseumPolicy
         $now  = new \DateTime();
         $time = $this->tools->getTime($timezone);
         $visit_day = $this->session->get('user_date');
-        if ($visit_day == $now->format('m-d-Y') && $time >= $pm_access)
+        if ($visit_day == $now->format('d-m-Y') && $time >= $pm_access)
         {
             $available = false;
         }
