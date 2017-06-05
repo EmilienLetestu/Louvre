@@ -7,38 +7,38 @@
  */
 
 namespace EL\BookingBundle\Managers;
-
-
 use Doctrine\ORM\EntityManager;
 use EL\BookingBundle\Entity\Ticket;
+use EL\BookingBundle\Form\TicketType;
 use EL\BookingBundle\Services\MuseumPolicy;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
-
-
 class TicketManager
 {
     private $session;
     private $doctrine;
-    private $request;
+    private $requestStack;
     private $policy;
     private $tools;
+    private $formFactory;
 
     public function __construct(
         Session       $session,
         EntityManager $doctrine,
-        RequestStack  $request,
+        RequestStack  $requestStack,
         MuseumPolicy  $policy,
-        Tools         $tools
-
-
+        Tools         $tools,
+        FormFactory   $formFactory
     )
     {
-        $this->session  = $session;
-        $this->doctrine = $doctrine;
-        $this->request  = $request;
-        $this->policy   = $policy;
-        $this->tools    = $tools;
+        $this->session       = $session;
+        $this->doctrine      = $doctrine;
+        $this->requestStack  = $requestStack;
+        $this->policy        = $policy;
+        $this->tools         = $tools;
+        $this->formFactory   = $formFactory;
     }
 
     /**
@@ -170,7 +170,7 @@ class TicketManager
      */
     public function deleteTicketFromOrderInProgress($param,$session_name)
     {
-       $id = $this->request->getCurrentRequest()->attributes->get($param);
+       $id = $this->requestStack->getCurrentRequest()->attributes->get($param);
        $order = $this->session->get($session_name);
        unset($order[$id]);
        $this->buildOrder($order);
@@ -184,7 +184,7 @@ class TicketManager
      */
     public function getTicketToModify($param,$session_name)
     {
-        $id = $this->request->getCurrentRequest()->attributes->get($param);
+        $id = $this->requestStack->getCurrentRequest()->attributes->get($param);
         $order = $this->session->get($session_name);
         $ticket_to_modify = $order[$id];
         return $ticket_to_modify;
@@ -223,7 +223,7 @@ class TicketManager
         $ticket->setTimeAccessType($time_access)->getTimeAccessType();
         $ticket->setOrderToken($order_token);
 
-        $id = $this->request->getCurrentRequest()->attributes->get($param);
+        $id = $this->requestStack->getCurrentRequest()->attributes->get($param);
         $order = $this->session->get($session_name);
         $order[$id][]= $ticket;
         array_shift($order[$id]);
@@ -231,5 +231,50 @@ class TicketManager
         $this->session->set($session_name,$order);
 
         return $this->session->set($session_name,$order);
+    }
+
+    /**
+     * @param Request $request
+     * @param $timezone
+     * @param $time
+     * @return array
+     */
+    public function fillTicketAndProcess(Request $request,$timezone,$time)
+    {
+       //initialise entity
+       $ticket = new Ticket();
+       //create form
+       $ticket_form = $this->formFactory->create(TicketType::class,$ticket);
+       //check ticket type availability
+       $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone,$time);
+       //remove select box if only 1/2 day ticket are available for order
+       if($full_day_ticket == false){$ticket_form->remove('time_access');}
+       //prepare data to render in view
+       $render = array('ticket_form'    => $ticket_form->createView(),
+                       'full_day_ticket'=> $full_day_ticket
+        );
+       //process form
+       $ticket_form->handleRequest($request);
+
+       if($ticket_form->isSubmitted() && $ticket_form->isValid())
+       {
+           //fetch submitted data
+           $name = $ticket_form->get('name')->getData();
+           $surname = $ticket_form->get('surname')->getData();
+           $dob = $ticket_form->get('dob')->getData();
+           $discount = $ticket_form->get('discount')->getData();
+           if($full_day_ticket == true)
+           {
+               $time_access = $ticket_form->get('time_access')->getData();
+           }
+           else
+           {
+               $time_access = 'p.m.';
+           }
+           //create session order (cart)
+           $this->addToOrder($this->createOrder($name,$surname,$dob,$discount,$time_access));
+           return $render;
+       }
+       return $render;
     }
 }

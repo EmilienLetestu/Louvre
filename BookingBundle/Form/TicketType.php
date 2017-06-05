@@ -37,7 +37,7 @@ class TicketType extends AbstractType
                                                                          'minMessage' => 'Le prénom doit comporter 3 caractères minimum !',
                                                                          'maxMessage' => 'Le prénom est limité à 50 caractères !'])
                                                             ],
-                                            'label' => 'Nom'
+                                            'label' => 'Prénom'
                                            ]
             )
             ->add('surname', TextType::class, ['constraints'=>[ new NotBlank(),
@@ -47,7 +47,7 @@ class TicketType extends AbstractType
                                                                             'minMessage' => 'Le nom doit comporter 3 caractères minimum !',
                                                                             'maxMessage' => 'Le nom est limité à 50 caractères !'])
                                                                 ],
-                                                'label' => 'Prénom'
+                                                'label' => 'Nom'
                                                 ]
             )
             ->add('dob', DateType::class,['constraints' =>[ new NotBlank(),

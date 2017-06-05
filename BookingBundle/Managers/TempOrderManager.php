@@ -77,7 +77,7 @@ class TempOrderManager
         $tempOrder->setTempNumberOfTickets($user_n_tickets);
         $tempOrder->setTempOrderToken($prefix);
         //2-getters
-        $date      = $tempOrder->getTempOrderDate()->format('m-d-Y');
+        $date      = $tempOrder->getTempOrderDate()->format('d-m-Y');
         $n_tickets = $tempOrder->getTempNumberOfTickets();
         $token     = $tempOrder->getTempOrderToken();
         //check if user has already tested a date

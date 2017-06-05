@@ -25,6 +25,7 @@ services:
          - "@request_stack"
          - "@el_booking.museumPolicy"
          - "@el_booking.tools"
+         - "@form.factory"
 
     el_booking.stripeCheckOut:
         class: EL\BookingBundle\Services\StripeCheckOut
