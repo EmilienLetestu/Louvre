@@ -255,7 +255,6 @@ class TicketManager
         );
        //process form
        $ticket_form->handleRequest($request);
-
        if($ticket_form->isSubmitted() && $ticket_form->isValid())
        {
            //fetch submitted data
@@ -276,5 +275,46 @@ class TicketManager
            return $render;
        }
        return $render;
+    }
+
+    public function modifyTicketAndProcess(Request $request,$timezone,$time,$param,$session_name)
+    {
+        //initialise entity
+        $ticket = new Ticket();
+        //create form
+        $ticket_form = $this->formFactory->create(TicketType::class,$ticket);
+        //get ticket to modify for display
+        $ticket = $this->getTicketToModify($param='id',$session_name='order');
+        //check ticket type availability
+        $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone,$time);
+        if($full_day_ticket == false){$ticket_form->remove('time_access');}
+        //process form
+        $ticket_form->handleRequest($request);
+        if($ticket_form->isSubmitted() && $ticket_form->isValid())
+        {
+            //fetch submitted data
+            $name = $ticket_form->get('name')->getData();
+            $surname = $ticket_form->get('surname')->getData();
+            $dob = $ticket_form->get('dob')->getData();
+            $discount = $ticket_form->get('discount')->getData();
+            if($full_day_ticket == true)
+            {
+                $time_access = $ticket_form->get('time_access')->getData();
+            }
+            else
+            {
+                $time_access = 'p.m.';
+            }
+            //update ticket with modified data
+            $this->modifyTicket($param,$session_name,$name,$surname,$dob,$discount,$time_access);
+            //return a session var to look for into controller
+            return $this->session->set('submitted',1);
+        }
+        //prepare data to render in view
+        $render = array('modify'          => $ticket,
+                        'ticket_form'     => $ticket_form->createView(),
+                        'full_day_ticket' => $full_day_ticket
+        );
+        return $render;
     }
 }
