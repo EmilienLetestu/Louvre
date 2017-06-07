@@ -71,11 +71,12 @@
             <div class="form-group col-sm-6">
                 {{ form_label(booking_status_form.temp_order_date) }}
                 {{ form_widget(booking_status_form.temp_order_date) }}
+                <span class="form_errors">{{ form_errors(booking_status_form.temp_order_date) }}</span>
             </div>
             <div class="form-group col-sm-6">
                 {{ form_label(booking_status_form.temp_number_of_tickets) }}
                 {{ form_widget(booking_status_form.temp_number_of_tickets) }}
-                <span class="success">{{ form_errors(booking_status_form.temp_number_of_tickets) }}</span>
+                <span class="form_errors">{{ form_errors(booking_status_form.temp_number_of_tickets) }}</span>
             </div>
             <div class="form-group col-sm-6">
                 <button id="test_date" type="submit"  class="btn btn-primary">Tester cette date</button>
