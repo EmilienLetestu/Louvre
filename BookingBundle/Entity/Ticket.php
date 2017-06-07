@@ -2,10 +2,9 @@
 
 namespace EL\BookingBundle\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use EL\BookingBundle\Managers\Tools;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Ticket
  *
@@ -16,7 +15,6 @@ class Ticket
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -31,56 +29,56 @@ class Ticket
 
     /**
      * @var string
-     *
      * @ORM\Column(name="time_access", type="string", length=255)
      */
     private $timeAccess;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="price", type="string", length=255)
      */
     private $price;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     * @Assert\Length(min=3,max=50)
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     * @Assert\Length(min=3,max=50)
      * @ORM\Column(name="surname", type="string", length=255)
      */
     private $surname;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
+     * @Assert\DateTime()
      * @ORM\Column(name="dob", type="date")
      */
     private $dob;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="token", type="string", length=255)
      */
     private $token;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="discount", type="string", length=255)
      */
     private $discount = null;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="order_token", type="string", length=255)
      */
     private $orderToken;
@@ -109,7 +107,6 @@ class Ticket
 
     /**
      * Get id
-     *
      * @return int
      */
     public function getId()
@@ -119,9 +116,7 @@ class Ticket
 
     /**
      * Set date
-     *
      * @param \DateTime $date
-     *
      * @return Ticket
      */
     public function setDate($date)
@@ -133,7 +128,6 @@ class Ticket
 
     /**
      * Get date
-     *
      * @return \DateTime
      */
     public function getDate()
@@ -143,9 +137,7 @@ class Ticket
 
     /**
      * Set timeAccess
-     *
      * @param string $timeAccess
-     *
      * @return Ticket
      */
     public function setTimeAccess($timeAccess)
@@ -157,7 +149,6 @@ class Ticket
 
     /**
      * Get timeAccess
-     *
      * @return string
      */
     public function getTimeAccess()
@@ -167,9 +158,7 @@ class Ticket
 
     /**
      * Set price
-     *
      * @param string $price
-     *
      * @return Ticket
      */
     public function setPrice($price)
@@ -181,7 +170,6 @@ class Ticket
 
     /**
      * Get price
-     *
      * @return string
      */
     public function getPrice()
@@ -191,9 +179,7 @@ class Ticket
 
     /**
      * Set name
-     *
      * @param string $name
-     *
      * @return Ticket
      */
     public function setName($name)
@@ -205,7 +191,6 @@ class Ticket
 
     /**
      * Get name
-     *
      * @return string
      */
     public function getName()
@@ -215,9 +200,7 @@ class Ticket
 
     /**
      * Set surname
-     *
      * @param string $surname
-     *
      * @return Ticket
      */
     public function setSurname($surname)
@@ -229,7 +212,6 @@ class Ticket
 
     /**
      * Get surname
-     *
      * @return string
      */
     public function getSurname()
@@ -239,9 +221,7 @@ class Ticket
 
     /**
      * Set dob
-     *
      * @param \DateTime $dob
-     *
      * @return Ticket
      */
     public function setDob($dob)
@@ -253,7 +233,6 @@ class Ticket
 
     /**
      * Get dob
-     *
      * @return \DateTime
      */
     public function getDob()
@@ -263,7 +242,6 @@ class Ticket
 
     /**
      * Set token
-     *
      * @param $name
      * @param $surname
      * @return $this
@@ -278,7 +256,6 @@ class Ticket
 
     /**
      * Get token
-     *
      * @return string
      */
     public function getToken()
@@ -288,7 +265,6 @@ class Ticket
 
     /**
      * Set discount
-     *
      * @param $discount
      * @return $this
      */
@@ -301,7 +277,6 @@ class Ticket
 
     /**
      * Get discount
-     *
      * @return string
      */
     public function getDiscount()

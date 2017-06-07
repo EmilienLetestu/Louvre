@@ -3,6 +3,7 @@
 namespace EL\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Billing
@@ -14,7 +15,6 @@ class Billing
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -23,56 +23,56 @@ class Billing
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Email()
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     * @Assert\Length(min=3,max=50)
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
+     * @Assert\Length(min=3,max=50)
      * @ORM\Column(name="surname", type="string", length=255)
      */
     private $surname;
 
     /**
      * @var int
-     *
      * @ORM\Column(name="number_of_tickets", type="smallint")
      */
     private $numberOfTickets;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="visit_day", type="date")
      */
     private $visitDay;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="token", type="string", length=255, unique=false)
      */
     private $token;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="stripe_token", type="string", length=255, unique=true)
      */
     private $stripeToken;
 
     /**
      * @var int
-     *
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
@@ -80,7 +80,6 @@ class Billing
 
     /**
      * Get id
-     *
      * @return int
      */
     public function getId()
@@ -90,9 +89,7 @@ class Billing
 
     /**
      * Set email
-     *
      * @param string $email
-     *
      * @return Billing
      */
     public function setEmail($email)
@@ -104,7 +101,6 @@ class Billing
 
     /**
      * Get email
-     *
      * @return string
      */
     public function getEmail()
@@ -114,9 +110,7 @@ class Billing
 
     /**
      * Set name
-     *
      * @param string $name
-     *
      * @return Billing
      */
     public function setName($name)
@@ -128,7 +122,6 @@ class Billing
 
     /**
      * Get name
-     *
      * @return string
      */
     public function getName()
@@ -138,9 +131,7 @@ class Billing
 
     /**
      * Set surname
-     *
      * @param string $surname
-     *
      * @return Billing
      */
     public function setSurname($surname)
@@ -152,7 +143,6 @@ class Billing
 
     /**
      * Get surname
-     *
      * @return string
      */
     public function getSurname()
@@ -162,9 +152,7 @@ class Billing
 
     /**
      * Set numberOfTickets
-     *
      * @param integer $numberOfTickets
-     *
      * @return Billing
      */
     public function setNumberOfTickets($numberOfTickets)
@@ -176,7 +164,6 @@ class Billing
 
     /**
      * Get numberOfTickets
-     *
      * @return int
      */
     public function getNumberOfTickets()
@@ -186,9 +173,7 @@ class Billing
 
     /**
      * Set visitDay
-     *
      * @param \DateTime $visitDay
-     *
      * @return Billing
      */
     public function setVisitDay($visitDay)
@@ -200,7 +185,6 @@ class Billing
 
     /**
      * Get visitDay
-     *
      * @return \DateTime
      */
     public function getVisitDay()
@@ -210,9 +194,7 @@ class Billing
 
     /**
      * Set token
-     *
      * @param $token
-     *
      * @return Billing
      */
     public function setToken($token)
@@ -224,7 +206,6 @@ class Billing
 
     /**
      * Get token
-     *
      * @return string
      */
     public function getToken()
@@ -234,9 +215,7 @@ class Billing
 
     /**
      * Set stripeToken
-     *
      * @param string $stripeToken
-     *
      * @return Billing
      */
     public function setStripeToken($stripeToken)
@@ -248,7 +227,6 @@ class Billing
 
     /**
      * Get stripeToken
-     *
      * @return string
      */
     public function getStripeToken()
@@ -258,9 +236,7 @@ class Billing
 
     /**
      * Set price
-     *
      * @param integer $price
-     *
      * @return Billing
      */
     public function setPrice($price)
@@ -272,7 +248,6 @@ class Billing
 
     /**
      * Get price
-     *
      * @return int
      */
     public function getPrice()

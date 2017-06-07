@@ -7,15 +7,26 @@
  */
 
 namespace EL\BookingBundle\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 class TempOrder
 {
     private $id;
     private $tempOrderDate;
+    /**
+     * @var
+     * @Assert\NotBlank()
+     * @Assert\Range(min=1,max=10,minMessage = "fddfdggdfg")
+     *
+     */
+    /**
+     * @var
+     */
     private $tempNumberOfTickets;
+    /**
+     * @var
+     */
     private $tempOrderToken;
-
 
     /**
      * @return mixed

@@ -15,6 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
 
 
 class StripeFormType extends AbstractType
@@ -25,31 +29,49 @@ class StripeFormType extends AbstractType
         $builder
 
             ->setMethod('POST')
-            ->add('name',TextType::class, array('label'    => 'Prenom du titulaire de la carte'))
-            ->add('surname',TextType::class, array('label' => 'Nom du titulaire de la carte'))
-            ->add('email',EmailType::class, array('label'  => 'Adresse email'))
-            ->add('number',TextType::class, array('mapped' => false,
-                                                   'label' => 'numéro de la carte de payement'
-            ))
-            ->add('cvc',TextType::class, array('mapped' => false,
-                                                'label' => 'code'
-            ))
-            ->add('exp_month',TextType::class, array('mapped'  => false,
-                                                      'label'  => 'expire le',
-                                                      'attr'   => array('placeholder' => 'mm'
-                )))
+            ->add('name',TextType::class,['constraints'=>[ new NotBlank(),
+                                                           new Type('string'),
+                                                           new Length(['min'        => 3,
+                                                                       'max'        => 50,
+                                                                       'minMessage' => 'Le prénom doit comporter 3 caractères minimum !',
+                                                                       'maxMessage' => 'Le prénom est limité à 50 caractères !'])
+                                                           ],
+                                                           'label' => 'Prenom du titulaire de la carte'
+            ])
+            ->add('surname',TextType::class,['constraints'=>[ new NotBlank(),
+                                                              new Type('string'),
+                                                              new Length(['min'        => 3,
+                                                                          'max'        => 50,
+                                                                          'minMessage' => 'Le nom doit comporter 3 caractères minimum !',
+                                                                          'maxMessage' => 'Le nom est limité à 50 caractères !'])
+                                                              ],
+                                                              'label' => 'Nom du titulaire de la carte'
+            ])
+            ->add('email',EmailType::class,['constraints'=>[new Email()],
+                                                            'label'  => 'Adresse email'
+            ])
+            ->add('number',TextType::class,['mapped' => false,
+                                            'label'  => 'numéro de la carte de payement'
+            ])
+            ->add('cvc',TextType::class,['mapped' => false,
+                                         'label' => 'code'
+            ])
+            ->add('exp_month',TextType::class,['mapped' => false,
+                                               'label'  => 'expire le',
+                                               'attr'   => ['placeholder' => 'mm']
+            ])
 
-            ->add('exp_year',TextType::class, array('mapped'  => false,
-                                                      'attr'  => array('placeholder' => 'aa'
-                )))
+            ->add('exp_year',TextType::class,['mapped' => false,
+                                              'attr'   => ['placeholder' => 'aa']
+            ])
             ->add('stripeToken',HiddenType::class)
-            ->add('submit',SubmitType::class, array('attr' => array('label' => 'Valider et payer' )))
+            ->add('submit',SubmitType::class,['attr' =>['label' => 'Valider et payer']])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'EL\BookingBundle\Entity\Billing'));
+        $resolver->setDefaults(['data_class' => 'EL\BookingBundle\Entity\Billing']);
     }
 }
 

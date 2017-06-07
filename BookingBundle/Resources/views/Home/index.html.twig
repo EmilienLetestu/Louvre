@@ -65,25 +65,35 @@
             </table>
         </div>
 
-        <div class="col-sm-6">
+            <div class="col-sm-6">
             <h2>Vérifier la disponibilité</h2>
             {{ form_start(booking_status_form,{action:path('accueil_billetterie')}) }}
-            {{ form_row(booking_status_form.temp_order_date) }}
-            {{ form_row(booking_status_form.temp_number_of_tickets) }}
-            <button type="submit" class="btn btn-primary">Tester cette date</button>
-            {{ form_end(booking_status_form) }}
-            <p id="disclaimer">{{ disclaimer }}</p>
-        </div>
-
-        {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) %}
-        <div class="col-sm-6">
-        <a class="btn btn-success" href="{{path('reservation_billetterie')}} ">
-            Commander des billets pour le {{ app.session.get('user_date') }}
-        </a>
-        {% endif %}
+            <div class="form-group col-sm-6">
+                {{ form_label(booking_status_form.temp_order_date) }}
+                {{ form_widget(booking_status_form.temp_order_date,{'attr': {'placeholder': app.session.get('user_date')}}) }}
+            </div>
+            <div class="form-group col-sm-6">
+                {{ form_label(booking_status_form.temp_number_of_tickets) }}
+                {{ form_widget(booking_status_form.temp_number_of_tickets,{'attr': {'placeholder': app.session.get('user_n_tickets')}}) }}
+                {{ form_errors(booking_status_form.temp_number_of_tickets) }}
+                <input type="hidden" name="temp_date" value="{{ app.session.get('user_n_tickets') }}" >
+            </div>
+            <div class="form-group col-sm-6">
+                <button id="test_date" type="submit"  class="btn btn-primary">Tester cette date</button>
+            </div>
+                {{ form_end(booking_status_form) }}
+            {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) %}
+            <div class="col-sm-5">
+                <a class="btn btn-success" href="{{path('reservation_billetterie')}} ">
+                    Commander des billets pour le {{ app.session.get('user_date') }}
+                </a>
+            </div>
+            {% endif %}
+            <div class="col-sm-12">
+                <p id="disclaimer">{{ disclaimer }}</p>
+            </div>
         {% if app.session.get('sold_out') == 1 %}
-        <span>Complet</span>
-        </div>
+             <span>Complet</span>
         {% endif %}
-    </div>
+      </div>
 {% endblock %}

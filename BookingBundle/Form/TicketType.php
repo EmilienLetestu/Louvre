@@ -37,9 +37,8 @@ class TicketType extends AbstractType
                                                                          'minMessage' => 'Le prénom doit comporter 3 caractères minimum !',
                                                                          'maxMessage' => 'Le prénom est limité à 50 caractères !'])
                                                             ],
-                                            'label' => 'Prénom'
-                                           ]
-            )
+                                                            'label' => 'Prénom'
+            ])
             ->add('surname', TextType::class, ['constraints'=>[ new NotBlank(),
                                                                 new Type('string'),
                                                                 new Length(['min' => 3,
@@ -47,29 +46,27 @@ class TicketType extends AbstractType
                                                                             'minMessage' => 'Le nom doit comporter 3 caractères minimum !',
                                                                             'maxMessage' => 'Le nom est limité à 50 caractères !'])
                                                                 ],
-                                                'label' => 'Nom'
-                                                ]
-            )
+                                                                'label' => 'Nom'
+             ])
             ->add('dob', DateType::class,['constraints' =>[ new NotBlank(),
                                                             new DateTime()
                                                           ],
-                                                'label'  => 'Date de naissance',
-                                                'widget' => 'single_text',
-                                                'html5'  => false,
-                                                'years'  => range(date('Y') - 95, date('Y') + 1),
-                                                'format' => 'dd-MM-yyyy',
-                                                'attr'   => ['class' => 'js-datepicker_dob']
-                                           ]
-            )
+                                                          'label'  => 'Date de naissance',
+                                                          'widget' => 'single_text',
+                                                          'html5'  => false,
+                                                          'years'  => range(date('Y') - 95, date('Y') + 1),
+                                                          'format' => 'dd-MM-yyyy',
+                                                          'attr'   => ['class' => 'js-datepicker_dob']
+             ])
             ->add('time_access', ChoiceType::class, ['label'    => 'Type de ticket',
                                                      'choices'  => ['journée complète' => 'a.m.',
-                                                                    '1/2 journée'      =>'p.m.']
+                                                                    '1/2 journée'      => 'p.m.'
                                                      ]
-            )
-            ->add('discount', CheckboxType::class, array('mapped'   => false,
-                                                         'label'    => 'Je bénéficie d\'un tarif préférenciel',
-                                                         'required' => false
-            ))
+             ])
+            ->add('discount', CheckboxType::class, ['mapped'   => false,
+                                                    'label'    => 'Je bénéficie d\'un tarif préférenciel',
+                                                    'required' => false
+            ])
             ->add('Ajouter', SubmitType::class)
         ;
 
@@ -77,7 +74,8 @@ class TicketType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-       $resolver->setDefaults(array('data_class'  => 'EL\BookingBundle\Entity\Ticket',
-                                    'time_access' => true));
+       $resolver->setDefaults(['data_class'  => 'EL\BookingBundle\Entity\Ticket',
+                               'time_access' => true
+       ]);
     }
 }
