@@ -12,12 +12,15 @@
 
     {{ form_label(ticket_form.name,'Prénom: '~ticket.name) }}
     {{ form_widget(ticket_form.name) }}
+    <span class ="form_errors">{{ form_errors(ticket_form.name) }}</span>
 
     {{ form_label(ticket_form.surname,'Nom: '~ticket.surname) }}
     {{ form_widget(ticket_form.surname) }}
+    <span class ="form_errors">{{ form_errors(ticket_form.surname) }}</span>
 
     {{ form_label(ticket_form.dob) }}
     {{ form_widget(ticket_form.dob) }}
+    <span class ="form_errors"> {{ form_errors(ticket_form.dob) }}</span>
 
     {% if(app.session.get('full_day_ticket') == true) %}
     {{ form_label(ticket_form.time_access,'Type de ticket: '~ticket.timeAccessType) }}

@@ -8,12 +8,34 @@
         <h1 id ="booking_title">Commander mes tickets pour ma visite du {{ app.session.get('user_date') }}</h1>
     </div>
     <div class="col-sm-5">
-        {{ form_start(ticket_form) }}
-        {{ form(ticket_form) }}
-        {% if (app.session.get('full_day_ticket') == false) %}
-           <span>Billets 1/2 journée</span>
-         {% endif %}
+        {{ form_start(ticket_form)}}
+
+        {{ form_label(ticket_form.name) }}
+        {{ form_widget(ticket_form.name) }}
+        <span class ="form_errors">{{ form_errors(ticket_form.name) }}</span>
+
+        {{ form_label(ticket_form.surname) }}
+        {{ form_widget(ticket_form.surname) }}
+        <span class ="form_errors">{{ form_errors(ticket_form.surname) }}</span>
+
+        {{ form_label(ticket_form.dob) }}
+        {{ form_widget(ticket_form.dob) }}
+        <span class ="form_errors"> {{ form_errors(ticket_form.dob) }}</span>
+
+        {% if(app.session.get('full_day_ticket') == true) %}
+            {{ form_label(ticket_form.time_access) }}
+            {{ form_widget(ticket_form.time_access) }}
+        {% endif %}
+        {% if(app.session.get('full_day_ticket') == false) %}
+            <span>Type de ticket: {{ ticket.timeAccessType }}</span>
+        {% endif %}
+
+        {{ form_label(ticket_form.discount) }}
+        {{ form_widget(ticket_form.discount) }}
+
         {{ form_end(ticket_form) }}
+
+        {{ form(ticket_form) }}
     </div>
     {% if (app.session.get('order') != null)%}
         {% set order_in_progress = app.session.get('order')  %}
