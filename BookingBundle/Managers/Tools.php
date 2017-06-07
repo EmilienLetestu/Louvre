@@ -145,7 +145,6 @@ class Tools
         //$date = $this->session->get('user_date');
         $time = ' 00:00:00';
         $date_time = $date.$time;
-
         return $date_time;
     }
 
