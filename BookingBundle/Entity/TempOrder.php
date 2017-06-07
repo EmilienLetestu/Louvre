@@ -17,9 +17,6 @@ class TempOrder
      * @var
      * @Assert\NotBlank()
      * @Assert\Range(min=1,max=10,minMessage = "fddfdggdfg")
-     *
-     */
-    /**
      * @var
      */
     private $tempNumberOfTickets;

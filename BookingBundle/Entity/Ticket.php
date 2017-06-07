@@ -4,7 +4,6 @@ namespace EL\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use EL\BookingBundle\Managers\Tools;
-use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Ticket
  *
@@ -41,26 +40,18 @@ class Ticket
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type("string")
-     * @Assert\Length(min=3,max=50)
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type("string")
-     * @Assert\Length(min=3,max=50)
      * @ORM\Column(name="surname", type="string", length=255)
      */
     private $surname;
 
     /**
      * @var \DateTime
-     * @Assert\NotBlank()
-     * @Assert\DateTime()
      * @ORM\Column(name="dob", type="date")
      */
     private $dob;
