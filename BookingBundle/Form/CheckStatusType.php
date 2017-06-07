@@ -1,6 +1,7 @@
 <?php
 namespace EL\BookingBundle\Form;
 
+use EL\BookingBundle\Validators\isBankHoliday;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -22,7 +23,10 @@ class CheckStatusType extends AbstractType
     {
         $builder
             ->setMethod('POST')
-            ->add('temp_order_date', DateType::class, ['label'  => 'Date souhaitée *',
+            ->add('temp_order_date', DateType::class, ['constraints'=>[ new isBankHoliday()
+                                                                      ],
+
+                                                       'label'  => 'Date souhaitée *',
                                                        'widget' => 'single_text', 'html5' => false,
                                                        'format' => 'dd-MM-yyyy',
                                                        'attr'   => ['class' => 'js-datepicker']
