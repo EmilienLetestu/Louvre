@@ -21,6 +21,7 @@ class TempOrderManager
     private $session;
     private $formFactory;
     private $policy;
+    private $validator;
 
 
     public function __construct
@@ -40,13 +41,11 @@ class TempOrderManager
     public function checkStatusAndProcess(Request $request,$timezone,$pm_access,$booking_limit,$prefix)
     {
         //end session if user as already bought his tickets
+        $temp_order = new TempOrder();
         $this->killSession($session_name="mail_sent");
         $disclaimer = $this->tools->getDisclaimer($timezone,$pm_access);
         //create form
-        $booking_status_form = $this->formFactory->create(CheckStatusType::class);
-        //prepare data to render in view
-        $render = array('booking_status_form'=>$booking_status_form->createView(),
-                        'disclaimer'         =>$disclaimer);
+        $booking_status_form = $this->formFactory->create(CheckStatusType::class,$temp_order);
         //processing form
         $booking_status_form->handleRequest($request);
         if($booking_status_form->isSubmitted()&&$booking_status_form->isValid())
@@ -58,8 +57,10 @@ class TempOrderManager
             $total_booked = $this->policy->getTotalBooked($date,$tickets);
             //compile all data and results => set session var
             $this->checkAvailabilityAndRedirect($total_booked,$booking_limit,$date,$tickets,$prefix);
-            return $render;
         }
+        //prepare data to render in view
+        $render = array('booking_status_form'=>$booking_status_form->createView(),
+                         'disclaimer'         =>$disclaimer);
         return $render;
     }
 

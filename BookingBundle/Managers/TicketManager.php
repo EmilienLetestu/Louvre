@@ -249,10 +249,6 @@ class TicketManager
        $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone,$time);
        //remove select box if only 1/2 day ticket are available for order
        if($full_day_ticket == false){$ticket_form->remove('time_access');}
-       //prepare data to render in view
-       $render = array('ticket_form'    => $ticket_form->createView(),
-                       'full_day_ticket'=> $full_day_ticket
-        );
        //process form
        $ticket_form->handleRequest($request);
        if($ticket_form->isSubmitted() && $ticket_form->isValid())
@@ -272,8 +268,11 @@ class TicketManager
            }
            //create session order (cart)
            $this->addToOrder($this->createOrder($name,$surname,$dob,$discount,$time_access));
-           return $render;
        }
+        //prepare data to render in view
+        $render = array('ticket_form'    => $ticket_form->createView(),
+                        'full_day_ticket'=> $full_day_ticket
+        );
        return $render;
     }
 
