@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraint;
 
 class isDayADayOffValidator extends ConstraintValidator
 {
+    /**
+     * @param mixed $value
+     * @param Constraint $constraint
+     */
     public function validate($value,Constraint $constraint)
     {
         $day_off = 'Tue';

@@ -10,6 +10,7 @@ namespace EL\BookingBundle\Form;
 
 
 
+use EL\BookingBundle\Validators\isAgeOk;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -49,12 +50,12 @@ class TicketType extends AbstractType
                                                                 'label' => 'Nom'
              ])
             ->add('dob', DateType::class,['constraints' =>[ new NotBlank(),
-                                                            new DateTime()
+                                                            new DateTime(),
+                                                            new isAgeOk()
                                                           ],
                                                           'label'  => 'Date de naissance',
                                                           'widget' => 'single_text',
                                                           'html5'  => false,
-                                                          'years'  => range(date('Y') - 95, date('Y') + 1),
                                                           'format' => 'dd-MM-yyyy',
                                                           'attr'   => ['class' => 'js-datepicker_dob']
              ])
