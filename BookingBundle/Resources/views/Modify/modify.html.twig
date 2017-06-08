@@ -3,8 +3,9 @@
 {% block title %}{{ parent() }} - Commande des tickets  {% endblock %}
 
 {% block body %}
-
-<h1>Modifier le tickets</h1>
+<div class="col-sm-12">
+    <h1 id="modify_title">Modifier le billet</h1>
+</div>
 <div class="col-sm-5 ">
     {% for key,ticket in modify %}
 
@@ -44,7 +45,7 @@
             <th>Porteur du billet</th>
             <th>Valable le</th>
             <th>Type de billet</th>
-            <th>Prix du billet</th>
+            <th class="pricing_type">Prix du billet</th>
         </tr>
         </thead>
         <tbody>
@@ -52,11 +53,10 @@
             <td>{{ ticket.name }} {{ ticket.surname }}</td>
             <td>{{ ticket.date }}</td>
             <td>{{ ticket.timeAccessType }} ,{{ ticket.priceType }}</td>
-            <td>{{ ticket.price }} €</td>
+            <td class="pricing_type">{{ ticket.price }} €</td>
         </tr>
         </tbody>
     </table>
     {% endfor %}
-
 </div>
 {% endblock %}

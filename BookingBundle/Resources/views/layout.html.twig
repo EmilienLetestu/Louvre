@@ -12,28 +12,40 @@
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     </head>
     <body>
+        <nav class="navbar navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{{ path('accueil_billetterie') }}" ><i class="fa fa-home"></i> Musée du Louvre</a>
+                </div>
+            </div>
+        </nav>
+        <div class="page-wrap">
+            {% block body %}
 
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{{ path('accueil_billetterie') }}" ><i class="fa fa-home"></i> Musée du Louvre</a>
+            {% endblock %}
+
+            {% block javascripts %}
+                <script src="{{ asset("CustomJs/main.js") }}"></script>
+            {% endblock %}
+
+            {% block stylesheets %}
+                <link href="{{ asset("CustomCss/main.css") }}" type="text/css" rel="stylesheet">
+            {% endblock %}
+            <div class="footer col-sm-12">
+                <p class="follow">Pour ne jamais manquer un évènement ou une exposition, suivez-nous</p>
+                <div class="btn-group col-sm-12">
+                    <button class="btn btn-twiter">
+                        <span class="fa fa-twitter-square fa-2x"></span>
+                    </button>
+                    <button class="btn btn-facebook">
+                        <span class="fa fa-facebook-square fa-2x"></span>
+                    </button>
+                    <button class="btn btn-google">
+                        <span class="fa fa-google-plus-square fa-2x"></span>
+                    </button>
+                </div>
+                <a id="legal_notice">Mentions légales</a>
             </div>
         </div>
-    </nav>
-    <div class="container-fluid col-sm-12">
-
-        {% block body %}
-
-        {% endblock %}
-
-        {% block javascripts %}
-            <script src="{{ asset("CustomJs/main.js") }}"></script>
-        {% endblock %}
-
-        {% block stylesheets %}
-            <link href="{{ asset("CustomCss/main.css") }}" type="text/css" rel="stylesheet">
-        {% endblock %}
-
-    </div>
     </body>
 </html>

@@ -3,9 +3,8 @@
 {% block title %}{{ parent() }} - Commande des tickets  {% endblock %}
 
 {% block body %}
-    {{ dump(app.session)}}
     <div class="col-sm-12">
-        <h1 id ="booking_title">Commander mes tickets pour ma visite du {{ app.session.get('user_date') }}</h1>
+        <h1 id ="booking_title">Commander des billets pour ma visite du {{ app.session.get('user_date') }}</h1>
     </div>
     <div class="col-sm-5">
         {{ form_start(ticket_form)}}
@@ -46,9 +45,9 @@
                         <th>Porteur du billet</th>
                         <th>Valable le</th>
                         <th>Type de billet</th>
-                        <th>Prix du billet</th>
-                        <th>Modifier</th>
-                        <th>Supprimer</th>
+                        <th class="pricing_type">Prix du billet</th>
+                        <th class="action_type">Modifier</th>
+                        <th class="action_type">Supprimer</th>
                     </tr>
                 </thead>
         {% for key,value in order_in_progress %}
@@ -58,9 +57,9 @@
                         <td>{{ ticket.name }} {{ ticket.surname }}</td>
                         <td>{{ ticket.date }}</td>
                         <td>{{ ticket.timeAccessType }} ,{{ ticket.priceType }}</td>
-                        <td>{{ ticket.price }} €</td>
-                        <td><a class="btn btn-warning" href="{{ path('modifier_ticket',{'id' :key}) }}"> Modidfier </a></td>
-                        <td><a class="btn btn-danger"  href="{{ path('supprimer_ticket',{'id' :key}) }}"> Supprimer </a></td>
+                        <td class="pricing_type">{{ ticket.price }} €</td>
+                        <td class="action_type"><a class="btn btn-warning" href="{{ path('modifier_ticket',{'id' :key}) }}"> Modidfier </a></td>
+                        <td class="action_type"><a class="btn btn-danger"  href="{{ path('supprimer_ticket',{'id' :key}) }}"> Supprimer </a></td>
                     </tr>
                 </tbody>
             {% endfor %}
