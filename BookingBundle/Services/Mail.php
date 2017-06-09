@@ -54,6 +54,8 @@ class Mail
             $dob         = $ticket->getDob();
             $price       = $ticket->getPrice();
             //turn db info into usr friendly info
+            $ticket->setPriceType($dob);
+            $ticket->getPriceType();
             $ticket_type = $tools->getTicketType($dob,$price,$time_access);
         }
         //create mail
