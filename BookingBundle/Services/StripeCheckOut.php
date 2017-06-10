@@ -9,6 +9,7 @@
 namespace EL\BookingBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Stripe\Error\Card;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -70,13 +71,50 @@ class StripeCheckOut
     {
         $total  = $this->session->get('total');
         $api_key = $this->getApiKey();
-        \Stripe\Stripe::setApiKey($api_key);
-        $charge = \Stripe\Charge::create(array('amount'   => $total * 100,
-                                               'currency' => $currency,
-                                               'source'   => $source
-        ));
+        //create a message to display in case of network issue
+        $message_to_user = 'Désolé mais nous rencontrons actuellement des problèmes, veuillez réessayer plus tard.';
+        try
+        {
+            \Stripe\Stripe::setApiKey($api_key);
+            \Stripe\Charge::create(array('amount'   => $total * 100,
+                                         'currency' => $currency,
+                                         'source'   => $source
+            ));
+            $this->session->set('payment_success',1);
+        }
+        catch (\Stripe\Error\Card $e)
+        {
+            $body = $e->getJsonBody();
+            $err  = $body['error'];
 
-        return $charge;
+            print('Status is:' . $e->getHttpStatus() . "\n");
+            print('Type is:' . $err['type'] . "\n");
+            print('Code is:' . $err['code'] . "\n");
+            // param is '' in this case
+            print('Message is:' . $err['message'] . "\n");
+            $this->session->getFlashBag()->add('stripe_error',$err['message']);
+        }
+        catch (\Stripe\Error\RateLimit $e)
+        {
+            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+        }
+        catch (\Stripe\Error\InvalidRequest $e)
+        {
+            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+        }
+        catch (\Stripe\Error\Authentication $e)
+        {
+            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+        }
+        catch (\Stripe\Error\ApiConnection $e)
+        {
+            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+        }
+        catch (\Stripe\Error\Base $e)
+        {
+            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+        }
+        return $this->session->get('payment_success');
     }
 
 }

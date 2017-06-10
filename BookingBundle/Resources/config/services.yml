@@ -56,6 +56,7 @@ services:
         - "@el_booking.stripeCheckOut"
         - "@el_booking.saveOrder"
         - "@el_booking.mail"
+        - "@session"
 
 
 

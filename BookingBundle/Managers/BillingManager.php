@@ -16,6 +16,7 @@ use EL\BookingBundle\Services\SaveOrder;
 use EL\BookingBundle\Services\StripeCheckOut;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class BillingManager
 {
@@ -23,18 +24,21 @@ class BillingManager
     private $checkOut;
     private $save;
     private $mail;
+    private $session;
 
     public function __construct(
         FormFactory    $formFactory,
         StripeCheckOut $checkOut,
         SaveOrder      $save,
-        Mail           $mail
+        Mail           $mail,
+        Session        $session
     )
     {
         $this->formFactory = $formFactory;
         $this->checkOut    = $checkOut;
         $this->save        = $save;
         $this->mail        = $mail;
+        $this->session     = $session;
     }
 
     /**
@@ -61,10 +65,18 @@ class BillingManager
             $email   = $stripe_form->get('email')->getData();
             //processing payment
             $this->checkOut->stripePayment($currency,$source);
-            //save billing, save ticket,send mail
-            $this->save->saveOrder($email,$name,$surname,$source);
-            $this->mail->sendMail($email);
-            return $render;
+            if($this->session->has('payment_success'))
+            {
+                //save billing, save ticket,send mail
+                $this->save->saveOrder($email, $name, $surname, $source);
+                $this->mail->sendMail($email);
+                $this->session->invalidate('payment_success');
+                return $render;
+            }
+            else
+            {
+                return $render;
+            }
         }
         return $render;
     }

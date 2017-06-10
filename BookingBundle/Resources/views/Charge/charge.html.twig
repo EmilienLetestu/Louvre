@@ -4,9 +4,10 @@
 
 {% block body %}
     {% for flashMessage in app.session.flashbag.get('success') %}
-
       <div class="col-sm-6 offset-sm-3 success">{{ flashMessage }}</div>
-
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('stripe_error') %}
+        <div class="col-sm-6 offset-sm-3 error">{{ flashMessage }}</div>
     {% endfor %}
     <div class="col-sm-12">
         <h1 id="charge_title">Payer {{ app.session.get('total') }} € pour {{ app.session.get('tickets') }} billets</h1>
@@ -16,24 +17,30 @@
         <div class = "form-group col-sm-4">
             {{ form_label(stripe_form.name) }}
             {{ form_widget(stripe_form.name) }}
+            {{ form_errors(stripe_form.name) }}
         </div >
         <div class = "form-group col-sm-4">
             {{ form_label(stripe_form.surname) }}
             {{ form_widget(stripe_form.surname) }}
+            {{ form_errors(stripe_form.surname) }}
         </div>
         <div class = "form-group col-sm-8">
             {{ form_label(stripe_form.email) }}
             {{ form_widget(stripe_form.email) }}
+            {{ form_errors(stripe_form.email) }}
         </div>
         <div class = "form-group col-sm-6">
             {{ form_label(stripe_form.number) }}
             {{ form_widget(stripe_form.number,{'attr':{'data-stripe':'number'}} ) }}
+            {{ form_errors(stripe_form.number) }}
         </div>
         <div class = "form-group col-sm-2">
             {{ form_row(stripe_form.cvc, {'attr':{'data-stripe':'cvc'}}) }}
+            {{ form_errors(stripe_form.cvc) }}
         </div>
         <div class = "form-group col-sm-2">
             {{ form_widget(stripe_form.exp_month, {'attr':{'data-stripe':'exp_month'}}) }}
+            {{ form_errors(stripe_form.exp_month) }}
         </div>
         <div class = "form-group col-sm-2">
             {{ form_widget(stripe_form.exp_year, {'attr':{'data-stripe':'exp_year'}}) }}
@@ -47,7 +54,6 @@
         </div>
         {{ form_end(stripe_form) }}
     </div>
-
     {% block javascripts %}
         {{ parent() }}
         <script src="{{ asset("CustomJs/stripeForm.js") }}"></script>
