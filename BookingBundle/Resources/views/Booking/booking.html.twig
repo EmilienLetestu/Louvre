@@ -67,7 +67,7 @@
               </table>
             </div>
             <div class = "col-sm-3" id="quote_for_order">
-                <p>Nombre de billets :{{ app.session.get('number_of_tickets') }}</p>
+                <p>Nombre de billets :{{ app.session.get('tickets') }}</p>
                 <p>Total de la commnade en cours :{{ app.session.get('total') }} €</p>
                 <a class="btn btn-success" id="link_to_charge" href="{{ path('payer_commande') }}"> Payer </a>
             </div>
