@@ -68,7 +68,6 @@ class TicketType extends AbstractType
                                                     'label'    => 'Je bénéficie d\'un tarif préférenciel',
                                                     'required' => false
             ])
-            ->add('Ajouter', SubmitType::class)
         ;
 
     }

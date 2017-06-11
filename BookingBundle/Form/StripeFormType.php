@@ -51,13 +51,12 @@ class StripeFormType extends AbstractType
                                                             'label'  => 'Adresse email'
             ])
             ->add('number',TextType::class,['mapped' => false,
-                                            'label'  => 'numéro de la carte de payement'
+                                            'attr'   => ['placeholder' => 'numéro de la carte']
             ])
             ->add('cvc',TextType::class,['mapped' => false,
-                                         'label' => 'code'
+                                         'attr'   => ['placeholder' => 'cvc']
             ])
             ->add('exp_month',TextType::class,['mapped' => false,
-                                               'label'  => 'expire le',
                                                'attr'   => ['placeholder' => 'mm']
             ])
 
@@ -65,7 +64,6 @@ class StripeFormType extends AbstractType
                                               'attr'   => ['placeholder' => 'aa']
             ])
             ->add('stripeToken',HiddenType::class)
-            ->add('submit',SubmitType::class,['attr' =>['label' => 'Valider et payer']])
         ;
     }
 
