@@ -294,7 +294,7 @@ class TicketManager
         $ticket = $this->getTicketToModify($param='id',$session_name='order');
         foreach ($ticket as $key)
         {
-          $display_dob = $key->getDob()->format('m-d-Y');
+          $display_dob = $key->getDob()->format('d-m-Y');
         }
         //check ticket type availability
         $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone,$time);

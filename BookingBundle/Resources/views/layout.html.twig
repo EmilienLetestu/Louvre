@@ -10,13 +10,14 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" type="text/css" rel="stylesheet"/>
         <link href="https://fonts.googleapis.com/css?family=Magra" rel="stylesheet">
+        <link rel="shortcut icon" type="image/png"  href={{ asset("favicon.ico") }}>
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     </head>
     <body>
         <nav class="navbar navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="{{ path('accueil_billetterie') }}" ><i class="fa fa-home"></i> Musée du Louvre</a>
+                    <a class="navbar-brand" href="{{ path('accueil_billetterie') }}" ><i id="logo"><img height="20" width="32" src="{{ asset("logo_pyramide_accueil.png") }}"></i> Musée du Louvre</a>
                 </div>
             </div>
         </nav>
