@@ -86,13 +86,32 @@ class StripeCheckOut
         {
             $body = $e->getJsonBody();
             $err  = $body['error'];
+            if($err['code'] === "card_declined")
+            {
+                $message_to_user = "La transaction a échoué : carte bancaire refusé ! ";
+                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            }
+            elseif ($err['code'] === "incorrect_cvc")
+            {
+                $message_to_user = "La transaction a échoué : code de vérfication de la carte erroné !";
+                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            }
+            elseif ($err['code'] === "expired_card")
+            {
+                $message_to_user = "La transaction a échoué : carte bancaire expirée !";
+                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            }
+            elseif ($err['code'] === "processing_error")
+            {
+                $message_to_user = "La transaction a échoué : une erreur de traitement est survenue, veuillez réesssayer !";
+                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            }
+            elseif ($err['code'] === "incorrect_number")
+            {
+                $message_to_user = "La transaction a échoué : numéro de carte bancaire erroné !";
+                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            }
 
-            print('Status is:' . $e->getHttpStatus() . "\n");
-            print('Type is:' . $err['type'] . "\n");
-            print('Code is:' . $err['code'] . "\n");
-            // param is '' in this case
-            print('Message is:' . $err['message'] . "\n");
-            $this->session->getFlashBag()->add('stripe_error',$err['message']);
         }
         catch (\Stripe\Error\RateLimit $e)
         {
