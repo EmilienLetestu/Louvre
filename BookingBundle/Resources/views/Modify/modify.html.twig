@@ -7,6 +7,8 @@
     <h1 id="modify_title">Modifier le billet</h1>
 </div>
 <div class="col-sm-5 ">
+
+    {{ dump(app.session.get('order')) }}
     {% for key,ticket in modify %}
 
     {{ form_start(ticket_form)}}
@@ -14,18 +16,22 @@
     {{ form_label(ticket_form.name,'Prénom: '~ticket.name) }}
     {{ form_widget(ticket_form.name) }}
     <span class ="form_errors">{{ form_errors(ticket_form.name) }}</span>
+    <input type="hidden" id="mod_name"{{ ticket.name }}>
 
     {{ form_label(ticket_form.surname,'Nom: '~ticket.surname) }}
     {{ form_widget(ticket_form.surname) }}
     <span class ="form_errors">{{ form_errors(ticket_form.surname) }}</span>
+    <input type="hidden" id="mod_surname"{{ ticket.surname }}>
 
     {{ form_label(ticket_form.dob) }}
     {{ form_widget(ticket_form.dob) }}
     <span class ="form_errors"> {{ form_errors(ticket_form.dob) }}</span>
+    <input type="hidden" id="mod_dob"{{ display_dob }}>
 
     {% if(app.session.get('full_day_ticket') == true) %}
     {{ form_label(ticket_form.time_access,'Type de ticket: '~ticket.timeAccessType) }}
     {{ form_widget(ticket_form.time_access) }}
+    <input type="hidden" id="mod_time_access"{{ ticket.timeAccessType }}>
     {% endif %}
     {% if(app.session.get('full_day_ticket') == false) %}
     <span>Type de ticket: {{ ticket.timeAccessType }}</span>
@@ -33,7 +39,9 @@
 
     {{ form_label(ticket_form.discount) }}
     {{ form_widget(ticket_form.discount) }}
+    <input type="hidden" id="mod_discount"{{ ticket.discount }}>
 
+    <button type="submit"  class="btn btn-primary">Valider les modifications</button>
     {{ form_end(ticket_form) }}
 
     {{ form(ticket_form) }}

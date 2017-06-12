@@ -292,6 +292,10 @@ class TicketManager
         $ticket_form = $this->formFactory->create(TicketType::class,$ticket);
         //get ticket to modify for display
         $ticket = $this->getTicketToModify($param='id',$session_name='order');
+        foreach ($ticket as $key)
+        {
+          $display_dob = $key->getDob()->format('m-d-Y');
+        }
         //check ticket type availability
         $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone,$time);
         if($full_day_ticket == false){$ticket_form->remove('time_access');}
@@ -320,7 +324,8 @@ class TicketManager
         //prepare data to render in view
         $render = array('modify'          => $ticket,
                         'ticket_form'     => $ticket_form->createView(),
-                        'full_day_ticket' => $full_day_ticket
+                        'full_day_ticket' => $full_day_ticket,
+                        'display_dob'     => $display_dob
         );
         return $render;
     }

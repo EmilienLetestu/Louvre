@@ -26,7 +26,8 @@ class ModifyController extends Controller
         }
         return $this->render('ELBookingBundle:Modify:modify.html.twig',array('modify'          => $ticket_form['modify'],
                                                                              'ticket_form'     => $ticket_form['ticket_form'],
-                                                                             'full_day_ticket' => $ticket_form['full_day_ticket']
+                                                                             'full_day_ticket' => $ticket_form['full_day_ticket'],
+                                                                             'display_dob'     => $ticket_form['display_dob']
         ));
     }
 }
