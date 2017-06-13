@@ -23,26 +23,18 @@ class Billing
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Email()
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type("string")
-     * @Assert\Length(min=3,max=50)
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type("string")
-     * @Assert\Length(min=3,max=50)
      * @ORM\Column(name="surname", type="string", length=255)
      */
     private $surname;

@@ -8,7 +8,9 @@
 
 namespace EL\BookingBundle\Form;
 
+use EL\BookingBundle\Validators\isCardExpYearOk;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -18,6 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Type;
 
 
@@ -47,21 +50,34 @@ class StripeFormType extends AbstractType
                                                               ],
                                                               'label' => 'Nom du titulaire de la carte'
             ])
-            ->add('email',EmailType::class,['constraints'=>[new Email()],
-                                                            'label'  => 'Adresse email'
+            ->add('email',EmailType::class,['constraints'=>[ new Email(['message' =>'Veuillez utiliser un e-mail valide !'])],
+                                                             'label'  => 'Adresse email'
             ])
             ->add('number',TextType::class,['mapped' => false,
-                                            'attr'   => ['placeholder' => 'numéro de la carte']
+                                            'attr'   => ['placeholder' => 'numéro de la carte'],
+                                            'label'  => 'Numéro de la carte bancaire'
             ])
             ->add('cvc',TextType::class,['mapped' => false,
-                                         'attr'   => ['placeholder' => 'cvc']
+                                         'attr'   => ['placeholder' => '000'],
+                                         'label'  => 'cvc'
             ])
-            ->add('exp_month',TextType::class,['mapped' => false,
-                                               'attr'   => ['placeholder' => 'mm']
+            ->add('exp_month',NumberType::class,['constraints'=>[ new Type('numeric'),
+                                                                  new Range(['min' => 1,
+                                                                            'max' => 12,
+                                                                            'minMessage' => ' ',
+                                                                            'maxMessage' => ' '
+                                                                           ])
+                                                                  ],
+                                                                  'mapped' => false,
+                                                                  'attr'   => ['placeholder' => 'mm'],
+                                                                  'label'  => 'Mois d\'expiration'
             ])
-
-            ->add('exp_year',TextType::class,['mapped' => false,
-                                              'attr'   => ['placeholder' => 'aa']
+            ->add('exp_year',TextType::class,['constraints'=>[ new Type('numeric'),
+                                                               new isCardExpYearOk()
+                                                             ],
+                                                             'mapped' => false,
+                                                             'attr'   => ['placeholder' => 'aa'],
+                                                             'label'  => 'Année d\'expirartion'
             ])
             ->add('stripeToken',HiddenType::class)
         ;

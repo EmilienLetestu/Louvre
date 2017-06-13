@@ -17,39 +17,42 @@
         <div class = "form-group">
             {{ form_label(stripe_form.name) }}
             {{ form_widget(stripe_form.name) }}
-            {{ form_errors(stripe_form.name) }}
+            <span class ="form_errors">{{ form_errors(stripe_form.name) }}</span>
         </div >
         <div class = "form-group">
             {{ form_label(stripe_form.surname) }}
             {{ form_widget(stripe_form.surname) }}
-            {{ form_errors(stripe_form.surname) }}
+            <span class="form_errors">{{ form_errors(stripe_form.surname) }}</span>
         </div>
         <div class = "form-group">
             {{ form_label(stripe_form.email) }}
             {{ form_widget(stripe_form.email) }}
-            {{ form_errors(stripe_form.email) }}
-        </div>
-        <div id="card_data">
-            <p>Mes informations bancaires</p>
+            <span class="form_errors">{{ form_errors(stripe_form.email) }}</span>
         </div>
         <div class = "form-group col-sm-6 card_input">
+            {{ form_label(stripe_form.number) }}
             {{ form_widget(stripe_form.number,{'attr':{'data-stripe':'number'}} ) }}
-            {{ form_errors(stripe_form.number) }}
+            <span class="form_errors">{{ form_errors(stripe_form.number) }}</span>
         </div>
         <div class = "form-group col-sm-2">
+            {{ form_label(stripe_form.cvc) }}
             {{ form_widget(stripe_form.cvc, {'attr':{'data-stripe':'cvc'}}) }}
             {{ form_errors(stripe_form.cvc) }}
         </div>
+        <div id="card_data">
+            <p>Expire en :</p>
+        </div>
         <div class = "form-group col-sm-2">
             {{ form_widget(stripe_form.exp_month, {'attr':{'data-stripe':'exp_month'}}) }}
-            {{ form_errors(stripe_form.exp_month) }}
+            <span class="form_errors">{{ form_errors(stripe_form.exp_month) }}</span>
+
         </div>
         <div class = "form-group col-sm-2">
             {{ form_widget(stripe_form.exp_year, {'attr':{'data-stripe':'exp_year'}}) }}
-            {{ form_errors(stripe_form.exp_year) }}
+            <span class="form_errors">{{ form_errors(stripe_form.exp_year) }}</span>
         </div>
         <div class = "form-group col-sm-offset-4">
-            <button type="submit" class="btn btn-primary">Valider et payer</button>
+            <button type="submit" class="btn btn-success">Valider et payer</button>
         </div>
             {{ form_row(stripe_form.stripeToken) }}
         {{ form_end(stripe_form) }}

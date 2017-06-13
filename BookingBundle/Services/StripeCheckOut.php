@@ -135,5 +135,4 @@ class StripeCheckOut
         }
         return $this->session->get('payment_success');
     }
-
 }
