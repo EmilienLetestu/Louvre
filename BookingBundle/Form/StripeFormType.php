@@ -57,15 +57,21 @@ class StripeFormType extends AbstractType
                                             'attr'   => ['placeholder' => 'numéro de la carte'],
                                             'label'  => 'Numéro de la carte bancaire'
             ])
-            ->add('cvc',TextType::class,['mapped' => false,
-                                         'attr'   => ['placeholder' => '000'],
-                                         'label'  => 'cvc'
+            ->add('cvc',TextType::class,['constraints' =>[ new NotBlank(),
+                                                           new Type('numeric'),
+                                                           new Length(['min' => 3,
+                                                                       'max' => 3,
+                                                                       'exactMessage' => ''])
+                                                         ],
+                                                'mapped' => false,
+                                                'attr'   => ['placeholder' => '000'],
+                                         'label'  => 'Cvc'
             ])
             ->add('exp_month',NumberType::class,['constraints'=>[ new Type('numeric'),
                                                                   new Range(['min' => 1,
-                                                                            'max' => 12,
-                                                                            'minMessage' => ' ',
-                                                                            'maxMessage' => ' '
+                                                                             'max' => 12,
+                                                                             'minMessage' => '',
+                                                                             'maxMessage' => ''
                                                                            ])
                                                                   ],
                                                                   'mapped' => false,

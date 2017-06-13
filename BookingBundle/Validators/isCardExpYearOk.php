@@ -15,7 +15,7 @@ class isCardExpYearOk extends Constraint
     /**
      * @var string
      */
-    public $message = "Carte expirée !";
+    public $message = "";
 
     /**
      * @return string
