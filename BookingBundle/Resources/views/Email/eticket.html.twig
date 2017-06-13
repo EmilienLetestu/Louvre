@@ -1,8 +1,10 @@
 
 {% block body %}
+    <div class="header" style="background-color:#190e14">
+        <h1 style="color: #FFFAC0"><i><img height="20" width="32" src="{{ image_logo }}"></i>Musée du louvre</h1>
+    </div>
     <div class="intro">
-        <h1>{{ billing.token }}</h1>
-        <img height="20" width="32" src="http://Louvre/web/logo_pyramide_accueil.png">
+        <h2>{{ billing.token }}</h2>
         <p>Bonjour {{ billing.name }} {{ billing.surname }} cet email contient l'ensemble des billets que vous avez commandez,
             nous avons hâte de vous recvoir le {{ billing.visitDay }}  pour votre viste au musée du Louvre.
         </p>

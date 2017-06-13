@@ -7,8 +7,6 @@
     <h1 id="modify_title">Modifier le billet</h1>
 </div>
 <div class="col-sm-5 ">
-
-    {{ dump(app.session.get('order')) }}
     {% for key,ticket in modify %}
 
     {{ form_start(ticket_form)}}
@@ -41,7 +39,7 @@
     {{ form_widget(ticket_form.discount) }}
     <input type="hidden" id="mod_discount" value="{{ ticket.discount }}">
 
-    <button type="submit"  class="btn btn-primary">Valider les modifications</button>
+    <button type="submit"  class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i></button>
     {{ form_end(ticket_form) }}
 
     {{ form(ticket_form) }}

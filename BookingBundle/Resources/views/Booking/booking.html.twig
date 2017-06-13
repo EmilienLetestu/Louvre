@@ -37,11 +37,19 @@
             {{ form_widget(ticket_form.discount) }}
         </div>
         <div class = "form-group col-sm-2 add">
-            <button type="submit"  class="btn btn-primary">Ajouter un billet</button>
+            <button type="submit"  class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
         </div>
         {{ form_end(ticket_form) }}
     </div>
-    {% if (app.session.get('order') != null)%}
+        {% if (app.session.get('order') == null)%}
+         <div class ="col-sm-7 start_order">
+             <h2>Votre commande va s'afficher ici</h2>
+             <i class="fa fa-shopping-basket fa-5x" aria-hidden="true"></i>
+         </div>
+        {% endif %}
+
+        {% if (app.session.get('order') != null)%}
         {% set order_in_progress = app.session.get('order')  %}
       <div class="col-sm-7 ticket_table">
               <table class="table table-responsive table-striped table-hover">
@@ -61,7 +69,8 @@
                         <th>{{ app.session.get('tickets') }}</th>
                         <th>Total</th>
                         <th class="pricing_type">{{ app.session.get('total') }} € </th>
-                        <th class="action_type"><a class="btn btn-success" href="{{ path('payer_commande') }}"> Payer </a></th>
+                        <th class="action_type"><a class="btn btn-success" href="{{ path('payer_commande') }}"><i class="fa fa-credit-card" aria-hidden="true"></i>
+                            </a></th>
                         <th> </th>
                     </tr>
                 </tfoot>
@@ -73,8 +82,8 @@
                         <td>{{ ticket.date }}</td>
                         <td>{{ ticket.timeAccessType }} ,{{ ticket.priceType }}</td>
                         <td class="pricing_type">{{ ticket.price }} €</td>
-                        <td class="action_type"><a class="btn btn-warning" href="{{ path('modifier_ticket',{'id' :key}) }}"> Modidfier </a></td>
-                        <td class="action_type"><a class="btn btn-danger"  href="{{ path('supprimer_ticket',{'id' :key}) }}"> Supprimer </a></td>
+                        <td class="action_type"><a class="btn btn-warning" href="{{ path('modifier_ticket',{'id' :key}) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                        <td class="action_type"><a class="btn btn-danger"  href="{{ path('supprimer_ticket',{'id' :key}) }}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                     </tr>
                 </tbody>
             {% endfor %}

@@ -72,7 +72,7 @@ class StripeCheckOut
         $total  = $this->session->get('total');
         $api_key = $this->getApiKey();
         //create a message to display in case of network issue
-        $message_to_user = 'Désolé mais nous rencontrons actuellement des problèmes, veuillez réessayer plus tard.';
+        $message_to_user = 'Désolé mais nous rencontrons actuellement des problèmes, veuillez réessayer plus tard !';
         try
         {
             \Stripe\Stripe::setApiKey($api_key);

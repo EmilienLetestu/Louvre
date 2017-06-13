@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                         <td>Réduit*</td>
-                        <td>Etudiants,militaires, employés du ministère de la culture</td>
+                        <td title="Un justificatif vous sera demandé lors de votre visite">Etudiants,militaires, employés du ministère de la culture</td>
                         <td class="pricing_type">10 €</td>
                         <td class="pricing_type">5 €</td>
                     </tr>
@@ -72,37 +72,33 @@
                     </tr>
                 </tbody>
             </table>
+            <p id="disclaimer">{{ disclaimer }}</p>
         </div>
 
         <div class="info col-sm-6">
             <h2 id="availability_title">Vérifier la disponibilité</h2>
             {{ form_start(booking_status_form,{action:path('accueil_billetterie')}) }}
-            <div class="form-group col-sm-6">
+            <div class="form-group">
                 {{ form_label(booking_status_form.temp_order_date) }}
                 {{ form_widget(booking_status_form.temp_order_date) }}
                 <span class="form_errors">{{ form_errors(booking_status_form.temp_order_date) }}</span>
             </div>
-            <div class="form-group col-sm-6">
+            <div class="form-group">
                 {{ form_label(booking_status_form.temp_number_of_tickets) }}
                 {{ form_widget(booking_status_form.temp_number_of_tickets) }}
                 <span class="form_errors">{{ form_errors(booking_status_form.temp_number_of_tickets) }}</span>
             </div>
-            <div class="form_btns form-group col-sm-6">
+            <div class="form_btns form-group">
                 <button id="test_date" type="submit"  class="btn btn-primary">Tester cette date</button>
-            </div>
                 {{ form_end(booking_status_form) }}
-            {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) %}
-            <div class="form_btns col-sm-5">
-                <a class="btn btn-success" href="{{path('reservation_billetterie')}} ">
-                    Commander des billets pour le {{ app.session.get('user_date') }}
-                </a>
-            </div>
-            {% endif %}
-            <div class="col-sm-12">
-                <p id="disclaimer">{{ disclaimer }}</p>
+                    {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) %}
+                        <a class="btn btn-success" id="link_to_booking" href="{{path('reservation_billetterie')}}">
+                           Commander des billets pour le {{ app.session.get('user_date') }}
+                        </a>
+                    {% endif %}
             </div>
              {% if app.session.get('sold_out') == 1 %}
-              <span>Complet</span>
+                <span>Complet</span>
              {% endif %}
         </div>
 {% endblock %}
