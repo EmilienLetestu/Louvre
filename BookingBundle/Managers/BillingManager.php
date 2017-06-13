@@ -52,8 +52,6 @@ class BillingManager
         $billing = new Billing();
         //create form
         $stripe_form = $this->formFactory->create(StripeFormType::class,$billing);
-        //prepare data to render in view
-        $render = array('stripe_form' => $stripe_form->createview());
         //process form
         $stripe_form->handleRequest($request);
         if($stripe_form->isSubmitted() && $stripe_form->isValid())
@@ -72,13 +70,10 @@ class BillingManager
                 $this->mail->sendMail($email);
                 $this->session->invalidate('payment_success');
                 $this->session->getFlashBag()->add('success', 'Votre payememt à été effectué avec succès, consultez votre boîte mail pour obtenir vos billets');
-                return $render;
-            }
-            else
-            {
-                return $render;
             }
         }
+        //prepare data to render in view
+        $render = array('stripe_form' => $stripe_form->createview());
         return $render;
     }
 }
