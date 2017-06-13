@@ -59,14 +59,18 @@ class Mail
             $ticket_type = $tools->getTicketType($dob,$price,$time_access);
         }
         //create mail
-        $message = \Swift_Message::newInstance()
+        $message = \Swift_Message::newInstance();
+        $logo    = $message->embed(\Swift_Image::fromPath('../web/logo_pyramide_accueil.png'));
+        $message
             ->setSubject('Votre commande de billets d\'entrée au Musée du Louvre')
             ->setFrom('billetterie_louvre@gmail.com')
             ->setTo($email)
             ->setBody($this->templating->Render('ELBookingBundle:Email:eticket.html.twig', array('billing'     => $billing,
                                                                                                  'ticket_list' => $ticket_list,
-                                                                                                 'ticket_type' => $ticket_type
+                                                                                                 'ticket_type' => $ticket_type,
+                                                                                                 'image_logo'  => $logo
             )),'text/html');
+
         //send mail
         $this->mailer->send($message);
         //will be used later on to detect end of process and kill session
