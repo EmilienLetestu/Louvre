@@ -8,6 +8,7 @@
 
 namespace EL\BookingBundle\Managers;
 use Doctrine\ORM\EntityManager;
+use EL\BookingBundle\Entity\TempOrder;
 use EL\BookingBundle\Entity\Ticket;
 use EL\BookingBundle\Form\TicketType;
 use EL\BookingBundle\Services\MuseumPolicy;
@@ -15,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Constraints\DateTime;
+
 class TicketManager
 {
     private $session;
@@ -242,30 +245,23 @@ class TicketManager
         $ticket_form = $this->formFactory->create(TicketType::class, $ticket);
         //check ticket type availability
         $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone, $time);
-        //remove select box if only 1/2 day ticket are available for order
-        if ($full_day_ticket == false) {
-            $ticket_form->remove('time_access');
-        }
         //process form
         $ticket_form->handleRequest($request);
-        if ($ticket_form->isSubmitted() && $ticket_form->isValid()) {
+        if ( $ticket_form->isSubmitted() && $ticket_form->isValid())
+        {
             //fetch submitted data
             $name = $ticket_form->get('name')->getData();
             $surname = $ticket_form->get('surname')->getData();
             $dob = $ticket_form->get('dob')->getData();
             $discount = $ticket_form->get('discount')->getData();
-            if ($full_day_ticket == true) {
-                $time_access = $ticket_form->get('time_access')->getData();
-            } else {
-                $time_access = 'p.m.';
-            }
+            $time_access = $ticket_form->get('time_access')->getData();
             //create session order (cart)
             $this->addToOrder($this->createOrder($name, $surname, $dob, $discount, $time_access));
         }
         //prepare data to render in view
         $render = array('ticket_form' => $ticket_form->createView(),
-            'full_day_ticket' => $full_day_ticket
-        );
+                           'full_day_ticket' => $full_day_ticket
+            );
         return $render;
     }
 
@@ -290,32 +286,26 @@ class TicketManager
         }
         //check ticket type availability
         $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone, $time);
-        if ($full_day_ticket == false) {
-            $ticket_form->remove('time_access');
-        }
         //process form
         $ticket_form->handleRequest($request);
-        if ($ticket_form->isSubmitted() && $ticket_form->isValid()) {
+        if ($ticket_form->isSubmitted() && $ticket_form->isValid())
+        {
             //fetch submitted data
-            $name = $ticket_form->get('name')->getData();
-            $surname = $ticket_form->get('surname')->getData();
-            $dob = $ticket_form->get('dob')->getData();
-            $discount = $ticket_form->get('discount')->getData();
-            if ($full_day_ticket == true) {
-                $time_access = $ticket_form->get('time_access')->getData();
-            } else {
-                $time_access = 'p.m.';
-            }
-            //update ticket with modified data
-            $this->modifyTicket($param, $session_name, $name, $surname, $dob, $discount, $time_access);
-            //return a session var to look for into controller
-            return $this->session->set('submitted', 1);
+                $name = $ticket_form->get('name')->getData();
+                $surname = $ticket_form->get('surname')->getData();
+                $dob = $ticket_form->get('dob')->getData();
+                $discount = $ticket_form->get('discount')->getData();
+               $time_access = $ticket_form->get('time_access')->getData();
+                //update ticket with modified data
+                $this->modifyTicket($param, $session_name, $name, $surname, $dob, $discount, $time_access);
+                //return a session var to look for into controller
+                return $this->session->set('submitted', 1);
         }
         //prepare data to render in view
         $render = array('modify' => $ticket,
-            'ticket_form' => $ticket_form->createView(),
-            'full_day_ticket' => $full_day_ticket,
-            'display_dob' => $display_dob
+                        'ticket_form'     => $ticket_form->createView(),
+                        'full_day_ticket' => $full_day_ticket,
+                        'display_dob'     => $display_dob
         );
         return $render;
     }
@@ -327,20 +317,21 @@ class TicketManager
     {
         $requested_ticket = $this->session->get('user_n_tickets');
         $total_ordered = $this->session->get('tickets');
-
-        if ($total_ordered < $requested_ticket) {
+        if ($total_ordered < $requested_ticket)
+        {
             $diff = $requested_ticket - $total_ordered;
             $this->session->set('reminder', $diff);
-        } else {
-            $new_total = $total_ordered + 1;
-            $check_stock = $this->policy->getTotalBooked($this->session->get('user_date'), $new_total);
-            if ($check_stock < 1000) {
-                $this->session->invalidate('reminder');
-                $this->session->set('stock', 1);
-            } else {
-                $this->session->set('stock', 0);
-            }
         }
-        return $this->session->get('stock');
+        else
+        {
+            $new_total = $total_ordered + 1;
+            $date_time = $this->tools->formatDate($this->session->get('user_date'));
+            $temp_order = new TempOrder();
+            $temp_order->setTempOrderDate(\DateTime::createFromFormat('m-d-Y H:i:s', $date_time));
+            $check_stock = $this->policy->getTotalBooked($temp_order->getTempOrderDate(),$new_total);
+            $this->session->set('tickets_sold',$check_stock);
+            $this->session->invalidate('reminder');
+        }
+        return $this->session->get('tickets_sold');
     }
 }

@@ -58,7 +58,7 @@ class TempOrderManager
         }
         //prepare data to render in view
         $render = array('booking_status_form'=>$booking_status_form->createView(),
-                         'disclaimer'         =>$disclaimer);
+                         'disclaimer'        =>$disclaimer);
         return $render;
     }
 

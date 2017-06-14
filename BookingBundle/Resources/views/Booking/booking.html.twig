@@ -23,15 +23,11 @@
             {{ form_widget(ticket_form.dob) }}
             <span class ="form_errors"> {{ form_errors(ticket_form.dob) }}</span>
         </div>
-        {% if(app.session.get('full_day_ticket') == true) %}
         <div class = "form-group">
             {{ form_label(ticket_form.time_access) }}
             {{ form_widget(ticket_form.time_access) }}
+            <input type="hidden" id ="time_access" value="{{ app.session.get('full_day_ticket') }}">
         </div>
-        {% endif %}
-        {% if(app.session.get('full_day_ticket') == false) %}
-            <span>Type de ticket: {{ ticket.timeAccessType }}</span>
-        {% endif %}
         <div class = "form-group col-sm-9">
             {{ form_label(ticket_form.discount) }}
             {{ form_widget(ticket_form.discount) }}

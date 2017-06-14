@@ -26,14 +26,11 @@
     <span class ="form_errors"> {{ form_errors(ticket_form.dob) }}</span>
     <input type="hidden" id="mod_dob" value="{{ display_dob }}">
 
-    {% if(app.session.get('full_day_ticket') == true) %}
+
     {{ form_label(ticket_form.time_access,'Type de ticket') }}
     {{ form_widget(ticket_form.time_access) }}
     <input type="hidden" id="mod_time_access" value="{{ ticket.timeAccessType }}">
-    {% endif %}
-    {% if(app.session.get('full_day_ticket') == false) %}
-    <span>Type de ticket: {{ ticket.timeAccessType }}</span>
-    {% endif %}
+    <input type="hidden" id ="time_access" value="{{ app.session.get('full_day_ticket') }}">
 
     {{ form_label(ticket_form.discount) }}
     {{ form_widget(ticket_form.discount) }}
