@@ -73,6 +73,13 @@ class StripeCheckOut
         $api_key = $this->getApiKey();
         //create a message to display in case of network issue
         $message_to_user = 'Désolé mais nous rencontrons actuellement des problèmes, veuillez réessayer plus tard !';
+        //create an array of error messages
+        $card_error_message = array('card_declined'    => 'La transaction a échoué : carte bancaire refusé ! ',
+                                    'incorrect_cvc'    => 'La transaction a échoué : code de vérfication de la carte erroné !',
+                                    'expired_card'     => 'La transaction a échoué : carte bancaire expirée !',
+                                    'processing_error' => 'La transaction a échoué : une erreur de traitement est survenue, veuillez réesssayer !',
+                                    'incorrect_number' => 'La transaction a échoué : numéro de carte bancaire erroné !'
+        );
         try
         {
             \Stripe\Stripe::setApiKey($api_key);
@@ -86,32 +93,8 @@ class StripeCheckOut
         {
             $body = $e->getJsonBody();
             $err  = $body['error'];
-            if($err['code'] === "card_declined")
-            {
-                $message_to_user = "La transaction a échoué : carte bancaire refusé ! ";
-                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
-            }
-            elseif ($err['code'] === "incorrect_cvc")
-            {
-                $message_to_user = "La transaction a échoué : code de vérfication de la carte erroné !";
-                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
-            }
-            elseif ($err['code'] === "expired_card")
-            {
-                $message_to_user = "La transaction a échoué : carte bancaire expirée !";
-                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
-            }
-            elseif ($err['code'] === "processing_error")
-            {
-                $message_to_user = "La transaction a échoué : une erreur de traitement est survenue, veuillez réesssayer !";
-                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
-            }
-            elseif ($err['code'] === "incorrect_number")
-            {
-                $message_to_user = "La transaction a échoué : numéro de carte bancaire erroné !";
-                $this->session->getFlashBag()->add('stripe_error',$message_to_user);
-            }
-
+            $message = $card_error_message[$err['code']];
+            $this->session->getFlashBag()->add('stripe_error',$message);
         }
         catch (\Stripe\Error\RateLimit $e)
         {
