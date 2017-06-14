@@ -7,6 +7,7 @@
         <div id="title">
             <div>
                 <h1>Bienvenue sur la billetterie du Louvre</h1>
+                <a href="#pricing_title" id="anchor_home"><i class="fa fa-angle-down fa-5x" aria-hidden="true"></i></a>
             </div>
         </div>
     </div>
@@ -90,6 +91,7 @@
             </div>
             <div class="form_btns form-group">
                 <button id="test_date" type="submit"  class="btn btn-primary">Tester cette date</button>
+                <input type="hidden" id="sold_out" value="{{ app.session.get('sold_out')}}">
                 {{ form_end(booking_status_form) }}
                     {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) %}
                         <a class="btn btn-success" id="link_to_booking" href="{{path('reservation_billetterie')}}">
@@ -97,8 +99,5 @@
                         </a>
                     {% endif %}
             </div>
-             {% if app.session.get('sold_out') == 1 %}
-                <span>Complet</span>
-             {% endif %}
         </div>
 {% endblock %}
