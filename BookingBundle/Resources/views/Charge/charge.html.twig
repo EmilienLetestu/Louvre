@@ -4,7 +4,9 @@
 
 {% block body %}
     {% for flashMessage in app.session.flashbag.get('success') %}
-      <div class="col-sm-6 offset-sm-3 success">{{ flashMessage }}</div>
+        <div class="col-sm-6 offset-sm-3 success">{{ flashMessage }}
+            <a href="{{ path('accueil_billetterie') }}" class="close"><i class="fa fa-times" aria-hidden="true"></i></a>
+        </div>
     {% endfor %}
     {% for flashMessage in app.session.flashbag.get('stripe_error') %}
         <div class="col-sm-6 offset-sm-3 error">{{ flashMessage }}</div>
