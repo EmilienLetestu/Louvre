@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class TicketManager
 {
@@ -128,37 +127,6 @@ class TicketManager
         $this->session->set('tickets', $order['number_of_tickets']);
 
         return $order;
-    }
-
-    /**
-     * this method will fetch and persist all ticket inside cart
-     * @param $billing
-     * @return mixed
-     */
-    public function getTickets($billing)
-    {
-        //fetch order, order_token, and date into session
-        $order_token = $this->session->get('temp_order_token');
-        $order = $this->session->get('order');
-        $date = $this->session->get('user_date');
-        //get date from session and turn it into a "datetime format"
-        $date_time = $this->tools->formatDate($date);
-        foreach ($order as $key) {
-            foreach ($key as $ticket) {
-                $ticket->setDate(\DateTime::createFromFormat('m-d-Y H:i:s', $date_time));
-                $ticket->getName();
-                $ticket->getSurname();
-                $ticket->getDiscount();
-                $ticket->getPriceType();
-                $ticket->setOrderToken($order_token);
-                $ticket->getTimeAccess();
-                $ticket->getPrice();
-                $ticket->getDob();
-                $ticket->setBilling($billing);
-                $this->doctrine->persist($ticket);
-            }
-        }
-        return $ticket;
     }
 
     /**

@@ -39,7 +39,7 @@ services:
         arguments:
          - "@doctrine.orm.entity_manager"
          - "@session"
-         - "@el_booking.ticketManager"
+         - "@el_booking.tools"
 
     el_booking.mail:
         class: EL\BookingBundle\Services\Mail

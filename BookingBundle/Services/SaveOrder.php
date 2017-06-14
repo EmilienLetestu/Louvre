@@ -10,31 +10,60 @@ namespace EL\BookingBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use EL\BookingBundle\Entity\Billing;
-use EL\BookingBundle\Managers\TicketManager;
 use EL\BookingBundle\Managers\Tools;
 use Symfony\Component\HttpFoundation\Session\Session;
 class SaveOrder
 {
-
     private $doctrine;
     private $session;
-    private $ticketManager;
+    private $tools;
 
     /**
      * SaveOrder constructor.
      * @param EntityManager $doctrine
      * @param Session $session
-     * @param TicketManager $ticketManager
+     * @param Tools   $tools
      */
     public function __construct(
         EntityManager $doctrine,
-        Session $session,
-        TicketManager $ticketManager
+        Session       $session,
+        Tools         $tools
     )
     {
         $this->doctrine = $doctrine;
         $this->session  = $session;
-        $this->ticketManager = $ticketManager;
+        $this->tools    = $tools;
+    }
+
+    /**
+     * this method will fetch and persist all ticket inside cart
+     * @param $billing
+     * @return mixed
+     */
+    public function getAndSaveTickets($billing)
+    {
+        //fetch order, order_token, and date into session
+        $order_token = $this->session->get('temp_order_token');
+        $order = $this->session->get('order');
+        $date = $this->session->get('user_date');
+        //get date from session and turn it into a "datetime format"
+        $date_time = $this->tools->formatDate($date);
+        foreach ($order as $key) {
+            foreach ($key as $ticket) {
+                $ticket->setDate(\DateTime::createFromFormat('m-d-Y H:i:s', $date_time));
+                $ticket->getName();
+                $ticket->getSurname();
+                $ticket->getDiscount();
+                $ticket->getPriceType();
+                $ticket->setOrderToken($order_token);
+                $ticket->getTimeAccess();
+                $ticket->getPrice();
+                $ticket->getDob();
+                $ticket->setBilling($billing);
+                $this->doctrine->persist($ticket);
+            }
+        }
+        return $ticket;
     }
 
     /**
@@ -48,13 +77,12 @@ class SaveOrder
     {
         //initialise classes en dependencies
         $billing = new Billing();
-        $tools   = new Tools();
         $em = $this->doctrine;
         //fetch order token into session
         $order_token = $this->session->get('temp_order_token');
         $date = $this->session->get('user_date');
         //get date from session and turn it into a "datetime format"
-        $date_time = $tools->formatDate($date);
+        $date_time = $this->tools->formatDate($date);
         //1 save billing
         //1-a hydrate billing
         $billing->setEmail($email);
@@ -66,7 +94,7 @@ class SaveOrder
         $billing->setStripeToken($source);
         $billing->setPrice($this->session->get('total'));
         //2 get user tickets for saving
-        $this->ticketManager->getTickets($billing);
+        $this->getAndSaveTickets($billing);
         //2b persist it
         $em->persist($billing);
         //3-store ticket and billing into db
