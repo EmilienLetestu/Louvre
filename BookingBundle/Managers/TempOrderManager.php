@@ -102,6 +102,7 @@ class TempOrderManager
             $this->session->set('user_date',$date);
             $this->session->set('user_n_tickets',$n_tickets);
             $this->session->set('temp_order_token',$token);
+            $this->session->set('sold_out',0);
         }
         return $this->session;
     }
