@@ -7,6 +7,8 @@
  */
 
 namespace EL\BookingBundle\Managers;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 class Tools
 {
     /**
@@ -145,5 +147,14 @@ class Tools
         $time = ' 00:00:00';
         $date_time = $date.$time;
         return $date_time;
+    }
+
+    public function isOrderHasBegun($get_session)
+    {
+        $session = new Session();
+        if(!$session->has($get_session))
+        {
+            throw new \Exception('La commande est vide ou n\'a pas commencée !');
+        }
     }
 }

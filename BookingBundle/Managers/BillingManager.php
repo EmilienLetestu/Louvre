@@ -25,13 +25,15 @@ class BillingManager
     private $save;
     private $mail;
     private $session;
+    private $tools;
 
     public function __construct(
         FormFactory    $formFactory,
         StripeCheckOut $checkOut,
         SaveOrder      $save,
         Mail           $mail,
-        Session        $session
+        Session        $session,
+        Tools          $tools
     )
     {
         $this->formFactory = $formFactory;
@@ -39,6 +41,7 @@ class BillingManager
         $this->save        = $save;
         $this->mail        = $mail;
         $this->session     = $session;
+        $this->tools       = $tools;
     }
 
     /**
@@ -48,6 +51,7 @@ class BillingManager
      */
     Public function stripeAndProcess(Request $request,$currency)
     {
+        $this->tools->isOrderHasBegun($get_session = 'order');
         //initialise entity
         $billing = new Billing();
         //create form

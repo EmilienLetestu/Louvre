@@ -136,6 +136,7 @@ class TicketManager
      */
     public function deleteTicketFromOrderInProgress($param, $session_name)
     {
+        $this->tools->isOrderHasBegun($get_session = 'order');
         $id = $this->requestStack->getCurrentRequest()->attributes->get($param);
         $order = $this->session->get($session_name);
         unset($order[$id]);
@@ -207,6 +208,8 @@ class TicketManager
      */
     public function fillTicketAndProcess(Request $request, $timezone, $time)
     {
+        //check that order process has started
+        $this->tools->isOrderHasBegun($get_session = 'temp_order_token');
         //initialise entity
         $ticket = new Ticket();
         //create form
@@ -228,7 +231,7 @@ class TicketManager
         }
         //prepare data to render in view
         $render = array('ticket_form' => $ticket_form->createView(),
-                           'full_day_ticket' => $full_day_ticket
+                        'full_day_ticket' => $full_day_ticket
             );
         return $render;
     }
@@ -243,6 +246,8 @@ class TicketManager
      */
     public function modifyTicketAndProcess(Request $request, $timezone, $time, $param, $session_name)
     {
+        //check that order process has started
+        $this->tools->isOrderHasBegun($get_session = 'order');
         //initialise entity
         $ticket = new Ticket();
         //create form
@@ -270,7 +275,7 @@ class TicketManager
                 return $this->session->set('submitted', 1);
         }
         //prepare data to render in view
-        $render = array('modify' => $ticket,
+        $render = array('modify'          => $ticket,
                         'ticket_form'     => $ticket_form->createView(),
                         'full_day_ticket' => $full_day_ticket,
                         'display_dob'     => $display_dob
