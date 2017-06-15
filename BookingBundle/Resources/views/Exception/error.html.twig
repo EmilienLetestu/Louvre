@@ -1,0 +1,19 @@
+{% extends "ELBookingBundle::layout.html.twig" %}
+{% block title %} Une erreur est survenue: {{ status_text }} {% endblock %}
+{% block body %}
+<h1>Désolé une erreur est survenue !</h1>
+
+<h2>Notre serveur renvoie une  "{{ status_code }} {{ status_text }}".</h2>
+
+
+<div>
+
+    Vous rencontrez des difficultés avez vous connecter à notre service de billetterie,
+    contacter notre équipe technique et dites nous ce que vous faisiez lorsque
+    ce messafe est apparue: contact_tech@louvre.fr.
+
+    Veuillez nous excuser de la gêne occasionnée, nous allons remédier à ce problème le plus rapidement
+    possible.
+
+</div>
+{% endblock %}
