@@ -34,7 +34,7 @@ class CheckStatusType extends AbstractType
                                                        'attr'   => ['class' => 'js-datepicker']
                                                       ]
             )
-            ->add('temp_number_of_tickets', NumberType::class, ['constraints'=>[new Type('numeric'),
+            ->add('temp_number_of_tickets', NumberType::class, ['constraints'=>[new Type('numeric',['message'=>'Ce champs n\'accepte que les chiffres']),
                                                                                 new Range(['min' => 1,
                                                                                            'max' => 10,
                                                                                            'minMessage' =>'Le nombre minimum de billets est 1',

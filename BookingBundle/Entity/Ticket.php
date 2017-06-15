@@ -175,7 +175,7 @@ class Ticket
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = strip_tags(ucfirst($name));
 
         return $this;
     }
@@ -196,7 +196,7 @@ class Ticket
      */
     public function setSurname($surname)
     {
-        $this->surname = $surname;
+        $this->surname = strip_tags(ucfirst($surname));
 
         return $this;
     }
