@@ -61,6 +61,7 @@ class Mail
         //create mail
         $message = \Swift_Message::newInstance();
         $logo    = $message->embed(\Swift_Image::fromPath('../web/logo_pyramide_accueil.png'));
+        $thumbnail = $message->embed(\Swift_Image::fromPath('../web/louvre_thumbnail.jpg'));
         $message
             ->setSubject('Votre commande de billets d\'entrée au Musée du Louvre')
             ->setFrom('billetterie_louvre@gmail.com')
@@ -68,7 +69,8 @@ class Mail
             ->setBody($this->templating->Render('ELBookingBundle:Email:eticket.html.twig', array('billing'     => $billing,
                                                                                                  'ticket_list' => $ticket_list,
                                                                                                  'ticket_type' => $ticket_type,
-                                                                                                 'image_logo'  => $logo
+                                                                                                 'image_logo'  => $logo,
+                                                                                                 'ticket_img'  => $thumbnail
             )),'text/html');
 
         //send mail
