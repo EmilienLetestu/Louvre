@@ -19,7 +19,9 @@
         <div class="intro col-sm-12">
             <div class="intro_text">
                 <p> Vivamus ac lorem sollicitudin, dignissim dui in, finibus mauris. Praesent quis arcu id ligula pretium sollicitudin. Praesent sagittis, diam fermentum porttitor euismod, turpis sapien rutrum ipsum, at venenatis nisl libero ac nibh. Sed in nibh quis justo tincidunt ullamcorper.
-                    Morbi elementum, nisi et viverra congue, nibh tortor posuere neque, nec sollicitudin ipsum tellus vel nunc. Nulla facilisi. Fusce condimentum sem eget odio blandit, nec molestie nulla</p>
+                    Morbi elementum, nisi et viverra congue, nibh tortor posuere neque, nec sollicitudin ipsum tellus vel nunc. Nulla facilisi. Fusce condimentum sem eget odio blandit, nec molestie nulla
+                    Cum saepe multa, tum memini domi in hemicyclio sedentem, ut solebat, cum et ego essem una et pauci admodum familiares, in eum sermonem illum incidere qui tum forte multis erat in ore. Meministi enim profecto, Attice, et eo magis, quod P.
+                    Sulpicio utebare multum, cum is tribunus plebis capitali odio a Q. Pompeio, qui tum erat consul, dissideret, quocum coniunctissime et amantissime vixerat, quanta esset hominum vel admiratio vel querella.</p>
                 <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet nunc erat, sit amet lobortis ante eleifend at. Nam vitae massa viverra,
                     luctus risus eu, tincidunt nisl. Vestibulum viverra nibh in imperdiet finibus. Donec malesuada semper arcu, sit amet convallis lacus placerat in.
                     Nam consequat, eros in sollicitudin varius, leo quam pulvinar mauris, in tincidunt felis magna vel lectus. Mauris posuere mauris eu blandit molestie. Nullam non tempus odio.
@@ -29,7 +31,7 @@
         </div>
     </div>
 
-        <div class="info col-sm-6">
+        <div class="info col-sm-6" id="info_pricing">
             <h2 id ="pricing_title">Tarifs du musée</h2>
             <table class="table table-responsive table-striped table-hover">
                 <thead>
@@ -60,8 +62,8 @@
                         <td class="pricing_type">6 €</td>
                     </tr>
                     <tr>
-                        <td>Réduit*</td>
-                        <td title="Un justificatif vous sera demandé lors de votre visite">Etudiants,militaires, employés du ministère de la culture</td>
+                        <td title="Un justificatif vous sera demandé lors de votre visite">Réduit<i>*</i></td>
+                        <td>Etudiants,militaires, employés du ministère de la culture</td>
                         <td class="pricing_type">10 €</td>
                         <td class="pricing_type">5 €</td>
                     </tr>
@@ -76,7 +78,7 @@
             <p id="disclaimer">{{ disclaimer }}</p>
         </div>
 
-        <div class="info col-sm-6">
+        <div class="info col-sm-6" id="info_availability">
             <h2 id="availability_title">Vérifier la disponibilité</h2>
             {{ form_start(booking_status_form,{action:path('accueil_billetterie')}) }}
             <div class="form-group">

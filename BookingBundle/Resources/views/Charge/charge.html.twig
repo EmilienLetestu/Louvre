@@ -3,6 +3,9 @@
 {% block title %} {{ parent() }} - Payement des billets {% endblock %}
 
 {% block body %}
+    <div class="jumbotron" id="banner">
+        <img src="{{asset('Images/louvre_banner.jpg')}}">
+    </div>
     {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="col-sm-6 offset-sm-3 success">{{ flashMessage }}
             <a href="{{ path('accueil_billetterie') }}" class="close"><i class="fa fa-times" aria-hidden="true"></i></a>

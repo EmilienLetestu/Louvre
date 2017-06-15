@@ -5,30 +5,31 @@
     </div>
     <div class="intro">
         <h2>{{ billing.token }}</h2>
-        <p>Bonjour {{ billing.name }} {{ billing.surname }} cet email contient l'ensemble des billets que vous avez commandez,
+        <p>Bonjour {{ billing.name }} {{ billing.surname }} cet email contient l'ensemble des billets que vous avez commandé,
             nous avons hâte de vous recvoir le {{ billing.visitDay }}  pour votre viste au musée du Louvre.
         </p>
     </div>
     <div class="order_summary">
-        <h3>{{ billing.token }}</h3>
+        <h3>Détails de votre commande</h3>
         <ul>
-            <li>Nombre de billets   : {{ billing.numberOfTickets}}</li>
-            <li>Billets valable le  : {{ billing.visitDay }}</li>
-            <li>Prix de la commande : {{ billing.price }} €</li>
+            <li>Nombre de billets   : <strong>{{ billing.numberOfTickets}}</strong></li>
+            <li>Billets valable le  : <strong>{{ billing.visitDay }}</strong></li>
+            <li>Prix de la commande : <strong>{{ billing.price }} €</strong></li>
         </ul>
 
     </div>
-
+    <h3>Vos billets</h3>
+    <div class = "ticket_list" style="display: flex;flex-flow: wrap">
     {% for ticket in ticket_list  %}
-        <div class = "ticket_list" style=" border-bottom: solid black 1px;">
-            <h3>{{ticket.token }}</h3>
-            <ul>
-                <li>{{ ticket.name }} {{ ticket.surname }}</li>
-                <li>Tarif  : {{ ticket.priceType }}</li>
-                <li>Prix du billet : {{ ticket.price }} €</li>
-                <li>Type de billet : {{ ticket_type.time_access }}</li>
-            </ul>
-        </div>
+        <div class = "ticket_details " style="text-align: center; box-shadow: 1px 1px 2px rgb(0, 0, 0); width: 25%; margin: 5px; background-color:#DDDDDD">
+            <img width="100%" src="{{ ticket_img }}">
+            <h3 style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.name }} {{ ticket.surname }}</h3>
+                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">Tarif  : {{ ticket.priceType }}</p>
+                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">Prix du billet : {{ ticket.price }} €</p>
+                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">Type de billet : {{ ticket_type.time_access }}</p>
+                <p class="ref" style="font-size:0.7em ;text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.token }}</p>
+          </div>
     {% endfor %}
+    </div>
 
 {% endblock %}

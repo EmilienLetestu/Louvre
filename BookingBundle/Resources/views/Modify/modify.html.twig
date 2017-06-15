@@ -3,10 +3,13 @@
 {% block title %}{{ parent() }} - Commande des tickets  {% endblock %}
 
 {% block body %}
+<div class="jumbotron" id="banner">
+    <img src="{{asset('Images/louvre_banner.jpg')}}">
+</div>
 <div class="col-sm-12">
     <h1 id="modify_title">Modifier le billet</h1>
 </div>
-<div class="col-sm-5 ">
+<div class="col-sm-5 modify_form">
     {% for key,ticket in modify %}
 
     {{ form_start(ticket_form)}}
