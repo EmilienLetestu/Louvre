@@ -21,7 +21,7 @@
     <h3>Vos billets</h3>
     <div class = "ticket_list" style="display: flex;flex-flow: wrap">
     {% for ticket in ticket_list  %}
-        <div class = "ticket_details " style="text-align: center; box-shadow: 1px 1px 2px rgb(0, 0, 0); width: 25%; margin: 5px; background-color:#DDDDDD">
+        <div class = "ticket_details " style="text-align: center; box-shadow: 1px 1px 2px rgb(0, 0, 0); width: 35%; margin: 5px; background-color:#DDDDDD">
             <img width="100%" src="{{ ticket_img }}">
             <h3 style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.name }} {{ ticket.surname }}</h3>
                 <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">Tarif  : {{ ticket.priceType }}</p>
