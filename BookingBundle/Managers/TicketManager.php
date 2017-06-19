@@ -95,14 +95,24 @@ class TicketManager
 
     /**
      * add any given new ticket to cart
+     * control if a daily booking limit is reached
      * @param $ticket
+     * @return mixed|void
      */
     public function addToOrder($ticket)
     {
-        $order = $this->isSessionSet();
-        $order[] = array($ticket);
-        $this->buildOrder($order);
-        return $this->session->set('order', $order);
+        if($this->session->get('tickets_sold') < 1000)
+        {
+            $order = $this->isSessionSet();
+            $order[] = array($ticket);
+            $this->buildOrder($order);
+            $order_in_progress = $this->session->set('order', $order);
+        }
+        else
+        {
+            $order_in_progress = $this->session->get('order');
+        }
+        return $order_in_progress;
     }
 
     /**
@@ -115,8 +125,10 @@ class TicketManager
     {
         $number_of_tickets = count($order);
         $total = 0;
-        foreach ($order as $key) {
-            foreach ($key as $ticket) {
+        foreach ($order as $key)
+        {
+            foreach ($key as $ticket)
+            {
                 $total += $ticket->getPrice();
             }
         }

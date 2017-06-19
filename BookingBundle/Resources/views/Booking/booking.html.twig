@@ -3,14 +3,13 @@
 {% block title %}{{ parent() }} - Commande des tickets  {% endblock %}
 
 {% block body %}
-    {{ dump(app.session) }}
     <div class="jumbotron" id="banner">
         <img src="{{asset('Images/louvre_banner.jpg')}}">
     </div>
     <div class="col-sm-12">
         <h1 id ="booking_title">Commander des billets pour ma visite du {{ app.session.get('user_date') }}</h1>
     </div>
-    <div class="col-sm-5 ticket_form">
+    <div class="col-sm-5 ticket_form" id="form_section">
         {{ form_start(ticket_form, {'attr': {'id': 'booking_form'}}) }}
         <div class = "form-group">
             {{ form_label(ticket_form.name) }}
