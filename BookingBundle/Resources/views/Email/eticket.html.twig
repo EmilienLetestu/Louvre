@@ -24,9 +24,9 @@
         <div class = "ticket_details " style="text-align: center; box-shadow: 1px 1px 2px rgb(0, 0, 0); width: 35%; margin: 5px; background-color:#DDDDDD">
             <img width="100%" src="{{ ticket_img }}">
             <h3 style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.name }} {{ ticket.surname }}</h3>
-                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">Tarif  : {{ ticket.priceType }}</p>
-                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">Prix du billet : {{ ticket.price }} €</p>
-                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">Type de billet : {{ ticket_type.time_access }}</p>
+                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.priceType }}</p>
+                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.price }} €</p>
+                <p style="color: #FFFFFF; text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket_type.time_access }}</p>
                 <p class="ref" style="font-size:0.7em ;text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.token }}</p>
           </div>
     {% endfor %}
