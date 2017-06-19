@@ -10,6 +10,7 @@ namespace EL\BookingBundle\Services;
 
 
 use Doctrine\ORM\EntityManager;
+use EL\BookingBundle\Entity\TempOrder;
 use EL\BookingBundle\Managers\Tools;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -77,5 +78,31 @@ class MuseumPolicy
         }
         $this->session->set('full_day_ticket',$available);
         return $available;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function userLittleHelper()
+    {
+        $requested_ticket = $this->session->get('user_n_tickets');
+        $total_ordered = $this->session->get('tickets');
+        if ($total_ordered < $requested_ticket)
+        {
+            $diff = $requested_ticket - $total_ordered;
+            $this->session->set('reminder', $diff);
+        }
+        else
+        {
+            $date_time = $this->tools->formatDate($this->session->get('user_date'));
+            $temp_order = new TempOrder();
+            //change date format for db request
+            $temp_order->setTempOrderDate(\DateTime::createFromFormat('m-d-Y H:i:s', $date_time));
+            $check_stock = $this->getTotalBooked($temp_order->getTempOrderDate(),$total_ordered);
+            $this->session->set('tickets_sold',$check_stock);
+            $diff = $total_ordered - $requested_ticket;
+            $this->session->set('reminder','+'.$diff);
+        }
+        return $this->session->get('tickets_sold');
     }
 }

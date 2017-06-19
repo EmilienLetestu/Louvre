@@ -220,15 +220,16 @@ class TicketManager
         $ticket_form->handleRequest($request);
         if ( $ticket_form->isSubmitted() && $ticket_form->isValid())
         {
-            //fetch submitted data
-            $name = $ticket_form->get('name')->getData();
-            $surname = $ticket_form->get('surname')->getData();
-            $dob = $ticket_form->get('dob')->getData();
-            $discount = $ticket_form->get('discount')->getData();
-            $time_access = $ticket_form->get('time_access')->getData();
-            //create session order (cart)
-            $this->addToOrder($this->createOrder($name, $surname, $dob, $discount, $time_access));
+                //fetch submitted data
+                $name = $ticket_form->get('name')->getData();
+                $surname = $ticket_form->get('surname')->getData();
+                $dob = $ticket_form->get('dob')->getData();
+                $discount = $ticket_form->get('discount')->getData();
+                $time_access = $ticket_form->get('time_access')->getData();
+                //create session order (cart)
+                $this->addToOrder($this->createOrder($name, $surname, $dob, $discount, $time_access));
         }
+        $this->policy->userLittleHelper();
         //prepare data to render in view
         $render = array('ticket_form' => $ticket_form->createView(),
                         'full_day_ticket' => $full_day_ticket
@@ -268,7 +269,7 @@ class TicketManager
                 $surname = $ticket_form->get('surname')->getData();
                 $dob = $ticket_form->get('dob')->getData();
                 $discount = $ticket_form->get('discount')->getData();
-               $time_access = $ticket_form->get('time_access')->getData();
+                $time_access = $ticket_form->get('time_access')->getData();
                 //update ticket with modified data
                 $this->modifyTicket($param, $session_name, $name, $surname, $dob, $discount, $time_access);
                 //return a session var to look for into controller
@@ -283,28 +284,4 @@ class TicketManager
         return $render;
     }
 
-    /**
-     * @return mixed
-     */
-    public function userLittleHelper()
-    {
-        $requested_ticket = $this->session->get('user_n_tickets');
-        $total_ordered = $this->session->get('tickets');
-        if ($total_ordered < $requested_ticket)
-        {
-            $diff = $requested_ticket - $total_ordered;
-            $this->session->set('reminder', $diff);
-        }
-        else
-        {
-            $new_total = $total_ordered + 1;
-            $date_time = $this->tools->formatDate($this->session->get('user_date'));
-            $temp_order = new TempOrder();
-            $temp_order->setTempOrderDate(\DateTime::createFromFormat('m-d-Y H:i:s', $date_time));
-            $check_stock = $this->policy->getTotalBooked($temp_order->getTempOrderDate(),$new_total);
-            $this->session->set('tickets_sold',$check_stock);
-            $this->session->invalidate('reminder');
-        }
-        return $this->session->get('tickets_sold');
-    }
 }

@@ -3,6 +3,7 @@
 {% block title %}{{ parent() }} - Commande des tickets  {% endblock %}
 
 {% block body %}
+    {{ dump(app.session) }}
     <div class="jumbotron" id="banner">
         <img src="{{asset('Images/louvre_banner.jpg')}}">
     </div>
@@ -10,7 +11,7 @@
         <h1 id ="booking_title">Commander des billets pour ma visite du {{ app.session.get('user_date') }}</h1>
     </div>
     <div class="col-sm-5 ticket_form">
-        {{ form_start(ticket_form)}}
+        {{ form_start(ticket_form, {'attr': {'id': 'booking_form'}}) }}
         <div class = "form-group">
             {{ form_label(ticket_form.name) }}
             {{ form_widget(ticket_form.name) }}
@@ -36,7 +37,9 @@
             {{ form_widget(ticket_form.discount) }}
         </div>
         <div class = "form-group col-sm-2 add">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <button type="submit" id="submit_ticket" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <input type="hidden" id="reminder" value="{{ app.session.get('reminder') }}">
+            <input type="hidden" id="tickets_stock" value="{{ app.session.get('tickets_sold') }}">
         </div>
         {{ form_end(ticket_form) }}
     </div>

@@ -127,7 +127,7 @@ class Tools
      */
     public function getTicketType($dob, $price, $time_access)
     {
-        $ticket_type = array();
+        $ticket_type = [];
 
         $ticket_type['price_type']   = $this->getTicketPriceType($dob);
         $ticket_type['price_range']  = $price;
