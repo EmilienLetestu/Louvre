@@ -54,8 +54,7 @@ class StripeFormType extends AbstractType
                                                              'label'  => 'Adresse email'
             ])
             ->add('number',TextType::class,['mapped' => false,
-                                            'attr'   => ['placeholder' => 'numéro de la carte'],
-                                            'label'  => 'Numéro de la carte bancaire'
+                                            'attr'   => ['placeholder' => 'numéro de la carte']
             ])
             ->add('cvc',TextType::class,['constraints' =>[ new NotBlank(),
                                                            new Type('numeric'),
@@ -64,8 +63,7 @@ class StripeFormType extends AbstractType
                                                                        'exactMessage' => ''])
                                                          ],
                                                 'mapped' => false,
-                                                'attr'   => ['placeholder' => '000'],
-                                         'label'  => 'Cvc'
+                                                'attr'   => ['placeholder' => '000']
             ])
             ->add('exp_month',NumberType::class,['constraints'=>[ new Type('numeric'),
                                                                   new Range(['min' => 1,
@@ -76,14 +74,12 @@ class StripeFormType extends AbstractType
                                                                   ],
                                                                   'mapped' => false,
                                                                   'attr'   => ['placeholder' => 'mm'],
-                                                                  'label'  => 'Mois d\'expiration'
             ])
             ->add('exp_year',TextType::class,['constraints'=>[ new Type('numeric'),
                                                                new isCardExpYearOk()
                                                              ],
                                                              'mapped' => false,
-                                                             'attr'   => ['placeholder' => 'aa'],
-                                                             'label'  => 'Année d\'expirartion'
+                                                             'attr'   => ['placeholder' => 'aa']
             ])
             ->add('stripeToken',HiddenType::class)
         ;

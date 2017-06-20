@@ -34,27 +34,25 @@
             {{ form_widget(stripe_form.email) }}
             <span class="form_errors">{{ form_errors(stripe_form.email) }}</span>
         </div>
-        <div class = "form-group col-sm-6 card_input">
-            {{ form_label(stripe_form.number) }}
-            {{ form_widget(stripe_form.number,{'attr':{'data-stripe':'number'}} ) }}
-            <span class="form_errors">{{ form_errors(stripe_form.number) }}</span>
-        </div>
-        <div class = "form-group col-sm-2"  title='les 3 chiffres au dos de votre carte'>
-            {{ form_label(stripe_form.cvc) }}
-            {{ form_widget(stripe_form.cvc, {'attr':{'data-stripe':'cvc'}}) }}
-            <span class="col-sm-1 form_errors">{{ form_errors(stripe_form.cvc) }} </span>
-        </div>
         <div id="card_data">
-            <p>Expire en :</p>
+            <p id="card_data_title">Informations bancaires</p>
+            <div class = "form-group col-sm-6 card_input">
+                {{ form_widget(stripe_form.number,{'attr':{'data-stripe':'number'}} ) }}
+                <span class="form_errors">{{ form_errors(stripe_form.number) }}</span>
+            </div>
+            <div class = "form-group col-sm-2"  title='les 3 chiffres au dos de votre carte'>
+                {{ form_widget(stripe_form.cvc, {'attr':{'data-stripe':'cvc'}}) }}
+                <span class="col-sm-1 form_errors">{{ form_errors(stripe_form.cvc) }} </span>
+            </div>
+            <div class = "form-group col-sm-2" title="mois d'expiration de la carte">
+                {{ form_widget(stripe_form.exp_month, {'attr':{'data-stripe':'exp_month'}}) }}
+                <span class="col-sm-1 form_errors">{{ form_errors(stripe_form.exp_month) }}</span>
+            </div>
+            <div class = "form-group col-sm-2" title="année d'expiration de la carte">
+                {{ form_widget(stripe_form.exp_year, {'attr':{'data-stripe':'exp_year'}}) }}
+                <span class="col-sm-1 form_errors">{{ form_errors(stripe_form.exp_year) }}</span>
+            </div>
         </div>
-        <div class = "form-group col-sm-2">
-            {{ form_widget(stripe_form.exp_month, {'attr':{'data-stripe':'exp_month'}}) }}
-            <span class="col-sm-1 form_errors">{{ form_errors(stripe_form.exp_month) }}</span>
-        </div>
-        <div class = "form-group col-sm-2">
-            {{ form_widget(stripe_form.exp_year, {'attr':{'data-stripe':'exp_year'}}) }}
-            <span class="col-sm-1 form_errors">{{ form_errors(stripe_form.exp_year) }}</span>
-    </div>
         <div class = "form-group col-sm-offset-4">
             <button type="submit" class="btn btn-success">Valider et payer</button>
         </div>

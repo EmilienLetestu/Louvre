@@ -28,10 +28,11 @@ class CheckStatusType extends AbstractType
                                                                         new isDayADayOff(),
                                                                       ],
 
-                                                       'label'  => 'Date souhaitée *',
-                                                       'widget' => 'single_text', 'html5' => false,
-                                                       'format' => 'dd-MM-yyyy',
-                                                       'attr'   => ['class' => 'js-datepicker']
+                                                       'label'     => 'Date souhaitée *',
+                                                       'widget'    => 'single_text', 'html5' => false,
+                                                       'format'    => 'dd-MM-yyyy',
+                                                       'attr'      => ['class'    => 'js-datepicker',
+                                                                       'readOnly' => 'true']
                                                       ]
             )
             ->add('temp_number_of_tickets', NumberType::class, ['constraints'=>[new Type('numeric',['message'=>'Ce champs n\'accepte que les chiffres']),
@@ -40,7 +41,7 @@ class CheckStatusType extends AbstractType
                                                                                            'minMessage' =>'Le nombre minimum de billets est 1',
                                                                                            'maxMessage' =>'Le nombre maximum de billets par commande est de 10'])
                                                                                ],
-                                                                'label'  => 'Nombre d\'entrées souhaitées'
+                                                                'label' => 'Nombre d\'entrées souhaitées'
             ]);
 
     }

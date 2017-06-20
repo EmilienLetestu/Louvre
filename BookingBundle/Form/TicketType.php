@@ -57,7 +57,6 @@ class TicketType extends AbstractType
                                                           'widget' => 'single_text',
                                                           'html5'  => false,
                                                           'format' => 'dd-MM-yyyy',
-                                                          'attr'   => ['class' => 'js-datepicker_dob']
              ])
             ->add('time_access', ChoiceType::class, ['label'    => 'Type de ticket',
                                                      'choices'  => ['journée complète' => 'a.m.',
