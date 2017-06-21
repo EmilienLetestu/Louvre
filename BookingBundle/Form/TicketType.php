@@ -56,7 +56,7 @@ class TicketType extends AbstractType
                                                           'label'  => 'Date de naissance',
                                                           'widget' => 'single_text',
                                                           'html5'  => false,
-                                                          'format' => 'dd-MM-yyyy',
+                                                          'format' =>'dd-MM-yyyy',
              ])
             ->add('time_access', ChoiceType::class, ['label'    => 'Type de ticket',
                                                      'choices'  => ['journée complète' => 'a.m.',
