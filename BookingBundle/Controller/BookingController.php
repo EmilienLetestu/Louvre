@@ -21,8 +21,9 @@ class BookingController extends Controller
        $ticket_manager = $this->container->get('el_booking.ticketManager');
        //create form and process it
        $ticket_form =  $ticket_manager->fillTicketAndProcess($request,$timezone='Europe/Paris',$time=14);
-       return $this->render('ELBookingBundle:Booking:booking.html.twig', array('ticket_form'    => $ticket_form['ticket_form'],
-                                                                               'full_day_ticket'=> $ticket_form['full_day_ticket']));
+       return $this->render('ELBookingBundle:Booking:booking.html.twig', ['ticket_form'    => $ticket_form[0],
+                                                                          'full_day_ticket'=> $ticket_form[1]
+       ]);
    }
 
 }

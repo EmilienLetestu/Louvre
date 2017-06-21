@@ -19,7 +19,7 @@ class isBankHolidayValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        $bank_holiday = array('01/05','01/11','25/12');
+        $bank_holiday = ['01/05','01/11','25/12'];
         $date = date('d/m', $value->getTimeStamp());
         foreach ($bank_holiday as $holiday)
         {

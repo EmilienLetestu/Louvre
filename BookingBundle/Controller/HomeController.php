@@ -16,9 +16,8 @@ class HomeController extends Controller
         $temp_order_manager = $this->container->get('el_booking.tempOrderManager');
         //create and process form
         $booking_status_form = $temp_order_manager->checkStatusAndProcess($request,$timezone = 'Europe/Paris',$pm_access = 14,$booking_limit = 1000,$prefix = 'Commande n°: ');
-        return $this->render('ELBookingBundle:Home:index.html.twig', array('booking_status_form'=> $booking_status_form['booking_status_form'],
-                                                                           'disclaimer'         => $booking_status_form['disclaimer']
-        ));
+        return $this->render('ELBookingBundle:Home:index.html.twig', ['booking_status_form'=> $booking_status_form[0],
+                                                                      'disclaimer'         => $booking_status_form[1]
+        ]);
     }
-
 }

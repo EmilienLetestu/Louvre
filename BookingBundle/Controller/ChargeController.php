@@ -19,6 +19,6 @@ class ChargeController extends Controller
         $billing_manager = $this->container->get('el_booking.billingManager');
         //create form and process it
         $stripe_form = $billing_manager->stripeAndProcess($request,$currency ='eur');
-        return $this->render('ELBookingBundle:Charge:charge.html.twig', array('stripe_form' => $stripe_form['stripe_form']));
+        return $this->render('ELBookingBundle:Charge:charge.html.twig',['stripe_form' => $stripe_form[0]]);
     }
 }

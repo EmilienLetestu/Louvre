@@ -48,8 +48,10 @@ class SaveOrder
         $date = $this->session->get('user_date');
         //get date from session and turn it into a "datetime format"
         $date_time = $this->tools->formatDate($date);
-        foreach ($order as $key) {
-            foreach ($key as $ticket) {
+        foreach ($order as $key)
+        {
+            foreach ($key as $ticket)
+            {
                 $ticket->setDate(\DateTime::createFromFormat('m-d-Y H:i:s', $date_time));
                 $ticket->getName();
                 $ticket->getSurname();

@@ -24,10 +24,10 @@ class ModifyController extends Controller
             $session->remove('submitted');
             return $this->redirectToRoute('reservation_billetterie');
         }
-        return $this->render('ELBookingBundle:Modify:modify.html.twig',array('modify'          => $ticket_form['modify'],
-                                                                             'ticket_form'     => $ticket_form['ticket_form'],
-                                                                             'full_day_ticket' => $ticket_form['full_day_ticket'],
-                                                                             'display_dob'     => $ticket_form['display_dob']
-        ));
+        return $this->render('ELBookingBundle:Modify:modify.html.twig',['modify'          => $ticket_form[0],
+                                                                        'ticket_form'     => $ticket_form[1],
+                                                                        'full_day_ticket' => $ticket_form[2],
+                                                                        'display_dob'     => $ticket_form[3]
+        ]);
     }
 }

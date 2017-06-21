@@ -132,11 +132,9 @@ class TicketManager
                 $total += $ticket->getPrice();
             }
         }
-        $order = array('total' => $total,
-            'number_of_tickets' => $number_of_tickets
-        );
-        $this->session->set('total', $order['total']);
-        $this->session->set('tickets', $order['number_of_tickets']);
+        $order = [$total, $number_of_tickets];
+        $this->session->set('total', $order[0]);
+        $this->session->set('tickets', $order[1]);
 
         return $order;
     }
@@ -243,9 +241,7 @@ class TicketManager
         }
         $this->policy->userLittleHelper();
         //prepare data to render in view
-        $render = array('ticket_form' => $ticket_form->createView(),
-                        'full_day_ticket' => $full_day_ticket
-            );
+        $render = [$ticket_form->createView(), $full_day_ticket];
         return $render;
     }
 
@@ -288,11 +284,7 @@ class TicketManager
                 return $this->session->set('submitted', 1);
         }
         //prepare data to render in view
-        $render = array('modify'          => $ticket,
-                        'ticket_form'     => $ticket_form->createView(),
-                        'full_day_ticket' => $full_day_ticket,
-                        'display_dob'     => $display_dob
-        );
+        $render = [$ticket, $ticket_form->createView(), $full_day_ticket, $display_dob];
         return $render;
     }
 

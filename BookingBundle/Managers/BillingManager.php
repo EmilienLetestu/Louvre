@@ -77,7 +77,7 @@ class BillingManager
             }
         }
         //prepare data to render in view
-        $render = array('stripe_form' => $stripe_form->createview());
+        $render = [$stripe_form->createview()];
         return $render;
     }
 }

@@ -43,7 +43,7 @@ class Mail
         //get user tickets
         $repository  = $this->doctrine->getRepository('ELBookingBundle:Ticket');
         $order_token = $billing->getToken();
-        $ticket_list = $repository->findBy(array('orderToken'=>$order_token));
+        $ticket_list = $repository->findBy(['orderToken'=>$order_token]);
         foreach ($ticket_list as $ticket)
         {
             $ticket->getName();
@@ -66,12 +66,12 @@ class Mail
             ->setSubject('Votre commande de billets d\'entrée au Musée du Louvre')
             ->setFrom('billetterie_louvre@gmail.com')
             ->setTo($email)
-            ->setBody($this->templating->Render('ELBookingBundle:Email:eticket.html.twig', array('billing'     => $billing,
-                                                                                                 'ticket_list' => $ticket_list,
-                                                                                                 'ticket_type' => $ticket_type,
-                                                                                                 'image_logo'  => $logo,
-                                                                                                 'ticket_img'  => $thumbnail
-            )),'text/html');
+            ->setBody($this->templating->Render('ELBookingBundle:Email:eticket.html.twig',['billing'  => $billing,
+                                                                                           'ticket_list' => $ticket_list,
+                                                                                           'ticket_type' => $ticket_type,
+                                                                                           'image_logo'  => $logo,
+                                                                                           'ticket_img'  => $thumbnail
+            ]),'text/html');
 
         //send mail
         $this->mailer->send($message);

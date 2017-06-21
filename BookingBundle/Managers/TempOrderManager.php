@@ -57,8 +57,7 @@ class TempOrderManager
             $this->checkAvailabilityAndRedirect($total_booked,$booking_limit,$date,$tickets,$prefix);
         }
         //prepare data to render in view
-        $render = array('booking_status_form'=>$booking_status_form->createView(),
-                         'disclaimer'        =>$disclaimer);
+        $render = [$booking_status_form->createView(),$disclaimer];
         return $render;
     }
 
