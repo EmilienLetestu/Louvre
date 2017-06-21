@@ -13,35 +13,40 @@
     {% for key,ticket in modify %}
 
     {{ form_start(ticket_form)}}
-
-    {{ form_label(ticket_form.name) }}
-    {{ form_widget(ticket_form.name) }}
-    <span class ="form_errors">{{ form_errors(ticket_form.name) }}</span>
-    <input type="hidden" id="mod_name" value="{{ ticket.name }}">
-
-    {{ form_label(ticket_form.surname) }}
-    {{ form_widget(ticket_form.surname) }}
-    <span class ="form_errors">{{ form_errors(ticket_form.surname) }}</span>
-    <input type="hidden" id="mod_surname" value="{{ ticket.surname }}">
-
-    {{ form_label(ticket_form.dob) }}
-    {{ form_widget(ticket_form.dob) }}
-    <span class ="form_errors"> {{ form_errors(ticket_form.dob) }}</span>
-    <input type="hidden" id="mod_dob" value="{{ display_dob }}">
-
-
-    {{ form_label(ticket_form.time_access,'Type de ticket') }}
-    {{ form_widget(ticket_form.time_access) }}
-    <input type="hidden" id="mod_time_access" value="{{ ticket.timeAccessType }}">
-    <input type="hidden" id ="time_access" value="{{ app.session.get('full_day_ticket') }}">
-
-    {{ form_label(ticket_form.discount) }}
-    {{ form_widget(ticket_form.discount) }}
-    <input type="hidden" id="mod_discount" value="{{ ticket.discount }}">
-
-    <button type="submit"  class="btn btn-primary">Valider les modifications</button>
-    <a class="btn btn-warning" href="{{path('reservation_billetterie')}}">Retour à la commande</a>
-    {{ form_end(ticket_form) }}
+    <div class = "form-group">
+        {{ form_label(ticket_form.name) }}
+        {{ form_widget(ticket_form.name) }}
+        <span class ="form_errors">{{ form_errors(ticket_form.name) }}</span>
+        <input type="hidden" id="mod_name" value="{{ ticket.name }}">
+    </div>
+    <div class = "form-group">
+        {{ form_label(ticket_form.surname) }}
+        {{ form_widget(ticket_form.surname) }}
+        <span class ="form_errors">{{ form_errors(ticket_form.surname) }}</span>
+        <input type="hidden" id="mod_surname" value="{{ ticket.surname }}">
+    </div>
+    <div class = "form-group" title="Format de la date : jj-mm-aaaa">
+        {{ form_label(ticket_form.dob) }}
+        {{ form_widget(ticket_form.dob) }}
+        <span class ="form_errors"> {{ form_errors(ticket_form.dob) }}</span>
+        <input type="hidden" id="mod_dob" value="{{ display_dob }}">
+    </div>
+    <div class = "form-group">
+        {{ form_label(ticket_form.time_access,'Type de ticket') }}
+        {{ form_widget(ticket_form.time_access) }}
+        <input type="hidden" id="mod_time_access" value="{{ ticket.timeAccessType }}">
+        <input type="hidden" id ="time_access" value="{{ app.session.get('full_day_ticket') }}">
+    </div>
+    <div class = "form-group">
+        {{ form_label(ticket_form.discount) }}
+        {{ form_widget(ticket_form.discount) }}
+        <input type="hidden" id="mod_discount" value="{{ ticket.discount }}">
+    </div>
+    <div class = "form-group">
+        <button type="submit"  class="btn btn-primary">Valider les modifications</button>
+        <a class="btn btn-warning" href="{{path('reservation_billetterie')}}">Retour à la commande</a>
+        {{ form_end(ticket_form) }}
+    </div>
 
     {{ form(ticket_form) }}
 </div>
