@@ -2,7 +2,7 @@
 <html>
     <body>
         <div class="header" style="background-color:#190e14">
-            <h1 style="color: #FFFFFF;text-shadow: 4px 4px 2px rgba(150, 150, 150, 1);!important;"><i style="position: relative;top: 4px; left: 4px;"><img height="20" width="32" src="{{ image_logo }}"></i>Musée du louvre</h1>
+            <h1 style="color: #FFFFFF;text-shadow: 4px 4px 2px rgba(150, 150, 150, 1)"><i style="position: relative;top: 4px;left: 4px;"><img height="20" width="32" src="{{ image_logo }}"></i>Musée du louvre</h1>
         </div>
         <div class="intro">
             <h2>{{ billing.token }}</h2>
@@ -12,7 +12,7 @@
         </div>
         <div class="order_summary">
             <h3>Détails de votre commande</h3>
-            <ul style="list-style-type: none;margin: 0">
+            <ul style="list-style-type: none;margin: 0 0 0 -15px;padding: 0">
                 <li>Nombre de billets   : <strong>{{ billing.numberOfTickets}}</strong></li>
                 <li>Billets valable le  : <strong>{{ billing.visitDay }}</strong></li>
                 <li>Prix de la commande : <strong>{{ billing.price }} €</strong></li>
