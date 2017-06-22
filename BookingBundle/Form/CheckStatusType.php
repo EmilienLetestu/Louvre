@@ -39,7 +39,7 @@ class CheckStatusType extends AbstractType
                                                                                 new Range(['min' => 1,
                                                                                            'max' => 10,
                                                                                            'minMessage' =>'Le nombre minimum de billets est 1',
-                                                                                           'maxMessage' =>'Le nombre maximum de billets par commande est de 10'])
+                                                                                           'maxMessage' =>'10 billets maximum par commande '])
                                                                                ],
                                                                 'label' => 'Nombre d\'entrées souhaitées'
             ]);
