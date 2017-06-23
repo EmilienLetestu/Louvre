@@ -28,7 +28,7 @@ class CheckStatusType extends AbstractType
                                                                         new isDayADayOff(),
                                                                       ],
 
-                                                       'label'     => 'Date souhaitée *',
+                                                       'label'     => 'Date souhaitée',
                                                        'widget'    => 'single_text', 'html5' => false,
                                                        'format'    => 'dd-MM-yyyy',
                                                        'attr'      => ['class'    => 'js-datepicker',
