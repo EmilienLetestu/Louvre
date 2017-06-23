@@ -17,7 +17,7 @@ modifier_ticket:
 supprimer_ticket:
     path:     /supprimer-ticket/{id}
     defaults:
-         _controller: ELBookingBundle:Delete:delete
+         _controller: ELBookingBundle:Booking:delete
     requirements:
          id: \d+
 

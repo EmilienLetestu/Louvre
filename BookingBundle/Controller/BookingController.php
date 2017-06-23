@@ -1,11 +1,8 @@
 <?php
 namespace EL\BookingBundle\Controller;
-use EL\BookingBundle\Entity\Ticket;
-use EL\BookingBundle\Form\TicketType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Created by PhpStorm.
@@ -25,5 +22,15 @@ class BookingController extends Controller
                                                                           'full_day_ticket'=> $ticket_form[1]
        ]);
    }
+
+    public function deleteAction()
+    {
+        //initialize needed services or classes
+        $ticket_manager = $this->container->get('el_booking.ticketManager');
+        //get ticket to delete and delete it
+        $ticket_manager->deleteTicketFromOrderInProgress($param='id',$session_name='order');
+        return $this->redirectToRoute('reservation_billetterie');
+    }
+
 
 }
