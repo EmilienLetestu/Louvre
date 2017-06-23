@@ -10,7 +10,7 @@ reservation_billetterie:
 modifier_ticket:
     path:    /modifier-ticket/{id}
     defaults:
-         _controller: ELBookingBundle:Modify:modify
+         _controller: ELBookingBundle:Booking:modify
     requirements:
          id: \d+
 
