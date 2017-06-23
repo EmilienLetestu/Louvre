@@ -16,7 +16,7 @@ class ChargeController extends Controller
     public function chargeAction(Request $request)
     {
         //initialize needed services
-        $billing_manager = $this->container->get('el_booking.billingManager');
+        $billing_manager = $this->get('el_booking.billingManager');
         //create form and process it
         $stripe_form = $billing_manager->stripeAndProcess($request,$currency ='eur');
         return $this->render('ELBookingBundle:Charge:charge.html.twig',['stripe_form' => $stripe_form[0]]);

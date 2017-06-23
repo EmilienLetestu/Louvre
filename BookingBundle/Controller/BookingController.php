@@ -1,7 +1,6 @@
 <?php
 namespace EL\BookingBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,28 +15,35 @@ class BookingController extends Controller
    public function bookingAction(Request $request)
    {
        //initialize needed services
-       $ticket_manager = $this->container->get('el_booking.ticketManager');
-       //create form and process it
-       $ticket_form =  $ticket_manager->fillTicketAndProcess($request,$timezone='Europe/Paris',$time=14);
-       return $this->render('ELBookingBundle:Booking:booking.html.twig', ['ticket_form'     => $ticket_form[0],
-                                                                          'full_day_ticket' => $ticket_form[1]
+       $ticket_manager = $this->get('el_booking.ticketManager')->fillTicketAndProcess(
+           $request,
+           $timezone='Europe/Paris',
+           $time=14
+       );
+
+       return $this->render('ELBookingBundle:Booking:booking.html.twig', [
+           'ticket_form'     => $ticket_manager[0],
+           'full_day_ticket' => $ticket_manager[1]
        ]);
    }
 
     public function deleteAction()
     {
         //initialize needed services or classes
-        $ticket_manager = $this->container->get('el_booking.ticketManager');
-        //get ticket to delete and delete it
-        $ticket_manager->deleteTicketFromOrderInProgress($param='id',$session_name='order');
+        $this->get('el_booking.ticketManager')->deleteTicketFromOrderInProgress($param='id',$session_name='order');
         return $this->redirectToRoute('reservation_billetterie');
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     */
     public function modifyAction(Request $request)
     {
         //initialize needed services or classes
-        $session = new Session();
-        $ticket_manager = $this->container->get('el_booking.ticketManager');
+        $session = $this->get('session');
+        $ticket_manager = $this->get('el_booking.ticketManager');
         $ticket_form = $ticket_manager->modifyTicketAndProcess($request,$timeZone='Europe/Paris',$time=14,$param='id',$session_name='order');
         if($session->has('submitted'))
         {
@@ -50,6 +56,5 @@ class BookingController extends Controller
                                                                         'display_dob'     => $ticket_form[3]
         ]);
     }
-
 
 }
