@@ -12,16 +12,16 @@
         </div>
         <div class="order_summary">
             <h3>Détails de votre commande</h3>
-            <ul style="list-style-type: none;margin: 0 0 0 -15px;padding: 0">
+            <ul style="list-style-type: none;margin-left: 0;padding: 0">
                 <li>Nombre de billets   : <strong>{{ billing.numberOfTickets}}</strong></li>
                 <li>Billets valable le  : <strong>{{ billing.visitDay }}</strong></li>
                 <li>Prix de la commande : <strong>{{ billing.price }} €</strong></li>
             </ul>
         </div>
             <h3>Vos billets</h3>
-            <div class = "ticket_list" style="display: flex;flex-flow: wrap">
+            <div class = "ticket_list" style="display: flex;flex-flow: row wrap">
                 {% for ticket in ticket_list  %}
-                <div class = "ticket_details " style="text-align: center;box-shadow: 1px 1px 2px rgb(0, 0, 0);width: 45%;margin: 5px;background-color:#DDDDDD">
+                <div class = "ticket_details " style="text-align: center;box-shadow: 1px 1px 2px rgb(0, 0, 0);width: 40%;margin: 5px;background-color:#7b7b7b">
                     <img width="100%" src="{{ ticket_img }}">
                     <h3 style="color: #FFFFFF;text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.name }} {{ ticket.surname }}</h3>
                     <p style="color: #FFFFFF;text-shadow: 6px 6px 2px rgb(25,14,20);">{{ ticket.priceType }}</p>
