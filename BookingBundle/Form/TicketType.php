@@ -15,7 +15,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -38,7 +37,7 @@ class TicketType extends AbstractType
                                                                          'minMessage' => 'Le prénom doit comporter 3 caractères minimum !',
                                                                          'maxMessage' => 'Le prénom est limité à 50 caractères !'])
                                                             ],
-                                                            'label' => 'Prénom'
+                                             'label' => 'Prénom'
             ])
             ->add('surname', TextType::class, ['constraints'=>[ new NotBlank(),
                                                                 new Type('string'),
@@ -47,22 +46,22 @@ class TicketType extends AbstractType
                                                                             'minMessage' => 'Le nom doit comporter 3 caractères minimum !',
                                                                             'maxMessage' => 'Le nom est limité à 50 caractères !'])
                                                                 ],
-                                                                'label' => 'Nom'
-             ])
+                                                'label' => 'Nom'
+            ])
             ->add('dob', DateType::class,['constraints' =>[ new NotBlank(),
                                                             new DateTime(),
                                                             new isAgeOk()
                                                           ],
-                                                          'label'  => 'Date de naissance',
-                                                          'widget' => 'single_text',
-                                                          'html5'  => false,
-                                                          'format' =>'dd-MM-yyyy',
-             ])
+                                          'label'  => 'Date de naissance',
+                                          'widget' => 'single_text',
+                                          'html5'  => false,
+                                          'format' =>'dd-MM-yyyy',
+            ])
             ->add('time_access', ChoiceType::class, ['label'    => 'Type de ticket',
                                                      'choices'  => ['journée complète' => 'a.m.',
                                                                     '1/2 journée'      => 'p.m.'
                                                      ]
-             ])
+            ])
             ->add('discount', CheckboxType::class, ['mapped'   => false,
                                                     'label'    => 'Je bénéficie d\'un tarif préférenciel',
                                                     'required' => false

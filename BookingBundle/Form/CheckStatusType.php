@@ -27,7 +27,6 @@ class CheckStatusType extends AbstractType
             ->add('temp_order_date', DateType::class, ['constraints'=>[ new isBankHoliday(),
                                                                         new isDayADayOff(),
                                                                       ],
-
                                                        'label'     => 'Date souhaitée',
                                                        'widget'    => 'single_text', 'html5' => false,
                                                        'format'    => 'dd-MM-yyyy',
@@ -42,7 +41,8 @@ class CheckStatusType extends AbstractType
                                                                                            'maxMessage' =>'10 billets maximum par commande '])
                                                                                ],
                                                                 'label' => 'Nombre d\'entrées souhaitées'
-            ]);
+            ])
+        ;
 
     }
 

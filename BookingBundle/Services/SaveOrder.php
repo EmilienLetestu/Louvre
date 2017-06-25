@@ -52,7 +52,7 @@ class SaveOrder
         {
             foreach ($key as $ticket)
             {
-                $ticket->setDate(\DateTime::createFromFormat('m-d-Y H:i:s', $date_time));
+                $ticket->setDate(\DateTime::createFromFormat('d-m-Y H:i:s', $date_time));
                 $ticket->getName();
                 $ticket->getSurname();
                 $ticket->getDiscount();
@@ -91,7 +91,7 @@ class SaveOrder
         $billing->setName($name);
         $billing->setSurname($surname);
         $billing->setNumberOfTickets($this->session->get('tickets'));
-        $billing->setVisitDay(\DateTime::createFromFormat('m-d-Y H:i:s',$date_time));
+        $billing->setVisitDay(\DateTime::createFromFormat('d-m-Y H:i:s',$date_time));
         $billing->setToken($order_token);
         $billing->setStripeToken($source);
         $billing->setPrice($this->session->get('total'));

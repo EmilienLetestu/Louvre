@@ -71,7 +71,6 @@ class TempOrderManager
      */
     public function createTempOrderSession($user_date,$user_n_tickets,$prefix)
     {
-        $this->session->set('test',$user_date);
         $tempOrder = new TempOrder();
         //hydrate tempOrder object
         //1-setters

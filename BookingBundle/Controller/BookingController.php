@@ -3,7 +3,6 @@ namespace EL\BookingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
 /**
  * Created by PhpStorm.
  * User: Emilien

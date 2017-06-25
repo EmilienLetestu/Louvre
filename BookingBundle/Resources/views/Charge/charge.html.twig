@@ -14,6 +14,7 @@
     {% for flashMessage in app.session.flashbag.get('stripe_error') %}
         <div class="col-sm-6 offset-sm-3 error">{{ flashMessage }}</div>
     {% endfor %}
+    {{ dump(app.session.get('user_date')) }}
     <div class="col-sm-12">
         <h1 id="charge_title">Payer {{ app.session.get('total') }} € pour {{ app.session.get('tickets') }} billets</h1>
     </div>

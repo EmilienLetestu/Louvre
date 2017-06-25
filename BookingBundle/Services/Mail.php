@@ -50,16 +50,15 @@ class Mail
             $ticket->getSurname();
             $ticket->getDiscount();
             $ticket->getOrderToken();
-            $ticket->getDate()->format('m-d-Y');
-            $time_access = $ticket->getTimeAccess();
-            $dob         = $ticket->getDob();
-            $price       = $ticket->getPrice();
-            //turn db info into usr friendly info
-            $ticket->setPriceType($dob);
+            $ticket->getDate()->format('d-m-Y');
+            $ticket->getTimeAccess();
+            $ticket->getDob();
+            $ticket->getPrice();
+            $ticket->setPriceType($ticket->getDob());
             $ticket->getPriceType();
-            $ticket_type = $tools->getTicketType($dob,$price,$time_access);
+            $ticket->getTimeAccessType();
         }
-        $visit_day = $billing->getVisitDay()->format('m-d-Y');
+        $visit_day = $billing->getVisitDay()->format('d-m-Y');
         //create mail
         $message = \Swift_Message::newInstance();
         $logo    = $message->embed(\Swift_Image::fromPath('../web/logo_pyramide_accueil.png'));
@@ -72,10 +71,8 @@ class Mail
                 'billing'     => $billing,
                 'visit_day'   => $visit_day,
                 'ticket_list' => $ticket_list,
-                'ticket_type' => $ticket_type,
                 'image_logo'  => $logo,
                 'ticket_img'  => $thumbnail
-
             ]),'text/html');
 
         //send mail
