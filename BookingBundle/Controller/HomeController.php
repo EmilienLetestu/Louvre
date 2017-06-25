@@ -11,13 +11,23 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class HomeController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction(Request $request)
-    {   //initialise needed service(s)
-        $temp_order_manager = $this->container->get('el_booking.tempOrderManager');
-        //create and process form
-        $booking_status_form = $temp_order_manager->checkStatusAndProcess($request,$timezone = 'Europe/Paris',$pm_access = 14,$booking_limit = 1000,$prefix = 'Commande n°: ');
-        return $this->render('ELBookingBundle:Home:index.html.twig', ['booking_status_form'=> $booking_status_form[0],
-                                                                      'disclaimer'         => $booking_status_form[1]
+    {
+        $temp_order_manager = $this->get('el_booking.tempOrderManager')->checkStatusAndProcess(
+            $request,
+            $timezone       = 'Europe/Paris',
+            $pm_access      = 14
+            ,$booking_limit = 1000,
+            $prefix         = 'Commande n°: '
+        );
+
+        return $this->render('ELBookingBundle:Home:index.html.twig', [
+            'booking_status_form' => $temp_order_manager[0],
+            'disclaimer'          => $temp_order_manager[1]
         ]);
     }
 }
