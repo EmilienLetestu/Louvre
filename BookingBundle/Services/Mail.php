@@ -50,6 +50,7 @@ class Mail
             $ticket->getSurname();
             $ticket->getDiscount();
             $ticket->getOrderToken();
+            $ticket->getDate()->format('m-d-Y');
             $time_access = $ticket->getTimeAccess();
             $dob         = $ticket->getDob();
             $price       = $ticket->getPrice();
@@ -58,6 +59,7 @@ class Mail
             $ticket->getPriceType();
             $ticket_type = $tools->getTicketType($dob,$price,$time_access);
         }
+        $visit_day = $billing->getVisitDay()->format('m-d-Y');
         //create mail
         $message = \Swift_Message::newInstance();
         $logo    = $message->embed(\Swift_Image::fromPath('../web/logo_pyramide_accueil.png'));
@@ -66,11 +68,14 @@ class Mail
             ->setSubject('Votre commande de billets d\'entrée au Musée du Louvre')
             ->setFrom('billetterie_louvre@gmail.com')
             ->setTo($email)
-            ->setBody($this->templating->Render('ELBookingBundle:Email:eticket.html.twig',['billing'  => $billing,
-                                                                                           'ticket_list' => $ticket_list,
-                                                                                           'ticket_type' => $ticket_type,
-                                                                                           'image_logo'  => $logo,
-                                                                                           'ticket_img'  => $thumbnail
+            ->setBody($this->templating->Render('ELBookingBundle:Email:eticket.html.twig',[
+                'billing'     => $billing,
+                'visit_day'   => $visit_day,
+                'ticket_list' => $ticket_list,
+                'ticket_type' => $ticket_type,
+                'image_logo'  => $logo,
+                'ticket_img'  => $thumbnail
+
             ]),'text/html');
 
         //send mail

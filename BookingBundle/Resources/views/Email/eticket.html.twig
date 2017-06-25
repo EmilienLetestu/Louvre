@@ -7,14 +7,14 @@
         <div class="intro">
             <h2>{{ billing.token }}</h2>
                 <p>Bonjour {{ billing.name }} {{ billing.surname }} cet email contient l'ensemble des billets que vous avez commandé,
-                 nous avons hâte de vous recvoir le {{ billing.visitDay }}  pour votre viste au musée du Louvre.
+                 nous avons hâte de vous recvoir le {{ visit_day }}  pour votre viste au musée du Louvre.
                 </p>
         </div>
         <div class="order_summary">
             <h3>Détails de votre commande</h3>
             <ul style="list-style-type: none;margin-left: 0;padding: 0">
                 <li>Nombre de billets   : <strong>{{ billing.numberOfTickets}}</strong></li>
-                <li>Billets valable le  : <strong>{{ billing.visitDay }}</strong></li>
+                <li>Billets valable le  : <strong>{{ visit_day }}</strong></li>
                 <li>Prix de la commande : <strong>{{ billing.price }} €</strong></li>
             </ul>
         </div>

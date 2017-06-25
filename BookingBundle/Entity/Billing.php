@@ -181,7 +181,7 @@ class Billing
      */
     public function getVisitDay()
     {
-        return $this->visitDay->format('m-d-Y');
+        return $this->visitDay;
     }
 
     /**
