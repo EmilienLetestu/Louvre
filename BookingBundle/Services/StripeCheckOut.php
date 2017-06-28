@@ -9,6 +9,7 @@
 namespace EL\BookingBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Stripe\Customer;
 use Stripe\Error\Card;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -67,7 +68,7 @@ class StripeCheckOut
      * @param $source
      * @return \Stripe\Charge
      */
-    public function stripePayment($currency,$source)
+    public function stripePayment($currency,$source,$email)
     {
         $total  = $this->session->get('total');
         $api_key = $this->getApiKey();
@@ -83,9 +84,14 @@ class StripeCheckOut
         try
         {
             \Stripe\Stripe::setApiKey($api_key);
-            \Stripe\Charge::create(['amount'  => $total * 100,
-                                   'currency' => $currency,
-                                   'source'   => $source
+           $customer =  \Stripe\Customer::create(["description" => "Payement de $email",
+                                                  "email"       => $email,
+                                                  "source"      => $source
+            ]);
+            \Stripe\Charge::create(['amount'   => $total * 100,
+                                    'currency' => $currency,
+                                    'customer' => $customer['id']
+
             ]);
             $this->session->set('payment_success',1);
         }
@@ -115,6 +121,11 @@ class StripeCheckOut
         catch (\Stripe\Error\Base $e)
         {
             $this->session->getFlashBag()->add('error',$message_to_user);
+        }
+        if(!$this->session->has('payment_success'))
+        {
+            $customer_delete = \Stripe\Customer::retrieve($customer['id']);
+            $customer_delete->delete();
         }
         return $this->session->get('payment_success');
     }
