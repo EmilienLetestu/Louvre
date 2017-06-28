@@ -11,7 +11,7 @@
             <a href="{{ path('accueil_billetterie') }}" class="close"><i class="fa fa-times" aria-hidden="true"></i></a>
         </div>
     {% endfor %}
-    {% for flashMessage in app.session.flashbag.get('stripe_error') %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
         <div class="col-sm-6 offset-sm-3 error">{{ flashMessage }}</div>
     {% endfor %}
     <div class="col-sm-12">

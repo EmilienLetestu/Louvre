@@ -94,27 +94,27 @@ class StripeCheckOut
             $body = $e->getJsonBody();
             $err  = $body['error'];
             $message = $card_error_message[$err['code']];
-            $this->session->getFlashBag()->add('stripe_error',$message);
+            $this->session->getFlashBag()->add('error',$message);
         }
         catch (\Stripe\Error\RateLimit $e)
         {
-            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            $this->session->getFlashBag()->add('error',$message_to_user);
         }
         catch (\Stripe\Error\InvalidRequest $e)
         {
-            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            $this->session->getFlashBag()->add('error',$message_to_user);
         }
         catch (\Stripe\Error\Authentication $e)
         {
-            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            $this->session->getFlashBag()->add('error',$message_to_user);
         }
         catch (\Stripe\Error\ApiConnection $e)
         {
-            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            $this->session->getFlashBag()->add('error',$message_to_user);
         }
         catch (\Stripe\Error\Base $e)
         {
-            $this->session->getFlashBag()->add('stripe_error',$message_to_user);
+            $this->session->getFlashBag()->add('error',$message_to_user);
         }
         return $this->session->get('payment_success');
     }
