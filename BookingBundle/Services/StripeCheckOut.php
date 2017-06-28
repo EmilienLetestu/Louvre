@@ -122,7 +122,7 @@ class StripeCheckOut
         {
             $this->session->getFlashBag()->add('error',$message_to_user);
         }
-        if(!$this->session->has('payment_success'))
+        if(!$this->session->has('payment_success') && isset($customer['id']))
         {
             $customer_delete = \Stripe\Customer::retrieve($customer['id']);
             $customer_delete->delete();
