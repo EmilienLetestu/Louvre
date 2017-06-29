@@ -72,7 +72,7 @@ class Mail
                 'visit_day'   => $visit_day,
                 'ticket_list' => $ticket_list,
                 'image_logo'  => $logo,
-                'ticket_img'  => $thumbnail
+                'banner'  => $thumbnail
             ]),'text/html');
 
         //send mail

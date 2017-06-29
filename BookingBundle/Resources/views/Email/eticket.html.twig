@@ -1,6 +1,52 @@
 <!DOCTYPE html>
 <html>
-    <body style="height: 100%">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            h1
+            {
+                color: #FFFFFF;
+            }
+            #bodyTable
+            {
+                height: 100%;
+            }
+            #emailHeader
+            {
+                background-color:#190e14;
+            }
+            img
+            {
+                float: left;
+                margin-top: 1.5%;
+            }
+            #emailBody
+            {
+                margin-top: -20px;
+            }
+            ul
+            {
+            list-style-type: none;
+            margin-left: -15px;
+            padding: 0;
+            }
+            #emailTickets
+            {
+               font-size: 0.9em;
+            }
+            #ticket_head
+            {
+                background-color:#7b7b7b;
+                color: #FFFFFF;
+            }
+
+            .ref
+            {
+                font-size:0.8em;
+                color: #000000;
+            }
+        </style>
+    </head>
     <table border="0" cellpadding="20" cellspacing="20" width="100%" id="bodyTable">
         <tr>
             <td valign="top">
@@ -10,11 +56,9 @@
                            <table border="0" cellpadding="20" cellspacing="0" width="100%" id="emailHeader">
                                <tr>
                                    <td valign="top">
-                                       <div class="header" style="background-color:#190e14">
-                                           <<h1 style="color: #FFFFFF;">
-                                               <i style="position: relative;top: 4px;left: 4px;"><img height="20" width="32" src="{{ image_logo }}"></i>Musée du louvre
-                                           </h1>
-                                       </div>
+                                       <h1>
+                                           <i><img height="20" width="32" src="{{ image_logo }}"></i>Musée du louvre
+                                       </h1>
                                    </td>
                                </tr>
                            </table>
@@ -22,7 +66,7 @@
                     </tr>
                     <tr>
                         <td valign="top">
-                            <table border="0" cellpadding="20" cellspacing="0" width="100%" id="emailBody" style="margin-top: -20px;">
+                            <table border="0" cellpadding="20" cellspacing="0" width="100%" id="emailBody">
                                 <tr>
                                     <td valign="top">
                                         <div class="intro">
@@ -31,29 +75,29 @@
                                                 nous avons hâte de vous recvoir le {{ visit_day }}  pour votre viste au musée du Louvre.
                                             </p>
                                         </div>
-                                        <div class="order_summary">
                                             <h3>Détails de votre commande</h3>
-                                            <ul style="list-style-type: none;margin-left: 0;padding: 0">
+                                            <ul>
                                                 <li>Nombre de billets   : <strong>{{ billing.numberOfTickets}}</strong></li>
                                                 <li>Billets valable le  : <strong>{{ visit_day }}</strong></li>
                                                 <li>Prix de la commande : <strong>{{ billing.price }} €</strong></li>
                                             </ul>
-                                        </div>
-                                        <table border="0" cellpadding="20" cellspacing="0" width="100%" id="emailBody" style="display: flex">
+                                        <table border="0" cellspacing="5px" width="100%" id="emailTickets">
+                                           <tr id="ticket_head">
+                                               <td>Porteur</td>
+                                               <td>Valable le</td>
+                                               <td>Type de billet</td>
+                                               <td class="pricing_type">Prix</td>
+                                               <td>Référence</td>
+                                           </tr>
+                                              {% for ticket in ticket_list  %}
                                             <tr>
-                                                {% for ticket in ticket_list  %}
-                                                <td valign="top" width="40%">
-                                                    <div class = "ticket_details " style="text-align: center;margin: 5px;background-color:#7b7b7b">
-                                                        <img width="100%" src="{{ ticket_img }}">
-                                                        <h3 style="color: #FFFFFF;">{{ ticket.name }} {{ ticket.surname }}</h3>
-                                                        <p style="color: #FFFFFF;">{{ ticket.priceType }}</p>
-                                                        <p style="color: #FFFFFF;">{{ ticket.price }} €</p>
-                                                        <p style="color: #FFFFFF;">{{ ticket.timeAccessType }}</p>
-                                                        <p class="ref" style="font-size:0.7em;">{{ ticket.token }}</p>
-                                                    </div>
-                                                </td>
-                                                {% endfor %}
+                                                <td>{{ ticket.name }} {{ ticket.surname }}</td>
+                                                <td>{{ visit_day }}</td>
+                                                <td>{{ ticket.timeAccessType }} ,{{ ticket.priceType }}</td>
+                                                <td class="pricing_type">{{ ticket.price }} €</td>
+                                                <td class="ref">{{ ticket.token }}</td>
                                             </tr>
+                                                {% endfor %}
                                         </table>
                                     </td>
                                 </tr>
@@ -64,11 +108,6 @@
             </td>
         </tr>
     </table>
-    </body>
 </html>
-
-
-
-
 
 
