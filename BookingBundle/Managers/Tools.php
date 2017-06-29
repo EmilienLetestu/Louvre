@@ -20,10 +20,17 @@ class Tools
     public function getDisclaimer($time_zone,$pm_access)
     {
        $time_to_check =$this->getTime($time_zone);
+       $bank_holiday = ['01/05','01/11','25/12'];
+       $date = date('d/m');
+       $day  = date('D');
 
-        if($time_to_check < $pm_access)
+        if($time_to_check < $pm_access && $day != "Tue" && !in_array($date,$bank_holiday))
         {
             $disclaimer = null;
+        }
+        elseif ($day == "Tue" || in_array($date, $bank_holiday))
+        {
+            $disclaimer = "Le musée est fermé aujourd'hui";
         }
         else
         {
