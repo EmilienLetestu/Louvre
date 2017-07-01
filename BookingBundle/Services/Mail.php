@@ -59,11 +59,11 @@ class Mail
             $ticket->getPriceType();
             $ticket->getTimeAccessType();
         }
-        $this->generateQrCode($order_token,$billing->getId());
         $visit_day = $billing->getVisitDay()->format('d-m-Y');
+        $code = 'qrcode'.$billing->getId().'_'.$visit_day.'.png';
+        $this->generateQrCode($order_token,$code);
         //create mail
         $message = \Swift_Message::newInstance();
-        $code = 'qrcode'.$billing->getId().'.png';
         $logo    = $message->embed(\Swift_Image::fromPath('../web/images/logo_pyramide_accueil.png'));
         $qr_code = $message->embed(\Swift_Image::fromPath('../web/Qrcodes/'.$code));
         $message
@@ -77,23 +77,26 @@ class Mail
                 'image_logo'  => $logo,
                 'qr_code'     => $qr_code
             ]),'text/html');
-
         //send mail
         $this->mailer->send($message);
         //will be used later on to detect end of process and kill session
         $this->session->set('mail_sent',1);
     }
 
-    public function generateQrCode($order_token,$billing_id)
+    /**
+     * @param $order_token
+     * @param $code
+     */
+    public function generateQrCode($order_token,$code)
     {
         $qr_code = new QrCode();
         $qr_code
             ->setText($order_token)
-            ->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH)
+            ->setErrorCorrectionLevel('high')
             ->setLabel('Présenter ce code à l\'accueil')
             ->setLogoPath('../web/images/logo_pyramide_accueil.png')
+            ->setLogoWidth(150)
         ;
-        $code = 'qrcode'.$billing_id.'.png';
         $qr_code->writeFile('../web/Qrcodes/'.$code);
 
     }
