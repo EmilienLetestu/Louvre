@@ -10,7 +10,6 @@ namespace EL\BookingBundle\Services;
 
 
 use Doctrine\ORM\EntityManager;
-use EL\BookingBundle\Managers\Tools;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
@@ -60,7 +59,7 @@ class Mail
             $ticket->getTimeAccessType();
         }
         $visit_day = $billing->getVisitDay()->format('d-m-Y');
-        $code = 'qrcode'.$billing->getId().'_'.$visit_day.'.png';
+        $code = 'qrcode'.$visit_day.'_'.$billing->getId().'.png';
         $this->generateQrCode($order_token,$code);
         //create mail
         $message = \Swift_Message::newInstance();
@@ -92,12 +91,11 @@ class Mail
         $qr_code = new QrCode();
         $qr_code
             ->setText($order_token)
-            ->setErrorCorrectionLevel('high')
+            ->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH)
             ->setLabel('Présenter ce code à l\'accueil')
             ->setLogoPath('../web/images/logo_pyramide_accueil.png')
             ->setLogoWidth(150)
         ;
         $qr_code->writeFile('../web/Qrcodes/'.$code);
-
     }
 }
