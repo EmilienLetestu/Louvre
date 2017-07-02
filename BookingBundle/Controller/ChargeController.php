@@ -1,7 +1,6 @@
 <?php
 namespace EL\BookingBundle\Controller;
-use EL\BookingBundle\Entity\Billing;
-use EL\BookingBundle\Form\StripeFormType;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
