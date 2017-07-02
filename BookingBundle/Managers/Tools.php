@@ -48,10 +48,9 @@ class Tools
     public function getTime($time_zone)
     {
         date_default_timezone_set($time_zone);
-        $time = explode(':',date("H:i:s"));
-        $time_to_check = $time[0];
-        return $time_to_check;
+        return date("H");
     }
+
 
     /**
      * Find age from date of birth
@@ -151,8 +150,7 @@ class Tools
      */
     public function formatDate($date)
     {
-        $time = ' 00:00:00';
-        $date_time = $date.$time;
+        $date_time = "{$date} 00:00:00";
         return $date_time;
     }
 
@@ -165,10 +163,13 @@ class Tools
         }
     }
 
+    /**
+     * @param $aimed_date
+     */
     public function deleteExpiredFile($aimed_date)
     {
         $date = date('d-m-Y', strtotime($aimed_date));
-        array_map('unlink', glob('../web/Qrcodes/qrcode'.$date.'*.png'));
+        array_map('unlink', glob("../web/Qrcodes/qrcode{$date}*.png"));
     }
 
 }

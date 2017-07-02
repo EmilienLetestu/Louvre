@@ -59,12 +59,12 @@ class Mail
             $ticket->getTimeAccessType();
         }
         $visit_day = $billing->getVisitDay()->format('d-m-Y');
-        $code = 'qrcode'.$visit_day.'_'.$billing->getId().'.png';
+        $code = "qrcode{$visit_day}_{$billing->getId()}.png";
         $this->generateQrCode($order_token,$code);
         //create mail
         $message = \Swift_Message::newInstance();
         $logo    = $message->embed(\Swift_Image::fromPath('../web/images/logo_pyramide_accueil.png'));
-        $qr_code = $message->embed(\Swift_Image::fromPath('../web/Qrcodes/'.$code));
+        $qr_code = $message->embed(\Swift_Image::fromPath("../web/Qrcodes/{$code}"));
         $message
             ->setSubject('Votre commande de billets d\'entrée au Musée du Louvre')
             ->setFrom('billetterie_louvre@gmail.com')
@@ -96,6 +96,6 @@ class Mail
             ->setLogoPath('../web/images/logo_pyramide_accueil.png')
             ->setLogoWidth(150)
         ;
-        $qr_code->writeFile('../web/Qrcodes/'.$code);
+        $qr_code->writeFile("../web/Qrcodes/{$code}");
     }
 }
