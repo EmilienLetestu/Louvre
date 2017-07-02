@@ -164,4 +164,11 @@ class Tools
             throw new \Exception('La commande est vide ou n\'a pas commencée !');
         }
     }
+
+    public function deleteExpiredFile($aimed_date)
+    {
+        $date = date('d-m-Y', strtotime($aimed_date));
+        array_map('unlink', glob('../web/Qrcodes/qrcode'.$date.'*.png'));
+    }
+
 }

@@ -17,6 +17,7 @@ class HomeController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->get('el_booking.tools')->deleteExpiredFile('-1 day');
         $temp_order_manager = $this->get('el_booking.tempOrderManager')->checkStatusAndProcess(
             $request,
             $timezone       = 'Europe/Paris',
