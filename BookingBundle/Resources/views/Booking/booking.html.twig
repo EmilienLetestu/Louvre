@@ -21,7 +21,7 @@
             <span class="invalid_surname" style="display: none">Le nom doit être composé de 3 caractères minimum</span>
             <span class ="form_errors">{{ form_errors(ticket_form.surname) }}</span>
         </div>
-        <div class = "form-group" title="Format de la date : jj-mm-aaaa">
+        <div class = "form-group">
             {{ form_label(ticket_form.dob) }}
             {{ form_widget(ticket_form.dob) }}
             <span class ="form_errors"> {{ form_errors(ticket_form.dob) }}</span>

@@ -53,9 +53,14 @@ class TicketType extends AbstractType
                                                             new isAgeOk()
                                                           ],
                                           'label'  => 'Date de naissance',
-                                          'widget' => 'single_text',
+                                          'widget' => 'choice',
                                           'html5'  => false,
                                           'format' =>'dd-MM-yyyy',
+                                          'years'  => range(date('Y') - 95, date('Y') + 0),
+                                          'placeholder' =>['year'  => 'Année',
+                                                           'month' => 'Mois',
+                                                           'day' =>   'Jour'
+                                          ]
             ])
             ->add('time_access', ChoiceType::class, ['label'    => 'Type de ticket',
                                                      'choices'  => ['journée complète' => 'a.m.',
