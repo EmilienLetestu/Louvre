@@ -8,6 +8,7 @@
 
 namespace EL\BookingBundle\Managers;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Tools
 {
@@ -159,7 +160,7 @@ class Tools
         $session = new Session();
         if(!$session->has($get_session))
         {
-            throw new \Exception('La commande est vide ou n\'a pas commencée !');
+            throw new NotFoundHttpException('La commande est vide ou n\'a pas commencée !');
         }
     }
 
