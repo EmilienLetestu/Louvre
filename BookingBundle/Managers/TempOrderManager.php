@@ -86,6 +86,7 @@ class TempOrderManager
         if(!$this->session->has('sold_out'))
         {
             //create session variables
+            $this->session->start();
             $this->session->set('user_date',$date);
             $this->session->set('user_n_tickets',$n_tickets);
             $this->session->set('temp_order_token',$token);

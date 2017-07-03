@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManager;
 use EL\BookingBundle\Entity\TempOrder;
 use EL\BookingBundle\Managers\Tools;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MuseumPolicy
 {
@@ -104,5 +105,13 @@ class MuseumPolicy
             $this->session->set('reminder','+'.$diff);
         }
         return $this->session->get('tickets_sold');
+    }
+
+    public function isOrderHasBegun($get_session)
+    {
+        if(!$this->session->has($get_session))
+        {
+            throw new NotFoundHttpException('La commande est vide ou n\'a pas commencée !');
+        }
     }
 }

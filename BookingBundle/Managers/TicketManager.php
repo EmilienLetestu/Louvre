@@ -8,7 +8,6 @@
 
 namespace EL\BookingBundle\Managers;
 use Doctrine\ORM\EntityManager;
-use EL\BookingBundle\Entity\TempOrder;
 use EL\BookingBundle\Entity\Ticket;
 use EL\BookingBundle\Form\TicketType;
 use EL\BookingBundle\Services\MuseumPolicy;
@@ -146,7 +145,7 @@ class TicketManager
      */
     public function deleteTicketFromOrderInProgress($param, $session_name)
     {
-        $this->tools->isOrderHasBegun($get_session = 'order');
+        $this->policy->isOrderHasBegun($get_session = 'order');
         $id = $this->requestStack->getCurrentRequest()->attributes->get($param);
         $order = $this->session->get($session_name);
         unset($order[$id]);
@@ -219,7 +218,7 @@ class TicketManager
     public function fillTicketAndProcess(Request $request, $timezone, $time)
     {
         //check that order process has started
-        $this->tools->isOrderHasBegun($get_session = 'temp_order_token');
+        $this->policy->isOrderHasBegun($get_session = 'temp_order_token');
         //initialise entity
         $ticket = new Ticket();
         //create form
@@ -256,7 +255,7 @@ class TicketManager
     public function modifyTicketAndProcess(Request $request, $timezone, $time, $param, $session_name)
     {
         //check that order process has started
-        $this->tools->isOrderHasBegun($get_session = 'order');
+        $this->policy->isOrderHasBegun($get_session = 'order');
         //initialise entity
         $ticket = new Ticket();
         //create form

@@ -7,8 +7,6 @@
  */
 
 namespace EL\BookingBundle\Managers;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Tools
 {
@@ -153,15 +151,6 @@ class Tools
     {
         $date_time = "{$date} 00:00:00";
         return $date_time;
-    }
-
-    public function isOrderHasBegun($get_session)
-    {
-        $session = new Session();
-        if(!$session->has($get_session))
-        {
-            throw new NotFoundHttpException('La commande est vide ou n\'a pas commencée !');
-        }
     }
 
     /**

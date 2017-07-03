@@ -12,6 +12,7 @@ namespace EL\BookingBundle\Managers;
 use EL\BookingBundle\Entity\Billing;
 use EL\BookingBundle\Form\StripeFormType;
 use EL\BookingBundle\Services\Mail;
+use EL\BookingBundle\Services\MuseumPolicy;
 use EL\BookingBundle\Services\SaveOrder;
 use EL\BookingBundle\Services\StripeCheckOut;
 use Symfony\Component\Form\FormFactory;
@@ -33,7 +34,7 @@ class BillingManager
         SaveOrder      $save,
         Mail           $mail,
         Session        $session,
-        Tools          $tools
+        MuseumPolicy   $policy
     )
     {
         $this->formFactory = $formFactory;
@@ -41,7 +42,7 @@ class BillingManager
         $this->save        = $save;
         $this->mail        = $mail;
         $this->session     = $session;
-        $this->tools       = $tools;
+        $this->policy      = $policy;
     }
 
     /**
@@ -51,7 +52,7 @@ class BillingManager
      */
     Public function stripeAndProcess(Request $request,$currency)
     {
-        $this->tools->isOrderHasBegun($get_session = 'order');
+        $this->policy->isOrderHasBegun($get_session = 'order');
         //initialise entity
         $billing = new Billing();
         //create form

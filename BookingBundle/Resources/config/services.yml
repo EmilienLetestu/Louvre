@@ -57,6 +57,6 @@ services:
         - "@el_booking.saveOrder"
         - "@el_booking.mail"
         - "@session"
-        - "@el_booking.tools"
+        - "@el_booking.museumPolicy"
 
 
