@@ -73,9 +73,8 @@ class SaveOrder
      * @param $email
      * @param $name
      * @param $surname
-     * @param $source
      */
-    public function saveOrder($email,$name,$surname,$source)
+    public function saveOrder($email,$name,$surname)
     {
         //initialise classes en dependencies
         $billing = new Billing();
@@ -93,7 +92,7 @@ class SaveOrder
         $billing->setNumberOfTickets($this->session->get('tickets'));
         $billing->setVisitDay(\DateTime::createFromFormat('d-m-Y H:i:s',$date_time));
         $billing->setToken($order_token);
-        $billing->setStripeToken($source);
+        $billing->setStripeToken($this->session->get('customer'));
         $billing->setPrice($this->session->get('total'));
         //2 get user tickets for saving
         $this->getAndSaveTickets($billing);

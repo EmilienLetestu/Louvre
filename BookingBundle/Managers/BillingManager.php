@@ -66,7 +66,7 @@ class BillingManager
             $source  = $stripe_form->get('stripeToken')->getData();
             $email   = $stripe_form->get('email')->getData();
             //processing payment
-            $this->checkOut->stripePayment($currency,$source,$email);
+            $this->checkOut->stripePayment($currency,$source,$email,$name,$surname);
             if($this->session->has('payment_success'))
             {
                 //save billing, save ticket,send mail

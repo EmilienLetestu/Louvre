@@ -66,9 +66,12 @@ class StripeCheckOut
      * this method collect charging data, set api key and send them to stripe api
      * @param $currency
      * @param $source
-     * @return \Stripe\Charge
+     * @param $email
+     * @param $name
+     * @param $surname
+     * @return mixed
      */
-    public function stripePayment($currency,$source,$email)
+    public function stripePayment($currency,$source,$email,$name,$surname)
     {
         $total  = $this->session->get('total');
         $api_key = $this->getApiKey();
@@ -84,7 +87,7 @@ class StripeCheckOut
         try
         {
             \Stripe\Stripe::setApiKey($api_key);
-           $customer =  \Stripe\Customer::create(["description" => "Payement de $email",
+           $customer =  \Stripe\Customer::create(["description" => "Payement de $name $surname",
                                                   "email"       => $email,
                                                   "source"      => $source
             ]);
@@ -94,6 +97,7 @@ class StripeCheckOut
 
             ]);
             $this->session->set('payment_success',1);
+            $this->session->set('customer',$customer['id']);
         }
         catch (\Stripe\Error\Card $e)
         {
