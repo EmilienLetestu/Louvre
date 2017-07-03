@@ -3,7 +3,7 @@
 namespace EL\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EL\BookingBundle\Managers\Tools;git
+use EL\BookingBundle\Managers\Tools;
 
 /**
  * Ticket
