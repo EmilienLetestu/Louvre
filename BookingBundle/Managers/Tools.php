@@ -70,13 +70,20 @@ class Tools
      * @param $dob
      * @return string
      */
-    public function getTicketPriceType($dob)
+    public function getTicketPriceType($dob,$discount)
     {
         $age = $this->getAge($dob);
-        if($age < 4)                $type = 'Moins de 4ans';
-        if($age >= 4 && $age < 12)  $type = 'Moins de 12ans';
-        if($age >= 12 && $age < 60) $type = 'Adulte';
-        if($age >= 60)              $type = 'Senior';
+        if($discount == null)
+        {
+            if ($age < 4) $type = 'Moins de 4ans';
+            if ($age >= 4 && $age < 12) $type = 'Moins de 12ans';
+            if ($age >= 12 && $age < 60) $type = 'Adulte';
+            if ($age >= 60) $type = 'Senior';
+        }
+        else
+        {
+            $type = 'Tarif réduit';
+        }
         return $type;
     }
 
@@ -130,11 +137,11 @@ class Tools
      * @param $time_access
      * @return array
      */
-    public function getTicketType($dob, $price, $time_access)
+    public function getTicketType($dob, $price, $time_access,$discount)
     {
         $ticket_type = [];
 
-        $ticket_type['price_type']   = $this->getTicketPriceType($dob);
+        $ticket_type['price_type']   = $this->getTicketPriceType($dob,$discount);
         $ticket_type['price_range']  = $price;
         $ticket_type['time_access']  = $this->displayTimeAccess($time_access);
         $ticket_type['ticket_price'] = $this->getTicketPrice($time_access,$ticket_type['price_range']);

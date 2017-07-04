@@ -298,10 +298,10 @@ class Ticket
      * @param $dob
      * @return $this
      */
-    public function setPriceType($dob)
+    public function setPriceType($dob,$discount)
     {
        $tools = new Tools();
-       $type = $tools->getTicketPriceType($dob);
+       $type = $tools->getTicketPriceType($dob,$discount);
        $this->priceType = $type;
        return $this;
     }
