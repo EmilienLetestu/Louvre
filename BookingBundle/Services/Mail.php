@@ -54,7 +54,7 @@ class Mail
             $ticket->getTimeAccess();
             $ticket->getDob();
             $ticket->getPrice();
-            $ticket->setPriceType($ticket->getDob());
+            $ticket->setPriceType($ticket->getDob(),$ticket->getDiscount());
             $ticket->getPriceType();
             $ticket->getTimeAccessType();
         }

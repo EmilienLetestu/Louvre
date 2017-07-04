@@ -72,7 +72,7 @@ class TicketManager
         $ticket->setToken($name, $surname)->getToken();
         $ticket->setTimeAccess($time_access)->getTimeAccess($display = true);
         $ticket->setPrice($ticket_price)->getPrice();
-        $ticket->setPriceType($dob);
+        $ticket->setPriceType($dob,$discount);
         $ticket->setTimeAccessType($time_access)->getTimeAccessType();
         $ticket->setOrderToken($order_token);
         return $ticket;
@@ -195,7 +195,7 @@ class TicketManager
         $ticket->setToken($name, $surname)->getToken();
         $ticket->setTimeAccess($time_access)->getTimeAccess($display = true);
         $ticket->setPrice($ticket_price)->getPrice();
-        $ticket->setPriceType($dob);
+        $ticket->setPriceType($dob,$discount);
         $ticket->setTimeAccessType($time_access)->getTimeAccessType();
         $ticket->setOrderToken($order_token);
 
