@@ -73,7 +73,7 @@ class BillingManager
                 //save billing, save ticket,send mail
                 $this->save->saveOrder($email, $name, $surname, $source);
                 $this->mail->sendMail($email);
-                $this->session->getFlashBag()->add('success', 'Votre payememt à été effectué avec succès, consultez votre boîte mail pour obtenir vos billets');
+                $this->session->getFlashBag()->add('success', 'Votre paiement a été effectué avec succès, consultez votre boîte mail pour obtenir vos billets');
             }
         }
         //prepare data to render in view

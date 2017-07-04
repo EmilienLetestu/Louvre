@@ -38,7 +38,7 @@ class StripeFormType extends AbstractType
                                                                        'minMessage' => 'Le prénom doit comporter 3 caractères minimum !',
                                                                        'maxMessage' => 'Le prénom est limité à 50 caractères !'])
                                                            ],
-                                                           'label' => 'Prenom du titulaire de la carte'
+                                                           'label' => 'Prénom du titulaire de la carte'
             ])
             ->add('surname',TextType::class,['constraints'=>[ new NotBlank(),
                                                               new Type('string'),
