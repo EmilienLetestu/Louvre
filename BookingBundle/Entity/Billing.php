@@ -107,7 +107,7 @@ class Billing
      */
     public function setName($name)
     {
-        $this->name = strip_tags(ucfirst(strtolower($name)));
+        $this->name = strip_tags(ucfirst(mb_strtolower($name)));
 
         return $this;
     }
@@ -128,7 +128,7 @@ class Billing
      */
     public function setSurname($surname)
     {
-        $this->surname = strip_tags(ucfirst(strtolower($surname)));
+        $this->surname = strip_tags(ucfirst(mb_strtolower($surname)));
 
         return $this;
     }
