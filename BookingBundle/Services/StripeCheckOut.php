@@ -74,6 +74,9 @@ class StripeCheckOut
     public function stripePayment($currency,$source,$email,$name,$surname)
     {
         $total  = $this->session->get('total');
+        $nbr_ticket = $this->session->get('tickets');
+        $date = $this->session->get('user_date');
+        $order_token = $this->session->get('temp_order_token');
         $api_key = $this->getApiKey();
         //create a message to display in case of network issue
         $message_to_user = 'Désolé mais nous rencontrons actuellement des problèmes, veuillez réessayer plus tard !';
@@ -87,7 +90,7 @@ class StripeCheckOut
         try
         {
             \Stripe\Stripe::setApiKey($api_key);
-           $customer =  \Stripe\Customer::create(["description" => "Payement de $name $surname",
+           $customer =  \Stripe\Customer::create(["description" => "$order_token, $name $surname, billet(s) : $nbr_ticket, visite: $date ",
                                                   "email"       => $email,
                                                   "source"      => $source
             ]);
