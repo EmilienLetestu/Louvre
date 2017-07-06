@@ -86,7 +86,7 @@ class Billing
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
 
         return $this;
     }
@@ -107,7 +107,7 @@ class Billing
      */
     public function setName($name)
     {
-        $this->name = strip_tags(ucfirst($name));
+        $this->name = strip_tags(ucfirst(strtolower($name)));
 
         return $this;
     }
@@ -128,7 +128,7 @@ class Billing
      */
     public function setSurname($surname)
     {
-        $this->surname = strip_tags(ucfirst($surname));
+        $this->surname = strip_tags(ucfirst(strtolower($surname)));
 
         return $this;
     }

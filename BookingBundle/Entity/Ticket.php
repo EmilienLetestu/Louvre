@@ -176,7 +176,7 @@ class Ticket
      */
     public function setName($name)
     {
-        $this->name = strip_tags(ucfirst($name));
+        $this->name = strip_tags(ucfirst(strtolower($name)));
 
         return $this;
     }
@@ -197,7 +197,7 @@ class Ticket
      */
     public function setSurname($surname)
     {
-        $this->surname = strip_tags(ucfirst($surname));
+        $this->surname = strip_tags(ucfirst(strtolower($surname)));
 
         return $this;
     }
@@ -359,9 +359,8 @@ class Ticket
      */
     private function generateToken($name,$surname)
     {
-        $initial_1 = ucfirst($name);
-        $initial_2 = ucfirst($surname);
-        $prefix = $initial_1[0].'_'.$initial_2[0].': ';
+
+        $prefix = "{$name[0]}_{$surname[0]}: ";
         $token = uniqid($prefix);
         return $token;
     }
