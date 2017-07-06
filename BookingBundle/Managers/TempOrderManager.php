@@ -40,21 +40,32 @@ class TempOrderManager
     {
         //end session if user as already bought his tickets
         $temp_order = new TempOrder();
-        $disclaimer = $this->tools->getDisclaimer($timezone,$pm_access);
+        $disclaimer = $this->tools->getDisclaimer(
+            $timezone,
+            $pm_access
+        );
         //create form
         $booking_status_form = $this->formFactory->create(CheckStatusType::class,$temp_order);
         //processing form
         $booking_status_form->handleRequest($request);
         if($booking_status_form->isSubmitted()&&$booking_status_form->isValid())
         {
-            $this->killSession($session_name="payment_success");
+            $this->killSession("payment_success");
             //extract data
             $date = $booking_status_form->get('temp_order_date')->getData();
             $tickets = $booking_status_form->get('temp_number_of_tickets')->getData();
             //check booking for requested date
-            $total_booked = $this->policy->getTotalBooked($date,$tickets);
+            $total_booked = $this->policy->getTotalBooked(
+                $date,
+                $tickets
+            );
             //compile all data and results => set session var
-            $this->checkAvailabilityAndRedirect($total_booked,$booking_limit,$date,$tickets,$prefix);
+            $this->checkAvailabilityAndRedirect(
+                $total_booked,
+                $booking_limit,
+                $date,$tickets,
+                $prefix
+            );
         }
         //prepare data to render in view
         $render = [$booking_status_form->createView(),$disclaimer];

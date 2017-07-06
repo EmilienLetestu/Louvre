@@ -62,7 +62,7 @@ class TicketManager
         $ticket = new Ticket();
         //->price  : age + discount + museum time access => ticket price
         $age = $this->tools->getAge($dob);
-        $price = $this->tools->getPriceRange($age, $discount);
+        $price = $this->tools->getPriceRange($age,$discount);
         $ticket_price = $this->tools->getTicketPrice($time_access, $price);
         $ticket->setDate($date)->getDate();
         $ticket->setName($name)->getName();
@@ -145,7 +145,7 @@ class TicketManager
      */
     public function deleteTicketFromOrderInProgress($param, $session_name)
     {
-        $this->policy->isOrderHasBegun($get_session = 'order');
+        $this->policy->isOrderHasBegun('order');
         $id = $this->requestStack->getCurrentRequest()->attributes->get($param);
         $order = $this->session->get($session_name);
         unset($order[$id]);
@@ -185,8 +185,8 @@ class TicketManager
         $ticket = new Ticket();
         //->price type : age + discount + museum time access => ticket price
         $age = $this->tools->getAge($dob);
-        $price = $this->tools->getPriceRange($age, $discount);
-        $ticket_price = $this->tools->getTicketPrice($time_access, $price);
+        $price = $this->tools->getPriceRange($age,$discount);
+        $ticket_price = $this->tools->getTicketPrice($time_access,$price);
         $ticket->setDate($date)->getDate();
         $ticket->setName($name)->getName();
         $ticket->setSurname($surname)->getSurname();
@@ -218,29 +218,38 @@ class TicketManager
     public function fillTicketAndProcess(Request $request, $timezone, $time)
     {
         //check that order process has started
-        $this->policy->isOrderHasBegun($get_session = 'temp_order_token');
+        $this->policy->isOrderHasBegun('temp_order_token');
         //initialise entity
         $ticket = new Ticket();
         //create form
         $ticket_form = $this->formFactory->create(TicketType::class, $ticket);
         //check ticket type availability
-        $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone, $time);
+        $full_day_ticket = $this->policy->isFullDayTicketAvailable(
+            $timezone,
+            $time
+        );
         //process form
         $ticket_form->handleRequest($request);
         if ( $ticket_form->isSubmitted() && $ticket_form->isValid())
         {
-                //fetch submitted data
-                $name = $ticket_form->get('name')->getData();
-                $surname = $ticket_form->get('surname')->getData();
-                $dob = $ticket_form->get('dob')->getData();
-                $discount = $ticket_form->get('discount')->getData();
-                $time_access = $ticket_form->get('time_access')->getData();
-                //create session order (cart)
-                $this->addToOrder($this->createOrder($name, $surname, $dob, $discount, $time_access));
+          //fetch submitted data
+          $name = $ticket_form->get('name')->getData();
+          $surname = $ticket_form->get('surname')->getData();
+          $dob = $ticket_form->get('dob')->getData();
+          $discount = $ticket_form->get('discount')->getData();
+          $time_access = $ticket_form->get('time_access')->getData();
+          //create session order (cart)
+          $this->addToOrder($this->createOrder(
+              $name,
+              $surname,
+              $dob,
+              $discount,
+              $time_access
+          ));
         }
         $this->policy->userLittleHelper();
         //prepare data to render in view
-        return $render = [$ticket_form->createView(), $full_day_ticket];
+        return $render = [$ticket_form->createView(),$full_day_ticket];
     }
 
     /**
@@ -254,35 +263,43 @@ class TicketManager
     public function modifyTicketAndProcess(Request $request, $timezone, $time, $param, $session_name)
     {
         //check that order process has started
-        $this->policy->isOrderHasBegun($get_session = 'order');
+        $this->policy->isOrderHasBegun('order');
         //initialise entity
         $ticket = new Ticket();
         //create form
         $ticket_form = $this->formFactory->create(TicketType::class, $ticket);
         //get ticket to modify for display
-        $ticket = $this->getTicketToModify($param, $session_name);
-        foreach ($ticket as $key) {
+        $ticket = $this->getTicketToModify(
+            $param,
+            $session_name
+        );
+        foreach ($ticket as $key)
+        {
             $display_dob = $key->getDob()->format('d-m-Y');
         }
         //check ticket type availability
-        $full_day_ticket = $this->policy->isFullDayTicketAvailable($timezone, $time);
+        $full_day_ticket = $this->policy->isFullDayTicketAvailable(
+            $timezone,
+            $time
+        );
         //process form
         $ticket_form->handleRequest($request);
         if ($ticket_form->isSubmitted() && $ticket_form->isValid())
         {
-            //fetch submitted data
-                $name = $ticket_form->get('name')->getData();
-                $surname = $ticket_form->get('surname')->getData();
-                $dob = $ticket_form->get('dob')->getData();
-                $discount = $ticket_form->get('discount')->getData();
-                $time_access = $ticket_form->get('time_access')->getData();
-                //update ticket with modified data
-                $this->modifyTicket($param, $session_name, $name, $surname, $dob, $discount, $time_access);
-                //return a session var to look for into controller
-                return $this->session->set('submitted', 1);
+          //fetch submitted data
+          $name = $ticket_form->get('name')->getData();
+          $surname = $ticket_form->get('surname')->getData();
+          $dob = $ticket_form->get('dob')->getData();
+          $discount = $ticket_form->get('discount')->getData();
+          $time_access = $ticket_form->get('time_access')->getData();
+          //update ticket with modified data
+          $this->modifyTicket($param, $session_name, $name, $surname, $dob, $discount, $time_access);
+          //return a session var to look for into controller
+          return $this->session->set('submitted', 1);
         }
         //prepare data to render in view
-        $render = [$ticket, $ticket_form->createView(), $full_day_ticket, $display_dob];
+        $render = [$ticket,
+            $ticket_form->createView(),$full_day_ticket,$display_dob];
         return $render;
     }
 

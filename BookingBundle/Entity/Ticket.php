@@ -240,7 +240,10 @@ class Ticket
      */
     public function setToken($name,$surname)
     {
-        $token = $this->generateToken($name,$surname);
+        $token = $this->generateToken(
+            ucfirst($name),
+            ucfirst($surname)
+        );
         $this->token = $token;
 
         return $this;
@@ -296,6 +299,7 @@ class Ticket
 
     /**
      * @param $dob
+     * @param $discount
      * @return $this
      */
     public function setPriceType($dob,$discount)
@@ -359,7 +363,6 @@ class Ticket
      */
     private function generateToken($name,$surname)
     {
-
         $prefix = "{$name[0]}_{$surname[0]}: ";
         $token = uniqid($prefix);
         return $token;

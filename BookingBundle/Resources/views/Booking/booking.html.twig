@@ -36,7 +36,7 @@
             {{ form_widget(ticket_form.discount) }}
         </div>
         <div class = "form-group col-sm-2 add">
-            <button type="submit" id="submit_ticket" class=" btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <button type="submit" id="submit_ticket" class=" btn btn-primary" title="Ajouter à ma commmande"><i class="fa fa-plus" aria-hidden="true"></i></button>
             <input type="hidden"  id="reminder" value="{{ app.session.get('reminder') }}">
             <input type="hidden"  id="tickets_stock" value="{{ app.session.get('tickets_sold') }}">
         </div>
@@ -69,7 +69,7 @@
                         <th>{{ app.session.get('tickets') }}</th>
                         <th>Total</th>
                         <th class="pricing_type">{{ app.session.get('total') }} € </th>
-                        <th class="action_type"><a class="btn btn-success" href="{{ path('payer_commande') }}"><i class="fa fa-credit-card" aria-hidden="true"></i></a></th>
+                        <th class="action_type"><a class="btn btn-success" href="{{ path('payer_commande') }}" title="Passer à la caisse"><i class="fa fa-credit-card" aria-hidden="true"></i></a></th>
                     </tr>
                 </tfoot>
         {% for key,value in order_in_progress %}

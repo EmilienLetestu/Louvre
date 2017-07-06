@@ -46,12 +46,10 @@ class MuseumPolicy
      */
     public function getTotalBooked($date,$tickets)
     {
-        //To do check session
-        //....
         //check db
         $repository = $this->doctrine->getRepository('ELBookingBundle:Ticket');
-        $check_booking_on_user_date = $repository->findBy(array('date' => $date));
-        $count_booked = count($check_booking_on_user_date);
+        $check_booking = $repository->findBy(array('date' => $date));
+        $count_booked = count($check_booking);
 
         $total_booked = $count_booked + $tickets;
         return $total_booked;
@@ -91,7 +89,7 @@ class MuseumPolicy
         if ($total_ordered < $requested_ticket)
         {
             $diff = $requested_ticket - $total_ordered;
-            $this->session->set('reminder', $diff);
+            $this->session->set('reminder',$diff);
         }
         else
         {
@@ -102,7 +100,7 @@ class MuseumPolicy
             $check_stock = $this->getTotalBooked($temp_order->getTempOrderDate(),$total_ordered);
             $this->session->set('tickets_sold',$check_stock);
             $diff = $total_ordered - $requested_ticket;
-            $this->session->set('reminder','+'.$diff);
+            $this->session->set('reminder',"+{$diff}");
         }
         return $this->session->get('tickets_sold');
     }

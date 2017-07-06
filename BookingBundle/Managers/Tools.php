@@ -68,6 +68,7 @@ class Tools
     /**
      * calculate pricing
      * @param $dob
+     * @param $discount
      * @return string
      */
     public function getTicketPriceType($dob,$discount)
@@ -135,6 +136,7 @@ class Tools
      * @param $dob
      * @param $price
      * @param $time_access
+     * @param $discount
      * @return array
      */
     public function getTicketType($dob, $price, $time_access,$discount)

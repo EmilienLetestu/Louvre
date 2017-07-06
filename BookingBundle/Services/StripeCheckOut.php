@@ -23,6 +23,8 @@ class StripeCheckOut
     /**
      * StripeCheckOut constructor.
      * @param EntityManager $doctrine
+     * @param Kernel $kernel
+     * @param Session $session
      */
     public function __construct(
         EntityManager $doctrine,
