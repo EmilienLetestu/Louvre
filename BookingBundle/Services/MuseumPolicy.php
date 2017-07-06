@@ -71,11 +71,11 @@ class MuseumPolicy
         $visit_day = $this->session->get('user_date');
         if ($visit_day == $now->format('d-m-Y') && $time >= $pm_access)
         {
-            $available = false;
+            $available = 0;
         }
         else
         {
-            $available = true;
+            $available = 1;
         }
         $this->session->set('full_day_ticket',$available);
         return $available;

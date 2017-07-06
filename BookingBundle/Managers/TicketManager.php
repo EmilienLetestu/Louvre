@@ -240,8 +240,7 @@ class TicketManager
         }
         $this->policy->userLittleHelper();
         //prepare data to render in view
-        $render = [$ticket_form->createView(), $full_day_ticket];
-        return $render;
+        return $render = [$ticket_form->createView(), $full_day_ticket];
     }
 
     /**

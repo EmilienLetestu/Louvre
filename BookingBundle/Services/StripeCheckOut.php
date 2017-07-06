@@ -93,7 +93,7 @@ class StripeCheckOut
            $customer =  \Stripe\Customer::create(["description" => "$order_token, $name $surname, billet(s) : $nbr_ticket, visite: $date ",
                                                   "email"       => $email,
                                                   "source"      => $source
-            ]);
+           ]);
             \Stripe\Charge::create(['amount'   => $total * 100,
                                     'currency' => $currency,
                                     'customer' => $customer['id']
