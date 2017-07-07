@@ -7,9 +7,9 @@
             {
                 margin-left: 2%;
             }
-            h1,h2,h3
+            .intro
             {
-                color: #FFFFFF;
+                text-align: justify;
             }
             #emailContainer
             {
@@ -19,7 +19,7 @@
             {
                 height: 100%;
                 width: 100%;
-                background-color: gray;
+                border-collapse: collapse;
             }
             #order_ref
             {
@@ -29,7 +29,7 @@
             img
             {
                 float: left;
-                margin-top: 1.5%;
+                margin-top: 1.2%;
             }
             #emailBody
             {
@@ -47,22 +47,27 @@
             #emailTickets
             {
                font-size: 0.9em;
+               border-top: solid 1px #c3c3c3;
+               border-bottom: solid 1px #c3c3c3 ;
             }
             #ticket_head
             {
                 background-color:#7b7b7b;
-                color: #FFFFFF;
+                font-weight: bold;
+                color: #ffffff;
             }
 
             .ref
             {
                 font-size:0.8em;
+                padding-left: 5%;
             }
             @media screen and (max-width: 767px)
             {
                 #emailTickets table
                  {
                     width: 100%;
+
                 }
 
                 #ticket_head
@@ -80,6 +85,23 @@
                 #emailTickets tbody td
                 {
                     display: block;
+                }
+
+                .ref
+                {
+                    padding-left: 0;
+                }
+
+                img
+                {
+                    margin-top: 1.5%;
+                }
+            }
+            @media screen and (min-width: 1824px)
+            {
+                img
+                {
+                    margin-top: 0.8%;
                 }
             }
         </style>
@@ -129,13 +151,13 @@
                                                 <li>Billets valable le  : <strong>{{ visit_day }}</strong></li>
                                                 <li>Prix de la commande : <strong>{{ billing.price }} €</strong></li>
                                             </ul>
-                                        <table border="0" cellspacing="5px" width="100%" id="emailTickets">
+                                        <table border="0" cellspacing="0" width="100%" id="emailTickets">
                                            <tr id="ticket_head">
                                                <td>Porteur</td>
                                                <td>Valable le</td>
                                                <td>Type de billet</td>
                                                <td class="pricing_type">Prix</td>
-                                               <td>Référence</td>
+                                               <td class="ref">Référence</td>
                                            </tr>
                                               {% for ticket in ticket_list  %}
                                             <tr>
