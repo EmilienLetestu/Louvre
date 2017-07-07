@@ -100,7 +100,7 @@ class TicketManager
      */
     public function addToOrder($ticket)
     {
-        if($this->session->get('tickets_sold') < 8)
+        if($this->session->get('tickets_sold') < 1000)
         {
             $order = $this->isSessionSet();
             $order[] = array($ticket);
