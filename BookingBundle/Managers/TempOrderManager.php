@@ -51,6 +51,7 @@ class TempOrderManager
         if($booking_status_form->isSubmitted()&&$booking_status_form->isValid())
         {
             $this->killSession("payment_success");
+            $this->session->remove('tickets');
             //extract data
             $date = $booking_status_form->get('temp_order_date')->getData();
             $tickets = $booking_status_form->get('temp_number_of_tickets')->getData();
