@@ -6,6 +6,9 @@
     <div class="jumbotron" id="banner">
         <img src="{{asset('Images/louvre_banner.jpg')}}">
     </div>
+    {% for flashMessage in app.session.flashbag.get('sold_out') %}
+        <div class="col-sm-6 offset-sm-3 error">{{ flashMessage }}</div>
+    {% endfor %}
     <h1 id ="booking_title">Commander pour ma visite du {{ app.session.get('user_date') }}</h1>
     <div class="col-sm-5 ticket_form" id="form_section">
         {{ form_start(ticket_form, {'attr': {'id': 'booking_form'}}) }}

@@ -100,7 +100,7 @@ class TicketManager
      */
     public function addToOrder($ticket)
     {
-        if($this->session->get('tickets_sold') < 1000)
+        if($this->session->get('tickets_sold') < 8)
         {
             $order = $this->isSessionSet();
             $order[] = array($ticket);
@@ -110,6 +110,8 @@ class TicketManager
         else
         {
             $order_in_progress = $this->session->get('order');
+            $this->session->set('sold_out',1);
+            $this->session->getFlashBag()->add('sold_out', 'Désolé le musée est complet, vous ne pouvez commander plus de billets !');
         }
         return $order_in_progress;
     }
