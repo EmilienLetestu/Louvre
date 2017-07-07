@@ -99,6 +99,8 @@
             <div class="form_btns form-group">
                 <button id="test_date" type="submit"  class="btn btn-primary">Tester cette date</button>
                 <input type="hidden" id="sold_out" value="{{ app.session.get('sold_out')}}">
+                <input type="hidden" id ="tickets_ordered" value="{{ app.session.get('tickets')}}">
+                <input type="hidden" id="paid"  value="{{ app.session.get('payment_success')}}">
                 {{ form_end(booking_status_form) }}
                     {% if (app.session.get('user_date') != null) and (app.session.get('sold_out') == 0) and (app.session.get('payment_success') == null) %}
                         <a class="btn btn-success" id="link_to_booking" href="{{path('reservation_billetterie')}}">
