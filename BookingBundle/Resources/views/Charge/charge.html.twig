@@ -50,6 +50,7 @@
         </div>
         <div class = "form-group col-sm-offset-4">
             <button type="submit" class="btn btn-success">Valider et payer</button>
+            <span><i id="processing" class="fa fa-spinner fa-spin fa-3x fa-fw"></i></span>
         </div>
             {{ form_row(stripe_form.stripeToken) }}
         {{ form_end(stripe_form) }}
